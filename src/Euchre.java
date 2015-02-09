@@ -473,7 +473,6 @@ public class Euchre implements ActionListener, ItemListener {
 
 	 final Button yourMiddleCard = new Button("");
 
-	 Button yourMiddleCard = new Button("");
 	 Button opp1MiddleCard = new Button("Opp1 Card");
 	 Button opp2MiddleCard = new Button("Opp2 Card");
 	 Button teamMiddleCard = new Button("Team Card");
