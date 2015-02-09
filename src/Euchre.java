@@ -308,11 +308,11 @@ public class Euchre implements ActionListener, ItemListener {
 	 JPanel opp2Panel = new JPanel();
 	 JPanel midPanel = new JPanel();
 	
-	 /*yourPanel.setBackground(Color.cyan);
+	 yourPanel.setBackground(Color.cyan);
 	 teamPanel.setBackground(Color.green);
 	 opp1Panel.setBackground(Color.yellow);
 	 opp2Panel.setBackground(Color.blue);
-	 midPanel.setBackground(Color.gray);*/
+	 midPanel.setBackground(Color.gray);
 	 
 	 int teamXCoord = 0;
 	 int teamYCoord = 0;
@@ -471,10 +471,25 @@ public class Euchre implements ActionListener, ItemListener {
 	 midPanel.setLayout(null);
 	 
 	 Button yourMiddleCard = new Button("");
+	 Button opp1MiddleCard = new Button("Opp1 Card");
+	 Button opp2MiddleCard = new Button("Opp2 Card");
+	 Button teamMiddleCard = new Button("Team Card");
 	 
 	 yourMiddleCard.setVisible(false);
-	 yourMiddleCard.setBounds(midWidth/2-30, midHeight-160, 60, cardHeight);
+	 yourMiddleCard.setBounds(midWidth/2-30, midHeight-200, cardWidth, cardHeight);
 	 yourMiddleCard.setEnabled(false);
+	 
+	 opp1MiddleCard.setVisible(false);
+	 opp1MiddleCard.setBounds(50, midHeight/2-cardWidth, cardHeight, cardWidth);
+	 opp1MiddleCard.setEnabled(false);
+	 
+	 opp2MiddleCard.setVisible(false);
+	 opp2MiddleCard.setBounds(midWidth - 142, midHeight/2-cardWidth, cardHeight,cardWidth);
+	 opp2MiddleCard.setEnabled(false);
+	 
+	 teamMiddleCard.setVisible(false);
+	 teamMiddleCard.setBounds(midWidth/2-30, 50, cardWidth, cardHeight);
+	 teamMiddleCard.setEnabled(false);
 	 
 	 //******* Add the played card to the middle of the field *******\\
 	 yourCard1.addActionListener(new ActionListener(){
@@ -514,6 +529,9 @@ public class Euchre implements ActionListener, ItemListener {
 	 yourPanel.add(yourCard5);
 	 
 	 midPanel.add(yourMiddleCard);
+	 midPanel.add(opp1MiddleCard);
+	 midPanel.add(opp2MiddleCard);
+	 midPanel.add(teamMiddleCard);
 	 
 	 gameBoard.add(teamPanel);
 	 gameBoard.add(yourPanel);
