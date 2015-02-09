@@ -132,25 +132,25 @@ public class Euchre implements ActionListener, ItemListener {
   JButton createGameButton;
   JLabel opp1NameLabel;
   JLabel opp1Difficulty;
-  JTextField opp1NameText;
+  final JTextField opp1NameText;
   JRadioButton opp1Easy;
   JRadioButton opp1Medium;
   JRadioButton opp1Hard;
-  ButtonGroup opp1RadioButtons;
+  final ButtonGroup opp1RadioButtons;
   JLabel opp2NameLabel;
   JLabel opp2Difficulty;
-  JTextField opp2NameText;
+  final JTextField opp2NameText;
   JRadioButton opp2Easy;
   JRadioButton opp2Medium;
   JRadioButton opp2Hard;
-  ButtonGroup opp2RadioButtons;
+  final ButtonGroup opp2RadioButtons;
   JLabel opp3NameLabel;
   JLabel opp3Difficulty;
-  JTextField opp3NameText;
+  final JTextField opp3NameText;
   JRadioButton opp3Easy;
   JRadioButton opp3Medium;
   JRadioButton opp3Hard;
-  ButtonGroup opp3RadioButtons;
+  final ButtonGroup opp3RadioButtons;
   Checkbox stickDealer;
   
   int opp1Height = 3;
@@ -384,11 +384,11 @@ public class Euchre implements ActionListener, ItemListener {
 	 
 	 //******* Add the card buttons to your side of the screen *******\\
 	 
-	 Button yourCard1 = new Button("Card 1");
-	 Button yourCard2 = new Button("Card 2");
-	 Button yourCard3 = new Button("Card 3");
-	 Button yourCard4 = new Button("Card 4");
-	 Button yourCard5 = new Button("Card 5");
+	 final Button yourCard1 = new Button("Card 1");
+	 final Button yourCard2 = new Button("Card 2");
+	 final Button yourCard3 = new Button("Card 3");
+	 final Button yourCard4 = new Button("Card 4");
+	 final Button yourCard5 = new Button("Card 5");
 	 
 	 int initialCardX = 290;
 	 int cardHeight = 2*yourHeight/3;
@@ -470,7 +470,7 @@ public class Euchre implements ActionListener, ItemListener {
 	 
 	 midPanel.setLayout(null);
 	 
-	 Button yourMiddleCard = new Button("");
+	 final Button yourMiddleCard = new Button("");
 	 
 	 yourMiddleCard.setVisible(false);
 	 yourMiddleCard.setBounds(midWidth/2-30, midHeight-160, 60, cardHeight);

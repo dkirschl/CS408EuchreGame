@@ -40,6 +40,12 @@ public class EuchreGame{
     compTricks = 0;
   }
   
+  public void startGame() {
+	  //run game logic
+	  
+  }
+  
+  
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
   {
