@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class EuchreGame{
   private String opp1Name;
   private int opp1Difficulty;
@@ -10,7 +12,7 @@ public class EuchreGame{
   private int compScore;
   private int yourTricks;
   private int compTricks;
-  
+  private ArrayList<Card> deck;
   public EuchreGame()
   {
     opp1Name = "";
@@ -41,7 +43,21 @@ public class EuchreGame{
   }
   
   public void startGame() {
+	  //initialize deck
+	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
+	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
+	  
+	  deck.add(new Card(6,9,"diamonds")); deck.add(new Card(7,10,"diamonds")); deck.add(new Card(8,11,"diamonds")); deck.add(new Card(9,12,"diamonds")); 
+	  deck.add(new Card(10,13,"diamonds")); deck.add(new Card(11,14,"diamonds"));
+	  
+	  deck.add(new Card(12,9,"hearts")); deck.add(new Card(13,10,"hearts")); deck.add(new Card(14,11,"hearts")); deck.add(new Card(15,12,"hearts")); 
+	  deck.add(new Card(16,13,"hearts")); deck.add(new Card(17,14,"hearts"));
+	  
+	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
+	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
 	  //run game logic
+	  
+	  
 	  
   }
   
