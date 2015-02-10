@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class EuchreGame{
   private String opp1Name;
@@ -15,6 +16,7 @@ public class EuchreGame{
   private ArrayList<Card> deck = new ArrayList<Card>();
   private ArrayList<Player> players = new ArrayList<Player>();
   private Player you, comp1, comp2, comp3;
+  private boolean gameOver;
   public EuchreGame()
   {
     opp1Name = "";
@@ -52,6 +54,10 @@ public class EuchreGame{
   }
   
   public void startGame() {
+	  Random rand = new Random();
+	  int num;
+	  gameOver = false;
+	  Card turnup;
 	  //initialize deck
 	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
 	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
@@ -65,13 +71,39 @@ public class EuchreGame{
 	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
 	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
 	  
-	  //deal cards to each player
+	  while (!gameOver) {
 	  
+	  //deal 5 cards to each player
+	  for (int i = 0; i < 4; i++) {
+		  for (int j = 0; j < 3; j++) {
+			  num = rand.nextInt(deck.size());
+			  players.get(j).receiveCard(deck.get(num));
+			  deck.remove(num);
+		  }
+	  }
+	  //choose a card to be flipped up in the middle
+	  turnup = deck.get(rand.nextInt(deck.size()));
+	  for (int i = 0; i < 3; i++) {
+		  players.get(i).chooseSuit();
+	  }
 	  
-	  //run game logic
+	  Card winner = null;
+	  for (int i = 0; i < 3; i++) {
+		  Card tmp = players.get(i).playCard();
+		  if (winner == null) {
+			  winner = tmp;
+		  } else {
+			  winner = determineWinner(winner, tmp);
+		  }
+	  }
 	  
+	  }
 	  
+  }
+  
+  public Card determineWinner(Card c1, Card c2) {
 	  
+	  return c1;
   }
   
   

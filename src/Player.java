@@ -3,9 +3,17 @@ import java.util.ArrayList;
 
 public abstract class Player {
 	
-	ArrayList<Card> hand;
+	ArrayList<Card> hand = new ArrayList<Card>();
 	
-	public abstract void playCard();
+	public abstract Card playCard();
 	public abstract void chooseSuit();
+	
+	public void receiveCard(Card c) {
+		hand.add(c);
+	}
+	
+	public ArrayList<Card> getHand() {
+		return hand;
+	}
 
 }

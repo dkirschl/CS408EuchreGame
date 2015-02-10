@@ -2,8 +2,8 @@
 public class Computer extends Player {
 
 	@Override
-	public void playCard() {
-
+	public Card playCard() {
+		return null;
 	}
 
 	@Override
