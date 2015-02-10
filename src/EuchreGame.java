@@ -12,7 +12,9 @@ public class EuchreGame{
   private int compScore;
   private int yourTricks;
   private int compTricks;
-  private ArrayList<Card> deck;
+  private ArrayList<Card> deck = new ArrayList<Card>();
+  private ArrayList<Player> players = new ArrayList<Player>();
+  private Player you, comp1, comp2, comp3;
   public EuchreGame()
   {
     opp1Name = "";
@@ -40,6 +42,13 @@ public class EuchreGame{
     compScore = 0;
     yourTricks = 0;
     compTricks = 0;
+    
+    you = new Human();
+    comp1 = new Computer();
+    comp2 = new Computer();
+    comp3 = new Computer();
+    players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
+    
   }
   
   public void startGame() {
@@ -55,6 +64,10 @@ public class EuchreGame{
 	  
 	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
 	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
+	  
+	  //deal cards to each player
+	  
+	  
 	  //run game logic
 	  
 	  
