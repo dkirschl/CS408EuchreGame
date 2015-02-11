@@ -49,7 +49,6 @@ public class EuchreGame{
     comp1 = new Computer(o1d);
     comp2 = new Computer(o2d);
     comp3 = new Computer(td);
-    comp1.playCard();
     players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
     
   }
