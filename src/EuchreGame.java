@@ -46,9 +46,9 @@ public class EuchreGame{
     compTricks = 0;
     
     you = new Human();
-    comp1 = new Computer();
-    comp2 = new Computer();
-    comp3 = new Computer();
+    comp1 = new Computer(o1d);
+    comp2 = new Computer(o2d);
+    comp3 = new Computer(td);
     players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
     
   }
