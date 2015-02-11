@@ -36,6 +36,7 @@ public class Euchre implements ActionListener, ItemListener {
  JFrame newGamePanel;
  int gameScreenHeight;
  int gameScreenWidth;
+ static Button teamCard1;
  
  static Euchre euchre;
  static EuchreGame currentGame;
@@ -402,7 +403,7 @@ public class Euchre implements ActionListener, ItemListener {
 	 
 	 //******* Add the card buttons to the teammate side of the screen *******\\
 	 
-	 Button teamCard1 = new Button("Card 1");
+	 teamCard1 = new Button("Card 1");
 	 Button teamCard2 = new Button("Card 2");
 	 Button teamCard3 = new Button("Card 3");
 	 Button teamCard4 = new Button("Card 4");

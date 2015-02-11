@@ -58,6 +58,8 @@ public class EuchreGame{
 	  int num;
 	  gameOver = false;
 	  Card turnup;
+	  String trump = null;
+	  while (!gameOver) {
 	  //initialize deck
 	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
 	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
@@ -71,7 +73,7 @@ public class EuchreGame{
 	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
 	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
 	  
-	  while (!gameOver) {
+	  
 	  
 	  //deal 5 cards to each player
 	  for (int i = 0; i < 4; i++) {
@@ -85,15 +87,21 @@ public class EuchreGame{
 	  turnup = deck.get(rand.nextInt(deck.size()));
 	  for (int i = 0; i < 3; i++) {
 		  players.get(i).chooseSuit();
+		  
+		  trump = turnup.getSuit();
 	  }
 	  
 	  Card winner = null;
+	  String ledSuit = null;
 	  for (int i = 0; i < 3; i++) {
 		  Card tmp = players.get(i).playCard();
+		  if (i == 0) {
+			  ledSuit = tmp.getSuit();
+		  }
 		  if (winner == null) {
 			  winner = tmp;
 		  } else {
-			  winner = determineWinner(winner, tmp);
+			  winner = determineWinner(winner, tmp, trump, ledSuit);
 		  }
 	  }
 	  
@@ -101,9 +109,50 @@ public class EuchreGame{
 	  
   }
   
-  public Card determineWinner(Card c1, Card c2) {
-	  
+  public Card determineWinner(Card c1, Card c2, String trump, String ledSuit) {
+	  c1 = adjustValue(c1, trump);
+	  c2 = adjustValue(c2, trump);
+	  if (c1.getSuit().equals(ledSuit) && c2.getSuit().equals(ledSuit)) {
+		  //c1 is led suit and c2 is led suit
+		  //compare value to see who wins
+		  if (c1.getValue() > c2.getValue()) {
+			  return c1;
+		  } else {
+			  return c2;
+		  }
+	  } else if (c1.getSuit().equals(ledSuit) && c2.getSuit().equals(trump)) {
+		  //if c1 is led suit and c2 is trump then trump wins
+		  return c2;
+	  } else if (c1.getSuit().equals(ledSuit) && (!c2.getSuit().equals(ledSuit) && !c2.getSuit().equals(trump))) {
+		  //if c1 is led suit and c2 isnt led or trump, c1 wins
+		  return c1;
+	  } else if (c1.getSuit().equals(trump) && !c2.getSuit().equals(trump)) {
+		  //if c1 is trump and c2 isnt trump, c1 wins
+		  return c1;
+	  } else if (c1.getSuit().equals(trump) && c2.getSuit().equals(trump)) {
+		  //if c1 is trump and c2 is trump, compare to see who wins
+		  if (c1.getValue() > c2.getValue()) {
+			  return c1;
+		  } else {
+			  return c2;
+		  }
+	  }
 	  return c1;
+  }
+  
+  public Card adjustValue(Card c, String trump) {
+	  if (c.getValue() == 11) {
+		  //card is a Jack and might need to be changed
+		  if (c.getSuit().equals(trump)) {
+			  c.setValue(16); //the jack of trump is the highest value card
+		  } else {
+			  if ((trump.equals("Spades") && c.getSuit().equals("Clubs")) || (trump.equals("Clubs") && c.getSuit().equals("Spades")) || (trump.equals("Diamonds") && c.getSuit().equals("Hearts")) || (trump.equals("Hearts") && c.getSuit().equals("Diamonds"))) {
+				  c.setValue(15); // the jack of the same color as trump is the second strongest card
+				  c.setSuit(trump);
+			  }
+		  }
+	  }
+	  return c;
   }
   
   
