@@ -22,8 +22,8 @@ public class Computer extends Player {
 	
 	@Override
 	public Card playCard() {
-		int x = myAI.playCard();
-		return hand.get(x);
+		Card x = myAI.playCard();
+		return x;
 	}
 
 	@Override

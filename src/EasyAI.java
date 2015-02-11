@@ -16,9 +16,9 @@ public class EasyAI extends AI{
 	}
 
 	@Override
-	public int playCard() {
+	public Card playCard() {
 		// TODO Auto-generated method stub
 		System.out.println("Playing card from easy");
-		return 1;
+		return new Card(0, 0, null);
 	}
 }
