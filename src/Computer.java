@@ -1,3 +1,5 @@
+import java.util.concurrent.Semaphore;
+
 
 public class Computer extends Player {
 	
@@ -29,6 +31,18 @@ public class Computer extends Player {
 	@Override
 	public void chooseSuit() {
 		return;
+	}
+
+	@Override
+	public void startTurn(Semaphore s) {
+		//DO NOTHING
+		
+	}
+
+	@Override
+	public void waitForClick(Semaphore s) {
+		// DO NOTHING
+		
 	}
 	
 }

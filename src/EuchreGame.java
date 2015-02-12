@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public class EuchreGame{
   private String opp1Name;
@@ -17,6 +18,9 @@ public class EuchreGame{
   private ArrayList<Player> players = new ArrayList<Player>();
   private Player you, comp1, comp2, comp3;
   private boolean gameOver;
+  
+  private static Semaphore human_turn, button_press;
+  
   public EuchreGame()
   {
     opp1Name = "";
@@ -50,16 +54,24 @@ public class EuchreGame{
     comp2 = new Computer(o2d);
     comp3 = new Computer(td);
     players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
+    human_turn = new Semaphore(1);
+    button_press = new Semaphore(0);
     
   }
   
-  public void startGame() {
+  public static Semaphore getHuman_turn() {
+	return human_turn;
+}
+public static Semaphore getButton_press() {
+	return button_press;
+}
+public void startGame() {
 	  Random rand = new Random();
 	  int num;
 	  gameOver = false;
 	  Card turnup;
 	  String trump = null;
-	  while (!gameOver) {
+	  //while (!gameOver) {
 	  //initialize deck
 	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
 	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
@@ -84,16 +96,24 @@ public class EuchreGame{
 		  }
 	  }
 	  //choose a card to be flipped up in the middle
+	  /*
 	  turnup = deck.get(rand.nextInt(deck.size()));
 	  for (int i = 0; i < 3; i++) {
 		  players.get(i).chooseSuit();
 		  
 		  trump = turnup.getSuit();
 	  }
+	  */
 	  
 	  Card winner = null;
 	  String ledSuit = null;
-	  for (int i = 0; i < 3; i++) {
+	  for (int i = 0; i < 4; i++) {
+		  System.out.println("Player " + i + " turn");
+		  System.out.println("HUman Turn : " + human_turn.toString());
+		  System.out.println("Button Press : " + button_press.toString());
+		  players.get(i).startTurn(human_turn);
+		  players.get(i).waitForClick(button_press);
+		  /*
 		  Card tmp = players.get(i).playCard();
 		  if (i == 0) {
 			  ledSuit = tmp.getSuit();
@@ -103,9 +123,11 @@ public class EuchreGame{
 		  } else {
 			  winner = determineWinner(winner, tmp, trump, ledSuit);
 		  }
+		  */
 	  }
+	  System.out.println("Cards Played");
 	  
-	  }
+	  //}
 	  
   }
   

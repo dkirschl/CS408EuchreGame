@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 
 public abstract class Player {
@@ -7,6 +8,8 @@ public abstract class Player {
 	
 	public abstract Card playCard();
 	public abstract void chooseSuit();
+	public abstract void startTurn(Semaphore s);
+	public abstract void waitForClick(Semaphore s);
 	
 	public void receiveCard(Card c) {
 		hand.add(c);

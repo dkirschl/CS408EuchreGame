@@ -495,6 +495,11 @@ public class Euchre implements ActionListener, ItemListener {
 	 teamMiddleCard.setEnabled(false);
 	 
 	 //******* Add the played card to the middle of the field *******\\
+	 yourCard1.addActionListener(new CardPress(yourCard1, yourMiddleCard));
+	 yourCard2.addActionListener(new CardPress(yourCard1, yourMiddleCard));
+	 yourCard3.addActionListener(new CardPress(yourCard1, yourMiddleCard));
+	 yourCard4.addActionListener(new CardPress(yourCard1, yourMiddleCard));
+	 /*
 	 yourCard1.addActionListener(new ActionListener(){
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -525,6 +530,7 @@ public class Euchre implements ActionListener, ItemListener {
 		    	playCard(yourCard5, yourMiddleCard);
 		    }
 	 });
+	 */
 	 yourPanel.add(yourCard1);
 	 yourPanel.add(yourCard2);
 	 yourPanel.add(yourCard3);
@@ -544,6 +550,17 @@ public class Euchre implements ActionListener, ItemListener {
 	 
 	 euchre.frame.add(gameBoard);
 	 euchre.frame.setVisible(true);
+	 
+	 Thread t = new Thread(new Runnable() {
+
+		@Override
+		public void run() {
+			currentGame.startGame();
+		}
+		 
+	 });
+	 t.start();
+	 //currentGame.startGame();
  }
  
  
