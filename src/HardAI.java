@@ -23,10 +23,21 @@ public class HardAI extends AI {
 
 	@Override
 	public Card playCard() {
+		
+		// add all cards that are eligible to play this turn into elCards
 		determineEligibleCards();
+		
+		// If there's only one card that's eligible, play it
 		if(elCards.size() == 1){
 			return elCards.get(0);
 		}
+		
+		// Determine odds that partner will win hand.
+		int partnerOdds = calcPartnerWinPerc();
+		
+		// Determines the odds that each card will win hand.
+		
+
 		
 		System.out.println("Playing card from hard");
 		return elCards.get(0);
@@ -41,11 +52,42 @@ public class HardAI extends AI {
 			}
 		}	
 		
+		// if you have one eligible cards
 		if(elCards.size() == 0){
 			for(Card card : hand){
 				elCards.add(card);
 			}
 		}
+		
+		
 		//*/
+	}
+	
+	public int calcPartnerWinPerc();
+	{
+		/*
+		 // find partner number in this turn
+		 
+		 Card winningCard = winningCard;
+		 int currentWinner = currentWinner;
+		 
+		 if(numTurn > 2){
+		 	// partner has already played
+		 	
+		 	partner = numTurn - 2;
+		 	
+		 } else {
+		 	//partner has yet to play
+		 	
+		 	partner = numTurn + 2;
+		 }
+		 
+		 
+		 if(){
+		 	
+		 	
+		 }
+		 */
+		return 100;
 	}
 }
