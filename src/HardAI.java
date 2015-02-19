@@ -63,7 +63,7 @@ public class HardAI extends AI {
 		//*/
 	}
 	
-	public int calcPartnerWinPerc();
+	public int calcPartnerWinPerc()
 	{
 		/*
 		 // find partner number in this turn

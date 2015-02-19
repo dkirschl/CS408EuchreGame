@@ -104,6 +104,14 @@ public void startGame() {
 		  trump = turnup.getSuit();
 	  }
 	  */
+	  //******* pick or play a card *******\\
+	  for (int i = 0; i < 4; i++) {
+		  System.out.println("Player " + i + " pick or pass");
+		  System.out.println("Human Pick or Pass : " + human_turn.toString());
+		  System.out.println("Button Press : " + button_press.toString());
+		  players.get(i).startTurn(human_turn);
+		  players.get(i).waitForClick(button_press);
+	  }
 	  
 	  Card winner = null;
 	  String ledSuit = null;

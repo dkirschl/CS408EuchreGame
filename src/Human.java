@@ -1,3 +1,4 @@
+import java.awt.Button;
 import java.util.concurrent.Semaphore;
 
 
@@ -29,6 +30,18 @@ public class Human extends Player {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public Card pick(Button b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Card pass(Button b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

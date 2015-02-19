@@ -36,7 +36,13 @@ public class Euchre implements ActionListener, ItemListener {
  JFrame newGamePanel;
  int gameScreenHeight;
  int gameScreenWidth;
+ 
  static Button teamCard1;
+ static Button yourCard1;
+ static Button yourCard2;
+ static Button yourCard3;
+ static Button yourCard4;
+ static Button yourCard5;
  
  static Euchre euchre;
  static EuchreGame currentGame;
@@ -385,11 +391,11 @@ public class Euchre implements ActionListener, ItemListener {
 	 
 	 //******* Add the card buttons to your side of the screen *******\\
 	 
-	 final Button yourCard1 = new Button("Card 1");
-	 final Button yourCard2 = new Button("Card 2");
-	 final Button yourCard3 = new Button("Card 3");
-	 final Button yourCard4 = new Button("Card 4");
-	 final Button yourCard5 = new Button("Card 5");
+	 yourCard1 = new Button("Card 1");
+	 yourCard2 = new Button("Card 2");
+	 yourCard3 = new Button("Card 3");
+	 yourCard4 = new Button("Card 4");
+	 yourCard5 = new Button("Card 5");
 	 
 	 int initialCardX = 290;
 	 int cardHeight = 2*yourHeight/3;
@@ -495,42 +501,12 @@ public class Euchre implements ActionListener, ItemListener {
 	 teamMiddleCard.setEnabled(false);
 	 
 	 //******* Add the played card to the middle of the field *******\\
-	 yourCard1.addActionListener(new CardPress(yourCard1, yourMiddleCard));
-	 yourCard2.addActionListener(new CardPress(yourCard1, yourMiddleCard));
-	 yourCard3.addActionListener(new CardPress(yourCard1, yourMiddleCard));
-	 yourCard4.addActionListener(new CardPress(yourCard1, yourMiddleCard));
-	 /*
-	 yourCard1.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	playCard(yourCard1, yourMiddleCard);
-		    }
-	 });
-	 yourCard2.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	playCard(yourCard2, yourMiddleCard);
-		    }
-	 });
-	 yourCard3.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	playCard(yourCard3, yourMiddleCard);
-		    }
-	 });
-	 yourCard4.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	playCard(yourCard4, yourMiddleCard);
-		    }
-	 });
-	 yourCard5.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	playCard(yourCard5, yourMiddleCard);
-		    }
-	 });
-	 */
+	 yourCard1.addActionListener(new CardPress(yourCard1, yourMiddleCard, yourCard2, yourCard3, yourCard4, yourCard5));
+	 yourCard2.addActionListener(new CardPress(yourCard2, yourMiddleCard, yourCard1, yourCard3, yourCard4, yourCard5));
+	 yourCard3.addActionListener(new CardPress(yourCard3, yourMiddleCard, yourCard2, yourCard1, yourCard4, yourCard5));
+	 yourCard4.addActionListener(new CardPress(yourCard4, yourMiddleCard, yourCard2, yourCard3, yourCard1, yourCard5));
+	 yourCard5.addActionListener(new CardPress(yourCard5, yourMiddleCard, yourCard2, yourCard3, yourCard4, yourCard1));
+
 	 yourPanel.add(yourCard1);
 	 yourPanel.add(yourCard2);
 	 yourPanel.add(yourCard3);
@@ -541,6 +517,44 @@ public class Euchre implements ActionListener, ItemListener {
 	 midPanel.add(opp1MiddleCard);
 	 midPanel.add(opp2MiddleCard);
 	 midPanel.add(teamMiddleCard);
+	 
+	 //******* Set up the pick or pass fields *******\\
+	 Button pickPassCard = new Button("Card");
+	 Button	pickCard = new Button("Pick");
+	 Button passCard = new Button("Pass");
+	 Button deck = new Button("Deck");
+	 
+	 int pickPassCardX = midWidth/2 - cardWidth - 10;
+	 int pickPassCardY = 125;
+	 int deckX = midWidth/2 + 10;
+	 int deckY = 125;
+	 int pickCardX = midWidth/2-cardHeight-10;
+	 int pickCardY = 225;
+	 int passCardX = midWidth/2 + 10;
+	 int passCardY = 225;
+	 
+	 pickPassCard.setVisible(true);
+	 pickPassCard.setBounds(pickPassCardX, pickPassCardY, cardWidth, cardHeight);
+	 pickPassCard.setEnabled(true);
+	 
+	 pickCard.setVisible(true);
+	 pickCard.setBounds(pickCardX, pickCardY, cardHeight, cardWidth);
+	 pickCard.setEnabled(true);
+	 pickCard.addActionListener(new Pick(pickPassCard, pickCard, passCard));
+	 
+	 passCard.setVisible(true);
+	 passCard.setBounds(passCardX, passCardY, cardHeight, cardWidth);
+	 passCard.setEnabled(true);
+	 passCard.addActionListener(new Pass(pickPassCard, pickCard, passCard));
+	 
+	 deck.setVisible(true);
+	 deck.setBounds(deckX, deckY, cardWidth, cardHeight);
+	 deck.setEnabled(false);
+	 
+	 midPanel.add(pickPassCard);
+	 midPanel.add(pickCard);
+	 midPanel.add(passCard);
+	 midPanel.add(deck);
 	 
 	 gameBoard.add(teamPanel);
 	 gameBoard.add(yourPanel);

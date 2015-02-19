@@ -1,3 +1,4 @@
+import java.awt.Button;
 import java.util.concurrent.Semaphore;
 
 
@@ -43,6 +44,18 @@ public class Computer extends Player {
 	public void waitForClick(Semaphore s) {
 		// DO NOTHING
 		
+	}
+
+	@Override
+	public Card pick(Button b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Card pass(Button b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
