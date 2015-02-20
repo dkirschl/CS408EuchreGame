@@ -30,7 +30,7 @@ public class Computer extends Player {
 	}
 
 	@Override
-	public void chooseSuit() {
+	public void chooseSuit(Card c) {
 		return;
 	}
 

@@ -96,14 +96,9 @@ public void startGame() {
 		  }
 	  }
 	  //choose a card to be flipped up in the middle
-	  /*
+	  
 	  turnup = deck.get(rand.nextInt(deck.size()));
-	  for (int i = 0; i < 3; i++) {
-		  players.get(i).chooseSuit();
-		  
-		  trump = turnup.getSuit();
-	  }
-	  */
+	  
 	  //******* pick or play a card *******\\
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " pick or pass");
@@ -111,6 +106,7 @@ public void startGame() {
 		  System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
+		  players.get(i).chooseSuit(turnup);
 	  }
 	  
 	  Card winner = null;

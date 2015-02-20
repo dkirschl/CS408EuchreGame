@@ -10,7 +10,7 @@ public class Human extends Player {
 	}
 
 	@Override
-	public void chooseSuit() {
+	public void chooseSuit(Card c) {
 
 	}
 

@@ -10,7 +10,7 @@ public abstract class Player {
 	public abstract Card playCard();
 	public abstract Card pick(Button b);
 	public abstract Card pass(Button b);
-	public abstract void chooseSuit();
+	public abstract void chooseSuit(Card c);
 	public abstract void startTurn(Semaphore s);
 	public abstract void waitForClick(Semaphore s);
 	
