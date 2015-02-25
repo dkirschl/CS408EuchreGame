@@ -1,10 +1,28 @@
+import java.awt.Button;
+
 
 public class Card {
 	
 	private int cardId;
 	private int value;
 	private String suit;
+	private Button button;
 	
+	public Button getButton() {
+		return button;
+	}
+
+	public void setButton(Button button) {
+		this.button = button;
+	}
+	
+	public Card()
+	{
+		cardId = -1;
+		value = -1;
+		suit = "";
+	}
+
 	public Card(int id, int value, String suit) {
 		cardId = id;
 		this.value = value;

@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 
 
 public class Pass implements ActionListener  {
-	Button card;
+	Card card;
 	Button pick;
 	Button pass;
 	
-	public Pass(Button card, Button pick, Button pass)
+	public Pass(Card card, Button pick, Button pass)
 	{
 		this.card = card;
 		this.pick = pick;
@@ -27,14 +27,14 @@ public class Pass implements ActionListener  {
 	}
 	public void disableCards()
 	{
-		card.setVisible(false);
-		card.setEnabled(false);
+		card.getButton().setVisible(false);
+		card.getButton().setEnabled(false);
 		pick.setVisible(false);
 		pick.setEnabled(false);
 		pass.setVisible(false);
 		pass.setEnabled(false);
 	}
-	public void pass(Button b)
+	public void pass(Card b)
 	{
 		disableCards();
 	}

@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 public class CardPress implements ActionListener {
 	
-	Button yourCard, yourMiddleCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard;
+	Card yourCard, yourMiddleCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard;
 	
-	public CardPress(Button yourCard, Button yourMiddleCard, Button yourFirstCard, Button yourSecondCard, Button yourThirdCard, Button yourFourthCard) {
+	public CardPress(Card yourCard, Card yourMiddleCard, Card yourFirstCard, Card yourSecondCard, Card yourThirdCard, Card yourFourthCard) {
 		this.yourCard = yourCard;
 		this.yourMiddleCard = yourMiddleCard;
 		this.yourFirstCard = yourFirstCard;
@@ -30,18 +30,18 @@ public class CardPress implements ActionListener {
 		}
 	}
 	
-	public void playCard(Button card, Button middleCard)
+	public void playCard(Card card, Card middleCard)
 	 {
-	 	System.out.println(card.getLabel());
-	 	middleCard.setLabel(card.getLabel());
-	 	middleCard.setVisible(true);
+	 	System.out.println(card.getButton().getLabel());
+	 	middleCard.getButton().setLabel(card.getButton().getLabel());
+	 	middleCard.getButton().setVisible(true);
 	 }
 	public void disableCards()
 	{
-		yourCard.setVisible(false);
-		yourFirstCard.setEnabled(false);
-		yourSecondCard.setEnabled(false);
-		yourThirdCard.setEnabled(false);
-		yourFourthCard.setEnabled(false);
+		yourCard.getButton().setVisible(false);
+		yourFirstCard.getButton().setEnabled(false);
+		yourSecondCard.getButton().setEnabled(false);
+		yourThirdCard.getButton().setEnabled(false);
+		yourFourthCard.getButton().setEnabled(false);
 	}
 }
