@@ -4,9 +4,14 @@ import java.util.ArrayList;
 public class HardAI extends AI {
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
+	int myValue;
 	
 	public HardAI(){
 		;
+	}
+	
+	public HardAI(int value){
+		myValue = value;
 	}
 
 	@Override

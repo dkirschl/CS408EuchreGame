@@ -5,18 +5,20 @@ import java.util.concurrent.Semaphore;
 public class Computer extends Player {
 	
 	AI myAI;
+	int myValue;
 	
 	public Computer(){
 		;
 	}
 	
-	public Computer(int difficulty){
+	
+	public Computer(int value, int difficulty){
 		if(difficulty == 1){
-			myAI = new EasyAI();
+			myAI = new EasyAI(value);
 		} else if(difficulty == 2){
-			myAI = new MediumAI();
+			myAI = new MediumAI(value);
 		} else if(difficulty == 3){
-			myAI = new HardAI();
+			myAI = new HardAI(value);
 		} else {
 			System.out.println("Invalid number passed to Computer");
 			System.exit(0);

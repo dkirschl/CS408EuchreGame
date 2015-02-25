@@ -51,9 +51,9 @@ public class EuchreGame{
     compTricks = 0;
     
     you = new Human();
-    comp1 = new Computer(o1d);
-    comp2 = new Computer(o2d);
-    comp3 = new Computer(td);
+    comp1 = new Computer(1, o1d);
+    comp2 = new Computer(2, o2d);
+    comp3 = new Computer(3, td);
     players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
     human_turn = new Semaphore(1);
     button_press = new Semaphore(0);

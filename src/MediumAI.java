@@ -3,9 +3,14 @@ import java.util.ArrayList;
 public class MediumAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
+	int myValue;
 	
 	public MediumAI(){
 		;
+	}
+	
+	public MediumAI(int value){
+		myValue = value;
 	}
 
 	/*

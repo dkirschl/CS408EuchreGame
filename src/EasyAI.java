@@ -3,9 +3,14 @@ import java.util.ArrayList;
 public class EasyAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
+	int myValue;
 	
 	public EasyAI(){
 		;
+	}
+	
+	public EasyAI(int value){
+		myValue = value;
 	}
 
 	/*
