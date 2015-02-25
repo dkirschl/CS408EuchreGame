@@ -1,3 +1,4 @@
+import java.awt.Button;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
@@ -65,6 +66,40 @@ public class EuchreGame{
 public static Semaphore getButton_press() {
 	return button_press;
 }
+public void buildGame(ArrayList<Player> players, Card turnup)	{
+	Board gameBoard = new Board();
+	gameBoard.setLayout(null);
+	
+	MidPanel midPanel = new MidPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), turnup);
+	midPanel.setVisible(true);
+	
+	Opponent1Panel opp1Panel = new Opponent1Panel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), opp1Name, midPanel.getOpp1MiddleCard());
+	opp1Panel.setVisible(true);
+	
+	TeamPanel teamPanel = new TeamPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), teamName, midPanel.getTeamMiddleCard());
+	teamPanel.setVisible(true);
+	
+	Opponent2Panel opp2Panel = new Opponent2Panel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), opp2Name, midPanel.getOpp2MiddleCard());
+	opp2Panel.setVisible(true);
+	
+	YourPanel yourPanel = new YourPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
+	yourPanel.setVisible(true);
+	
+	gameBoard.setOpp1Panel(opp1Panel);
+	gameBoard.setOpp2Panel(opp2Panel);
+	gameBoard.setYourPanel(yourPanel);
+	gameBoard.setTeamPanel(teamPanel);
+	gameBoard.setMidPanel(midPanel);
+	
+	gameBoard.add(yourPanel);
+	gameBoard.add(teamPanel);
+	gameBoard.add(opp1Panel);
+	gameBoard.add(opp2Panel);
+	gameBoard.add(midPanel);
+	gameBoard.setVisible(true);
+	
+	System.out.println("Buidling");
+}
 public void startGame() {
 	  Random rand = new Random();
 	  int num;
@@ -88,16 +123,23 @@ public void startGame() {
 	  
 	  
 	  //deal 5 cards to each player
-	  for (int i = 0; i < 4; i++) {
+	  for (int i = 0; i <= 4; i++) {
 		  for (int j = 0; j < 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  players.get(j).receiveCard(deck.get(num));
+			  Button button = new Button(players.get(j).hand.get(i).getSuit() + players.get(j).hand.get(i).getValue());
+			  players.get(j).hand.get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
+	 
 	  //choose a card to be flipped up in the middle
 	  
 	  turnup = deck.get(rand.nextInt(deck.size()));
+	  Button button = new Button(turnup.getSuit() + " " + turnup.getValue());
+	  turnup.setButton(button);
+	  
+	  buildGame(players, turnup);
 	  
 	  //******* pick or play a card *******\\
 	  for (int i = 0; i < 4; i++) {
@@ -131,7 +173,7 @@ public void startGame() {
 	  }
 	  System.out.println("Cards Played");
 	  
-	  //}
+//	  }
 	  
   }
   
