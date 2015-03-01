@@ -2,8 +2,11 @@ import java.util.ArrayList;
 
 public class GameInfo {
 	
-	int trumpCaller;
-	int previousLeader;
-	ArrayList<Card> previousTrick;
+	static int trumpCaller;
+	static int previousLeader;
+	static ArrayList<Card> previousTrick;
+	static ArrayList<Card> currentTrick;
+	static String middleSuit;
+	static String trump;
 	
 }

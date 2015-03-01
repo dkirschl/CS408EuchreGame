@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 
 public abstract class Player {
 	
-	ArrayList<Card> hand = new ArrayList<Card>();
+	static ArrayList<Card> hand = new ArrayList<Card>();
 	
 	public abstract Card playCard();
 	public abstract Card pick(Button b);

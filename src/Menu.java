@@ -14,7 +14,7 @@ public class Menu extends JMenuBar{
 		initMenu(s);
 	}
 	
-	public void initMenu(GameCreateScreen s)
+	public void initMenu(final GameCreateScreen s)
 	{
 	    JMenu menu;
 	    JMenuItem menuItem;
