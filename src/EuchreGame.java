@@ -140,6 +140,7 @@ public void startGame(Board board) {
 	  turnup = deck.get(rand.nextInt(deck.size()));
 	  Button button = new Button(turnup.getSuit() + " " + turnup.getValue());
 	  turnup.setButton(button);
+
 	  GameInfo.middleSuit = turnup.getSuit();
 
 	  String ledSuit = null;
