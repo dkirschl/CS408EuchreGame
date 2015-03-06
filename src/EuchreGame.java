@@ -136,8 +136,8 @@ public void startGame(Board board) {
 		  for (int j = 0; j < 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  players.get(j).receiveCard(deck.get(num));
-			  Button button = new Button(players.get(j).hand.get(i).getSuit() + players.get(j).hand.get(i).getValue());
-			  players.get(j).hand.get(i).setButton(button);
+			  Button button = new Button(players.get(j).getHand().get(i).getSuit() + players.get(j).getHand().get(i).getValue());
+			  players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
@@ -147,11 +147,15 @@ public void startGame(Board board) {
 	  turnup = deck.get(rand.nextInt(deck.size()));
 	  Button button = new Button(turnup.getSuit() + " " + turnup.getValue());
 	  turnup.setButton(button);
-	  
+
+	  GameInfo.middleSuit = turnup.getSuit();
+
+	  String ledSuit = null;
 	  buildGame(board, players, turnup);
 	  
 	  GameInfo.isPick = 1;
-	  //******* pick or play a card *******\\
+
+	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
 		  //System.out.println("Player " + i + " pick or pass");
 		 //System.out.println("Human Pick or Pass : " + human_turn.toString());
@@ -170,19 +174,45 @@ public void startGame(Board board) {
 		 // System.out.println("Player " + i + " turn");
 		 // System.out.println("HUman Turn : " + human_turn.toString());
 		 // System.out.println("Button Press : " + button_press.toString());
+		  boolean choice = players.get(i).chooseSuit(turnup);
+		  if (choice == true) {
+			  //card was picked up 
+			  GameInfo.trump = turnup.getSuit();
+			  ledSuit = turnup.getSuit();
+			  //players.get(i).removeCard()
+			  break;
+		  }
+	  }
+	  if (GameInfo.trump == null) {
+		  for(int i = 0; i < 4; i++) {
+			  players.get(i).startTurn(human_turn);
+			  players.get(i).waitForClick(button_press);
+			  
+			  
+	  	}
+	  }
+	  
+	  
+	  
+	  
+	  Card winner = null;
+	  for (int i = 0; i <= 4; i++) {
+		  System.out.println("Player " + i + " turn");
+		  System.out.println("HUman Turn : " + human_turn.toString());
+		  System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
-		  /*
+		  
 		  Card tmp = players.get(i).playCard();
 		  if (i == 0) {
-			  ledSuit = tmp.getSuit();
+			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner == null) {
 			  winner = tmp;
 		  } else {
-			  winner = determineWinner(winner, tmp, trump, ledSuit);
+			  winner = determineWinner(winner, tmp);
 		  }
-		  */
+		  
 	  }
 	  System.out.println("Cards Played");
 	  
@@ -190,9 +220,11 @@ public void startGame(Board board) {
 	  
   }
   
-  public Card determineWinner(Card c1, Card c2, String trump, String ledSuit) {
-	  c1 = adjustValue(c1, trump);
-	  c2 = adjustValue(c2, trump);
+  public Card determineWinner(Card c1, Card c2) {
+	  String trump = GameInfo.trump;
+	  String ledSuit = GameInfo.ledSuit;
+	  c1 = adjustValue(c1);
+	  c2 = adjustValue(c2);
 	  if (c1.getSuit().equals(ledSuit) && c2.getSuit().equals(ledSuit)) {
 		  //c1 is led suit and c2 is led suit
 		  //compare value to see who wins
@@ -221,7 +253,8 @@ public void startGame(Board board) {
 	  return c1;
   }
   
-  public Card adjustValue(Card c, String trump) {
+  public Card adjustValue(Card c) {
+	  String trump = GameInfo.trump;
 	  if (c.getValue() == 11) {
 		  //card is a Jack and might need to be changed
 		  if (c.getSuit().equals(trump)) {
