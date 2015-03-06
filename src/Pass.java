@@ -17,7 +17,7 @@ public class Pass implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			EuchreGame.getHuman_turn().acquire();
-		
+			GameInfo.picked = false;
 			pass(card);
 			
 			EuchreGame.getButton_press().release();
@@ -27,7 +27,7 @@ public class Pass implements ActionListener  {
 	}
 	public void disableCards()
 	{
-		card.getButton().setVisible(false);
+		//card.getButton().setVisible(false);
 		card.getButton().setEnabled(false);
 		pick.setVisible(false);
 		pick.setEnabled(false);

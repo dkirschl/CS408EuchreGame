@@ -162,19 +162,28 @@ public void startGame(Board board) {
 		  //System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
-		  players.get(i).chooseSuit(turnup);
-		  players.get(i).startTurn(human_turn);
-		  players.get(i).waitForClick(button_press);
+		  //boolean choice = players.get(i).chooseSuit(turnup);
+		  boolean choice = GameInfo.picked;
+		  if (choice == true) {
+			  //pick selected
+			  //wait for switch
+			  players.get(i).startTurn(human_turn);
+			  players.get(i).waitForClick(button_press);
+			  GameInfo.trump = turnup.getSuit();
+			  break;
+		  }
+		  
 	  }
 	  
 	  GameInfo.isPick = 0;
 	  Card winner = null;
-	  String ledSuit = null;
+	  /*
 	  for (int i = 0; i < 4; i++) {
 		 // System.out.println("Player " + i + " turn");
-		 // System.out.println("HUman Turn : " + human_turn.toString());
+		 // System.out.println("Human Turn : " + human_turn.toString());
 		 // System.out.println("Button Press : " + button_press.toString());
-		  boolean choice = players.get(i).chooseSuit(turnup);
+		  //boolean choice = players.get(i).chooseSuit(turnup);
+		  boolean choice = GameInfo.picked;
 		  if (choice == true) {
 			  //card was picked up 
 			  GameInfo.trump = turnup.getSuit();
@@ -191,11 +200,10 @@ public void startGame(Board board) {
 			  
 	  	}
 	  }
+	  */
 	  
 	  
 	  
-	  
-	  Card winner = null;
 	  for (int i = 0; i <= 4; i++) {
 		  System.out.println("Player " + i + " turn");
 		  System.out.println("HUman Turn : " + human_turn.toString());
