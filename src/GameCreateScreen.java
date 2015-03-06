@@ -23,7 +23,7 @@ public class GameCreateScreen{
 		gameCreateScreen = new JPanel();
 		initScreen(board);
 	}
-	public void initScreen(Board board)
+	public void initScreen(final Board board)
 	{
 		
 		JButton createGameButton;
