@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class Board extends JFrame{
+public class Board{
 	private int boardWidth;
 	private int boardHeight;
 	
@@ -13,9 +13,12 @@ public class Board extends JFrame{
 	private JPanel opp1Panel;
 	private JPanel opp2Panel;
 	private JPanel teamPanel;
+	
+	JFrame board;
 
 	public Board()
 	{
+		board = new JFrame();
 		boardWidth = 900;
 		boardHeight = 700;
 		initBoard();
@@ -23,15 +26,15 @@ public class Board extends JFrame{
 	
 	public void initBoard()
 	{		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(boardWidth + 20,boardHeight + 10));
+		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		board.setMinimumSize(new Dimension(boardWidth + 20,boardHeight + 10));
 		//setResizable(false);
 		
-		GameCreateScreen s = new GameCreateScreen();
-		s.setVisible(false);
+		GameCreateScreen s = new GameCreateScreen(this);
+		s.gameCreateScreen.setVisible(false);
 		
-		setJMenuBar(new Menu(s));
-		add(s);
+		board.setJMenuBar(new Menu(s.gameCreateScreen));
+		board.add(s.gameCreateScreen);
 	}
 
 	public int getBoardWidth() {

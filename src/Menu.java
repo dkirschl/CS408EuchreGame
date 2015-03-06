@@ -5,16 +5,17 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 
 public class Menu extends JMenuBar{
-	public Menu(GameCreateScreen s)
+	public Menu(JPanel gcs)
 	{
-		initMenu(s);
+		initMenu(gcs);
 	}
 	
-	public void initMenu(final GameCreateScreen s)
+	public void initMenu(JPanel gameCreateScreen)
 	{
 	    JMenu menu;
 	    JMenuItem menuItem;
@@ -32,7 +33,7 @@ public class Menu extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Clicked new game");
-				s.setVisible(true);
+				gameCreateScreen.setVisible(true);
 			}
 	    	
 	    });

@@ -9,19 +9,23 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
-public class GameCreateScreen extends JPanel {
-	public GameCreateScreen()
-	{
-		initScreen();
-	}
+public class GameCreateScreen{
+	JPanel gameCreateScreen;
 	
-	public void initScreen()
+	public GameCreateScreen(Board board)
 	{
+		gameCreateScreen = new JPanel();
+		initScreen(board);
+	}
+	public void initScreen(Board board)
+	{
+		
 		JButton createGameButton;
 		JLabel opp1NameLabel;
 		JLabel opp1Difficulty;
@@ -45,6 +49,8 @@ public class GameCreateScreen extends JPanel {
 	    JRadioButton opp3Hard;
 	    final ButtonGroup opp3RadioButtons;
 	    Checkbox stickDealer;
+	    
+	    JFrame gameBoard = board.board;
 	  
 	  int opp1Height = 3;
 	  int opp2Height = 35;
@@ -57,8 +63,9 @@ public class GameCreateScreen extends JPanel {
 	  //****** Create the initial frame ******//
 	  //newGamePanel = new JFrame("Creating a new game!");
 	  
-	  setMaximumSize(new Dimension(windowWidth, windowHeight));
-	  setLayout(null);
+	  gameCreateScreen.setMaximumSize(new Dimension(windowWidth, windowHeight));
+	  gameCreateScreen.setSize(new Dimension(windowWidth, windowHeight));
+	  gameCreateScreen.setLayout(null);
 	  
 	  
 	  //******* Opponent 1 Settings ********//
@@ -82,13 +89,12 @@ public class GameCreateScreen extends JPanel {
 	  opp1RadioButtons.add(opp1Medium);
 	  opp1RadioButtons.add(opp1Hard);
 	   
-	  add(opp1NameLabel);
-	  add(opp1NameText);
-	  add(opp1Difficulty);
-	  add(opp1Easy);
-	  add(opp1Medium);
-	  add(opp1Hard);
-	
+	  gameCreateScreen.add(opp1NameLabel);
+	  gameCreateScreen.add(opp1NameText);
+	  gameCreateScreen.add(opp1Difficulty);
+	  gameCreateScreen.add(opp1Easy);
+	  gameCreateScreen.add(opp1Medium);
+	  gameCreateScreen.add(opp1Hard);
 	  
 	  //******* Opponent 2 Settings ********//
 	  opp2NameLabel = new JLabel("Opponent #2 Name: ");
@@ -111,12 +117,12 @@ public class GameCreateScreen extends JPanel {
 	  opp2RadioButtons.add(opp2Medium);
 	  opp2RadioButtons.add(opp2Hard);
 	   
-	  add(opp2NameLabel);
-	  add(opp2NameText);
-	  add(opp2Difficulty);
-	  add(opp2Easy);
-	  add(opp2Medium);
-	  add(opp2Hard);
+	  gameCreateScreen.add(opp2NameLabel);
+	  gameCreateScreen.add(opp2NameText);
+	  gameCreateScreen.add(opp2Difficulty);
+	  gameCreateScreen.add(opp2Easy);
+	  gameCreateScreen.add(opp2Medium);
+	  gameCreateScreen.add(opp2Hard);
 	  
 	  //******* Team-mate Settings ********//
 	  opp3NameLabel = new JLabel("Teammate Name: ");
@@ -139,18 +145,18 @@ public class GameCreateScreen extends JPanel {
 	  opp3RadioButtons.add(opp3Medium);
 	  opp3RadioButtons.add(opp3Hard);
 	   
-	  add(opp3NameLabel);
-	  add(opp3NameText);
-	  add(opp3Difficulty);
-	  add(opp3Easy);
-	  add(opp3Medium);
-	  add(opp3Hard);
+	  gameCreateScreen.add(opp3NameLabel);
+	  gameCreateScreen.add(opp3NameText);
+	  gameCreateScreen.add(opp3Difficulty);
+	  gameCreateScreen.add(opp3Easy);
+	  gameCreateScreen.add(opp3Medium);
+	  gameCreateScreen.add(opp3Hard);
 	  
 	  //******* Stick the Dealer *******//
 	  stickDealer = new Checkbox("Stick the Dealer");
 	  stickDealer.setBounds(3, checkBoxHeight,125,20);
 	  
-	  add(stickDealer);
+	  gameCreateScreen.add(stickDealer);
 	  
 	  //******* Create Game Button *******//
 	  createGameButton = new JButton("Create Game");
@@ -164,18 +170,27 @@ public class GameCreateScreen extends JPanel {
 	      Thread t = new Thread(new Runnable(){
 	    	  @Override
 	    	  public void run(){
-	    		  currentGame.startGame(); 
+	    		  currentGame.startGame(board); 
 	    	  }
 	      });
 	      t.start();
-	      setVisible(false);
+	      gameCreateScreen.setVisible(false);
 	      
 	      //setupGameBoard();
 	    }
 	  });
 	  
-	  add(createGameButton);
-	  setVisible(true);
+	  gameCreateScreen.add(createGameButton);
+	 // gameBoard.removeAll();
+	  gameBoard.revalidate();
+
+	  gameBoard.repaint();
+	  
+	  gameBoard.add(gameCreateScreen);
+	  JMenuBar menuBar = new Menu(gameCreateScreen);
+	  gameBoard.setJMenuBar(menuBar);
+
+	  gameCreateScreen.setVisible(true);
 	}
 	int getSelectedButton(ButtonGroup name)
 	{  

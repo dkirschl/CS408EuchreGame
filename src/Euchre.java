@@ -57,8 +57,8 @@ public class Euchre{
  public static void createAndShowGUI()
  {
   Board board = new Board();
-  board.pack();
-  board.setVisible(true);
+  board.board.pack();
+  board.board.setVisible(true);
  
  }
 
