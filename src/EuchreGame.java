@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.JFrame;
+
 public class EuchreGame{
   private String opp1Name;
   private int opp1Difficulty;
@@ -66,30 +68,30 @@ public class EuchreGame{
 public static Semaphore getButton_press() {
 	return button_press;
 }
-public void buildGame(ArrayList<Player> players, Card turnup)	{
-	Board gameBoard = new Board();
+public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
+	JFrame gameBoard = board.board;
 	gameBoard.setLayout(null);
 	
-	MidPanel midPanel = new MidPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), turnup);
+	MidPanel midPanel = new MidPanel(gameBoard.getWidth(), gameBoard.getHeight(), turnup);
 	midPanel.setVisible(true);
 	
-	Opponent1Panel opp1Panel = new Opponent1Panel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), opp1Name, midPanel.getOpp1MiddleCard());
+	Opponent1Panel opp1Panel = new Opponent1Panel(gameBoard.getWidth(), gameBoard.getHeight(), opp1Name, midPanel.getOpp1MiddleCard());
 	opp1Panel.setVisible(true);
 	
-	TeamPanel teamPanel = new TeamPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), teamName, midPanel.getTeamMiddleCard());
+	TeamPanel teamPanel = new TeamPanel(gameBoard.getWidth(), gameBoard.getHeight(), teamName, midPanel.getTeamMiddleCard());
 	teamPanel.setVisible(true);
 	
-	Opponent2Panel opp2Panel = new Opponent2Panel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), opp2Name, midPanel.getOpp2MiddleCard());
+	Opponent2Panel opp2Panel = new Opponent2Panel(gameBoard.getWidth(), gameBoard.getHeight(), opp2Name, midPanel.getOpp2MiddleCard());
 	opp2Panel.setVisible(true);
 	
-	YourPanel yourPanel = new YourPanel(gameBoard.getBoardWidth(), gameBoard.getBoardHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
+	YourPanel yourPanel = new YourPanel(gameBoard.getWidth(), gameBoard.getHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
 	yourPanel.setVisible(true);
 	
-	gameBoard.setOpp1Panel(opp1Panel);
-	gameBoard.setOpp2Panel(opp2Panel);
-	gameBoard.setYourPanel(yourPanel);
-	gameBoard.setTeamPanel(teamPanel);
-	gameBoard.setMidPanel(midPanel);
+	board.setOpp1Panel(opp1Panel);
+	board.setOpp2Panel(opp2Panel);
+	board.setYourPanel(yourPanel);
+	board.setTeamPanel(teamPanel);
+	board.setMidPanel(midPanel);
 	
 	gameBoard.add(yourPanel);
 	gameBoard.add(teamPanel);
@@ -100,7 +102,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	
 	System.out.println("Buidling");
 }
-public void startGame() {
+public void startGame(Board board) {
 	  Random rand = new Random();
 	  int num;
 	  gameOver = false;
@@ -127,8 +129,8 @@ public void startGame() {
 		  for (int j = 0; j < 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  players.get(j).receiveCard(deck.get(num));
-			  Button button = new Button(players.get(j).hand.get(i).getSuit() + players.get(j).hand.get(i).getValue());
-			  players.get(j).hand.get(i).setButton(button);
+			  Button button = new Button(players.get(j).getHand().get(i).getSuit() + players.get(j).getHand().get(i).getValue());
+			  players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
@@ -138,9 +140,11 @@ public void startGame() {
 	  turnup = deck.get(rand.nextInt(deck.size()));
 	  Button button = new Button(turnup.getSuit() + " " + turnup.getValue());
 	  turnup.setButton(button);
+
+	  String ledSuit = null;
+	  buildGame(board, players, turnup);
 	  
-	  buildGame(players, turnup);
-	  
+
 	  //******* pick or play a card *******\\
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " pick or pass");
@@ -148,11 +152,14 @@ public void startGame() {
 		  System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
-		  players.get(i).chooseSuit(turnup);
+		  String choice = players.get(i).chooseSuit(turnup);
+		  if (choice.equals(turnup.getSuit())) {
+			  //a suit has been chosen
+			  ledSuit = choice;
+		  }
 	  }
 	  
 	  Card winner = null;
-	  String ledSuit = null;
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " turn");
 		  System.out.println("HUman Turn : " + human_turn.toString());

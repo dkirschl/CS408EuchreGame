@@ -5,13 +5,15 @@ public class EasyAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
+	Computer player;
 	
 	public EasyAI(){
 		;
 	}
 	
-	public EasyAI(int value){
+	public EasyAI(int value, Computer c){
 		myValue = value;
+		player = c;
 	}
 
 	/*
@@ -65,8 +67,8 @@ public class EasyAI extends AI{
 		/*
 		 * Count how many of each suit in player's hand
 		 */
-		for(int i = 0; i < Player.hand.size(); i++){
-			switch(Player.hand.get(i).getSuit()){
+		for(int i = 0; i < player.getHand().size(); i++){
+			switch(player.getHand().get(i).getSuit()){
 				
 				case "Spades":		spades++;
 									break;
@@ -118,8 +120,8 @@ public class EasyAI extends AI{
 			//Play highest valued card since you are the leader
 		} else {
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
-			for(int i = 0; i < Player.hand.size(); i++){
-				Card nextCard = Player.hand.get(i);
+			for(int i = 0; i < player.getHand().size(); i++){
+				Card nextCard = player.getHand().get(i);
 				
 				/*
 				 * Card is eligible to be played
