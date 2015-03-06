@@ -127,8 +127,8 @@ public void startGame() {
 		  for (int j = 0; j < 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  players.get(j).receiveCard(deck.get(num));
-			  Button button = new Button(players.get(j).hand.get(i).getSuit() + players.get(j).hand.get(i).getValue());
-			  players.get(j).hand.get(i).setButton(button);
+			  Button button = new Button(players.get(j).getHand().get(i).getSuit() + players.get(j).getHand().get(i).getValue());
+			  players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
@@ -140,7 +140,8 @@ public void startGame() {
 	  turnup.setButton(button);
 	  
 	  buildGame(players, turnup);
-	  
+
+	  String ledSuit = null;
 	  //******* pick or play a card *******\\
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " pick or pass");
@@ -148,11 +149,14 @@ public void startGame() {
 		  System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
-		  players.get(i).chooseSuit(turnup);
+		  String choice = players.get(i).chooseSuit(turnup);
+		  if (choice.equals(turnup.getSuit())) {
+			  //a suit has been chosen
+			  ledSuit = choice;
+		  }
 	  }
 	  
 	  Card winner = null;
-	  String ledSuit = null;
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " turn");
 		  System.out.println("HUman Turn : " + human_turn.toString());
