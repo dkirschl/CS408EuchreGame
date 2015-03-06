@@ -23,9 +23,7 @@ public class Opponent1Panel extends JPanel{
 	}
 	
 	public void initOpponent1Panel()
-	{
-		setBackground(Color.yellow);
-		
+	{		
 		int opp1XCoord = 0;
 		int opp1YCoord = height/5;
 		int opp1Width = width/4;

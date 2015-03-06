@@ -24,8 +24,6 @@ public class TeamPanel extends JPanel{
 	
 	public void initOpponent1Panel()
 	{
-		setBackground(Color.cyan);
-		
 		int teamXCoord = 0;
 		int teamYCoord = 0;
 		int teamWidth = width;

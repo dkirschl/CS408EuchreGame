@@ -73,7 +73,7 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	gameBoard.setLayout(null);
 	
 	MidPanel midPanel = new MidPanel(gameBoard.getWidth(), gameBoard.getHeight(), turnup);
-	midPanel.setVisible(true);
+	midPanel.midPanel.setVisible(true);
 	
 	Opponent1Panel opp1Panel = new Opponent1Panel(gameBoard.getWidth(), gameBoard.getHeight(), opp1Name, midPanel.getOpp1MiddleCard());
 	opp1Panel.setVisible(true);
@@ -85,7 +85,7 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	opp2Panel.setVisible(true);
 	
 	YourPanel yourPanel = new YourPanel(gameBoard.getWidth(), gameBoard.getHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
-	yourPanel.setVisible(true);
+	yourPanel.yourPanel.setVisible(true);
 	
 	board.setOpp1Panel(opp1Panel);
 	board.setOpp2Panel(opp2Panel);
@@ -93,11 +93,18 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	board.setTeamPanel(teamPanel);
 	board.setMidPanel(midPanel);
 	
-	gameBoard.add(yourPanel);
+	System.out.println(board.toString());
+	midPanel.setBoard(board);
+	midPanel.initMidPanel();
+	
+	yourPanel.setBoard(board);
+	yourPanel.initYourPanel();
+	
+	gameBoard.add(yourPanel.yourPanel);
 	gameBoard.add(teamPanel);
 	gameBoard.add(opp1Panel);
 	gameBoard.add(opp2Panel);
-	gameBoard.add(midPanel);
+	gameBoard.add(midPanel.midPanel);
 	gameBoard.setVisible(true);
 	
 	System.out.println("Buidling");
@@ -146,14 +153,27 @@ public void startGame(Board board) {
 	  String ledSuit = null;
 	  buildGame(board, players, turnup);
 	  
+	  GameInfo.isPick = 1;
 
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
-		  System.out.println("Player " + i + " pick or pass");
-		  System.out.println("Human Pick or Pass : " + human_turn.toString());
-		  System.out.println("Button Press : " + button_press.toString());
+		  //System.out.println("Player " + i + " pick or pass");
+		 //System.out.println("Human Pick or Pass : " + human_turn.toString());
+		  //System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
+		  players.get(i).chooseSuit(turnup);
+		  players.get(i).startTurn(human_turn);
+		  players.get(i).waitForClick(button_press);
+	  }
+	  
+	  GameInfo.isPick = 0;
+	  Card winner = null;
+	  String ledSuit = null;
+	  for (int i = 0; i < 4; i++) {
+		 // System.out.println("Player " + i + " turn");
+		 // System.out.println("HUman Turn : " + human_turn.toString());
+		 // System.out.println("Button Press : " + button_press.toString());
 		  boolean choice = players.get(i).chooseSuit(turnup);
 		  if (choice == true) {
 			  //card was picked up 

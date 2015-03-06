@@ -8,7 +8,7 @@ public class Pass implements ActionListener  {
 	Button pick;
 	Button pass;
 	
-	public Pass(Card card, Button pick, Button pass)
+	public Pass(Card card, Button pick, Button pass, Board board)
 	{
 		this.card = card;
 		this.pick = pick;

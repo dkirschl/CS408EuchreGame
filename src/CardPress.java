@@ -5,24 +5,33 @@ import java.awt.event.ActionListener;
 
 public class CardPress implements ActionListener {
 	
-	Card yourCard, yourMiddleCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard;
+	Card yourCard, yourMiddleCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard, pickOrPassCard;
 	
-	public CardPress(Card yourCard, Card yourMiddleCard, Card yourFirstCard, Card yourSecondCard, Card yourThirdCard, Card yourFourthCard) {
+	public CardPress(Card yourCard, Card yourMiddleCard, Card yourFirstCard, Card yourSecondCard, Card yourThirdCard, Card yourFourthCard, Card pickOrPassCard) {
 		this.yourCard = yourCard;
 		this.yourMiddleCard = yourMiddleCard;
 		this.yourFirstCard = yourFirstCard;
 		this.yourSecondCard = yourSecondCard;
 		this.yourThirdCard = yourThirdCard;
 		this.yourFourthCard = yourFourthCard;
+		this.pickOrPassCard = pickOrPassCard;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			EuchreGame.getHuman_turn().acquire();
-		
-			playCard(yourCard, yourMiddleCard);
-			disableCards();
+			System.out.println(GameInfo.isPick);
+			if(GameInfo.isPick == 1)
+			{
+				switchCard(yourCard, pickOrPassCard);
+			}
+			else
+			{
+				playCard(yourCard, yourMiddleCard);
+				disableCards();
+			}
+
 			
 			EuchreGame.getButton_press().release();
 		} catch (InterruptedException e1) {
@@ -30,6 +39,19 @@ public class CardPress implements ActionListener {
 		}
 	}
 	
+	public void switchCard(Card card, Card switchCard)
+	{
+		System.out.println("Switching Cards!!");
+		card.getButton().setLabel(switchCard.getButton().getLabel());
+		card.setCardId(switchCard.getCardId());
+		card.setSuit(switchCard.getSuit());
+		card.setValue(switchCard.getValue());
+		switchCard.getButton().setVisible(false);
+		//Card tempCard = new Card();
+		//tempCard = card;
+		
+		
+	}
 	public void playCard(Card card, Card middleCard)
 	 {
 	 	System.out.println(card.getButton().getLabel());
