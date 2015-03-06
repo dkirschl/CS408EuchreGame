@@ -133,7 +133,7 @@ public void startGame(Board board) {
 	  
 	  //deal 5 cards to each player
 	  for (int i = 0; i <= 4; i++) {
-		  for (int j = 0; j < 3; j++) {
+		  for (int j = 0; j <= 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  players.get(j).receiveCard(deck.get(num));
 			  Button button = new Button(players.get(j).getHand().get(i).getSuit() + players.get(j).getHand().get(i).getValue());
@@ -141,6 +141,17 @@ public void startGame(Board board) {
 			  deck.remove(num);
 		  }
 	  }
+	  for (int i = 0; i < 4; i++) {
+		  for (int j = 0; j < 5; j++) {
+		  System.out.print(players.get(i).getHand().get(j).getValue() + players.get(i).getHand().get(j).getSuit() + " ");
+		  
+		  }
+		  System.out.println();
+	  }
+	  GameInfo.human_Hand = players.get(0).getHand();
+	  GameInfo.AI_1_Hand = players.get(1).getHand();
+	  GameInfo.AI_2_Hand = players.get(2).getHand();
+	  GameInfo.AI_3_Hand = players.get(3).getHand();
 	 
 	  //choose a card to be flipped up in the middle
 	  
@@ -150,7 +161,7 @@ public void startGame(Board board) {
 
 	  GameInfo.middleSuit = turnup.getSuit();
 
-	  String ledSuit = null;
+	  
 	  buildGame(board, players, turnup);
 	  
 	  GameInfo.isPick = 1;
@@ -163,7 +174,8 @@ public void startGame(Board board) {
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
 		  //boolean choice = players.get(i).chooseSuit(turnup);
-		  boolean choice = GameInfo.picked;
+		  boolean choice = players.get(i).pickupOrPass();
+		  System.out.println("Player " + i + "choice is " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
@@ -204,14 +216,15 @@ public void startGame(Board board) {
 	  
 	  
 	  
-	  for (int i = 0; i <= 4; i++) {
+	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " turn");
-		  System.out.println("HUman Turn : " + human_turn.toString());
-		  System.out.println("Button Press : " + button_press.toString());
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
 		  
 		  Card tmp = players.get(i).playCard();
+		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
+		  GameInfo.currentTrick.add(tmp);
+		  players.get(i).getHand().remove(tmp);
 		  if (i == 0) {
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }

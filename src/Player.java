@@ -13,6 +13,7 @@ public abstract class Player {
 	public abstract boolean chooseSuit(Card c);
 	public abstract void startTurn(Semaphore s);
 	public abstract void waitForClick(Semaphore s);
+	public abstract boolean pickupOrPass();
 	
 	public void receiveCard(Card c) {
 		hand.add(c);

@@ -60,4 +60,10 @@ public class Computer extends Player {
 		return null;
 	}
 	
+	@Override
+	public boolean pickupOrPass() {
+		boolean ret = myAI.passOrPickUp();
+		return ret;
+	}
+	
 }
