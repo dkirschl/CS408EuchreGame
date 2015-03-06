@@ -44,7 +44,7 @@ public class GameCreateScreen extends JPanel {
 	    JRadioButton opp3Medium;
 	    JRadioButton opp3Hard;
 	    final ButtonGroup opp3RadioButtons;
-	    Checkbox stickDealer;
+	    final Checkbox stickDealer;
 	  
 	  int opp1Height = 3;
 	  int opp2Height = 35;
@@ -159,6 +159,7 @@ public class GameCreateScreen extends JPanel {
 	  createGameButton.addActionListener(new ActionListener(){
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
+	      GameInfo.screwDealer = stickDealer.getState();
 	      final EuchreGame currentGame = new EuchreGame(opp1NameText.getText(), getSelectedButton(opp1RadioButtons), opp2NameText.getText(), getSelectedButton(opp2RadioButtons), opp3NameText.getText(), getSelectedButton(opp3RadioButtons));
 	      System.out.println("Here");
 	      Thread t = new Thread(new Runnable(){

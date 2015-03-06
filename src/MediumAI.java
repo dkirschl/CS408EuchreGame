@@ -43,7 +43,7 @@ public class MediumAI extends AI{
 	 * 	If AI is dealer, they pick the suit they have the most of.
 	 */
 	@Override
-	public char chooseSuit() {
+	public String chooseSuit() {
 		//int hearts, spades, clubs, diamonds;
 		/*
 		 * 	Determine which suit cannot be chosen 
@@ -64,7 +64,7 @@ public class MediumAI extends AI{
 		 		pick the suit with the highest number
 		 */
 		
-		return 0;
+		return "Hello";
 	}
 	
 	/*

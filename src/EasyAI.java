@@ -36,7 +36,7 @@ public class EasyAI extends AI{
 	 * 	Easy AI will choose a suit if they have 3 trump, else pass
 	 */
 	@Override
-	public char chooseSuit() {
+	public String chooseSuit() {
 		int spades = 0;
 		int clubs = 0;
 		int hearts = 0;
@@ -96,7 +96,7 @@ public class EasyAI extends AI{
 			//Check to see if you are the dealer and screw the dealer is on, else pass
 		}
 
-		return 0;
+		return "Hello";
 	}
 	
 	/*

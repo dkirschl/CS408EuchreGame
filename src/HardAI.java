@@ -21,9 +21,9 @@ public class HardAI extends AI {
 	}
 
 	@Override
-	public char chooseSuit() {
+	public String chooseSuit() {
 		
-		return 0;
+		return "Hello";
 	}
 
 	@Override
