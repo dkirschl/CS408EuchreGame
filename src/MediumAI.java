@@ -89,4 +89,10 @@ public class MediumAI extends AI{
 		 */
 		return new Card(0, 0, null);
 	}
+
+	@Override
+	public int calculateValues() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

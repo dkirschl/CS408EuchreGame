@@ -3,6 +3,7 @@ import java.util.Random;
 
 public class EasyAI extends AI{
 	
+	ArrayList<Card> myHand;
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
 	Computer player;
@@ -12,6 +13,9 @@ public class EasyAI extends AI{
 	}
 	
 	public EasyAI(int value, Computer c){
+		if(value < 1 || value > 3){
+			System.err.println("Incorrect value for AI");
+		}
 		myValue = value;
 		player = c;
 	}
@@ -21,6 +25,20 @@ public class EasyAI extends AI{
 	 */
 	@Override
 	public boolean passOrPickUp() {
+		
+		//Resets AI hand
+		if(myValue == 1){
+			myHand = GameInfo.AI_1_Hand;
+		} else if(myValue == 2){
+			myHand = GameInfo.AI_2_Hand;
+		} else if(myValue == 3){
+			myHand = GameInfo.AI_3_Hand;
+		} else {
+			System.err.println("Incorrect value for AI");
+		}
+		
+		calculateValues();
+		
 		Random randomGenerator = new Random();
 	    int randomInt = randomGenerator.nextInt(5);
 	    
@@ -43,6 +61,19 @@ public class EasyAI extends AI{
 		int clubs = 0;
 		int hearts = 0;
 		int diamonds = 0;
+		
+		//Resets AI hand
+		if(myValue == 1){
+			myHand = GameInfo.AI_1_Hand;
+		} else if(myValue == 2){
+			myHand = GameInfo.AI_2_Hand;
+		} else if(myValue == 3){
+			myHand = GameInfo.AI_3_Hand;
+		} else {
+			System.err.println("Incorrect value for AI");
+		}
+		
+		calculateValues();
 		
 		/*
 		 * Cancel chance to call trump already passed on
@@ -67,8 +98,8 @@ public class EasyAI extends AI{
 		/*
 		 * Count how many of each suit in player's hand
 		 */
-		for(int i = 0; i < player.getHand().size(); i++){
-			switch(player.getHand().get(i).getSuit()){
+		for(int i = 0; i < myHand.size(); i++){
+			switch(myHand.get(i).getSuit()){
 				
 				case "Spades":		spades++;
 									break;
@@ -87,18 +118,30 @@ public class EasyAI extends AI{
 		}
 		
 		if(spades >= 3){
-			//Return value for spades
+			return "spades";
 		} else if(clubs >= 3){
-			//Return value for clubs
+			return "clubs";
 		} else if(hearts >= 3){
-			//Return value for hearts
+			return "hearts";
 		} else if(diamonds >= 3){
-			//Return value for diamonds
+			return "diamonds";
 		} else {
-			//Check to see if you are the dealer and screw the dealer is on, else pass
+			if(GameInfo.screwDealer){
+				if(spades >= 2){
+					return "spades";
+				} else if(clubs >= 2){
+					return "clubs";
+				} else if(hearts >= 2){
+					return "hearts";
+				} else if(diamonds >= 2){
+					return "diamonds";
+				}
+			} else {
+				return "pass";
+			}
 		}
 
-		return "Hello";
+		return "pass";
 	}
 	
 	/*
@@ -109,6 +152,19 @@ public class EasyAI extends AI{
 		//Determine the leading suit
 		String leadSuit;
 		
+		//Resets AI hand
+		if(myValue == 1){
+			myHand = GameInfo.AI_1_Hand;
+		} else if(myValue == 2){
+			myHand = GameInfo.AI_2_Hand;
+		} else if(myValue == 3){
+			myHand = GameInfo.AI_3_Hand;
+		} else {
+			System.err.println("Incorrect value for AI");
+		}
+		
+		calculateValues();
+		
 		/*
 		 * Clear elCards from previous trick
 		 */
@@ -118,10 +174,31 @@ public class EasyAI extends AI{
 		
 		if(GameInfo.currentTrick.size() == 0){
 			//Play highest valued card since you are the leader
+			int high = 0;
+			Card highestValued = new Card();
+			for(int i = 0; i < myHand.size(); i++){
+				Card nextCard = myHand.get(i);
+				
+				if(nextCard.getValue() > high){
+					highestValued = nextCard;
+				}
+			}
+			
+			//Remove card from AI hand
+			if(myValue == 1){
+				GameInfo.AI_1_Hand.remove(highestValued);
+			} else if(myValue == 2){
+				GameInfo.AI_2_Hand.remove(highestValued);
+			} else if(myValue == 3){
+				GameInfo.AI_3_Hand.remove(highestValued);
+			}
+			
+			return highestValued;
+			
 		} else {
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
-			for(int i = 0; i < player.getHand().size(); i++){
-				Card nextCard = player.getHand().get(i);
+			for(int i = 0; i < myHand.size(); i++){
+				Card nextCard = myHand.get(i);
 				
 				/*
 				 * Card is eligible to be played
@@ -136,16 +213,78 @@ public class EasyAI extends AI{
 			/*
 			 * Play the only eligible card
 			 */
+			
+			//Remove card from AI hand
+			if(myValue == 1){
+				GameInfo.AI_1_Hand.remove(elCards.get(0));
+			} else if(myValue == 2){
+				GameInfo.AI_2_Hand.remove(elCards.get(0));
+			} else if(myValue == 3){
+				GameInfo.AI_3_Hand.remove(elCards.get(0));
+			}
+			
 			return elCards.get(0);
+		
 		} else if(elCards.size() == 0){
 			/*
 			 * Play lowest valued card since you are going to lose unless you play trump
 			 */
+			int low = 100;
+			Card lowestValued = new Card();
+			for(int i = 0; i < myHand.size(); i++){
+				Card nextCard = myHand.get(i);
+				
+				if(nextCard.getValue() < low){
+					lowestValued = nextCard;
+				}
+			}
+			
+			//Remove card from AI hand
+			if(myValue == 1){
+				GameInfo.AI_1_Hand.remove(lowestValued);
+			} else if(myValue == 2){
+				GameInfo.AI_2_Hand.remove(lowestValued);
+			} else if(myValue == 3){
+				GameInfo.AI_3_Hand.remove(lowestValued);
+			}
+			
+			return lowestValued;
+			
 		} else {
 			/*
 			 * Play highest valued eligible card
 			 */
+			int high = 0;
+			Card highestValued = new Card();
+			for(int i = 0; i < elCards.size(); i++){
+				Card nextCard = elCards.get(i);
+				
+				if(nextCard.getValue() > high){
+					highestValued = nextCard;
+				}
+			}
+			
+			//Remove card from AI hand
+			if(myValue == 1){
+				GameInfo.AI_1_Hand.remove(highestValued);
+			} else if(myValue == 2){
+				GameInfo.AI_2_Hand.remove(highestValued);
+			} else if(myValue == 3){
+				GameInfo.AI_3_Hand.remove(highestValued);
+			}
+			
+			return highestValued;
 		}
-		return new Card(0, 0, null);
+	}
+
+	@Override
+	public int calculateValues() {
+		
+		for(int i = 0; i < myHand.size(); i++){
+			Card nextCard = myHand.get(i);
+			
+			nextCard.setValue(1);
+		}
+		return 1;
 	}
 }

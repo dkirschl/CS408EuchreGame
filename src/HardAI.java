@@ -95,4 +95,10 @@ public class HardAI extends AI {
 		 */
 		return 100;
 	}
+
+	@Override
+	public int calculateValues() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
