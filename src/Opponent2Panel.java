@@ -13,7 +13,6 @@ public class Opponent2Panel extends JPanel{
 	
 	public Opponent2Panel(int width, int height, String name, Card middleCard)
 	{
-		System.out.println("Created a new opponent 2 panel");
 		this.width = width;
 		this.height = height;
 		this.name = name;
@@ -23,9 +22,7 @@ public class Opponent2Panel extends JPanel{
 	}
 	
 	public void initOpponent2Panel()
-	{
-		setBackground(Color.green);
-		
+	{		
 		int opp2XCoord = width - width/4;
 		int opp2YCoord = height/5;
 		int opp2Width = width/4;

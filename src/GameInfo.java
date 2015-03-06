@@ -8,5 +8,7 @@ public class GameInfo {
 	static ArrayList<Card> currentTrick;
 	static String middleSuit;
 	static String trump;
+	static int dealer;
+	static int isPick;
 	
 }

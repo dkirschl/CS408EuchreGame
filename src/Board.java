@@ -8,8 +8,8 @@ public class Board{
 	private int boardWidth;
 	private int boardHeight;
 	
-	private JPanel yourPanel;
-	private JPanel midPanel;
+	private YourPanel yourPanel;
+	private MidPanel midPanel;
 	private JPanel opp1Panel;
 	private JPanel opp2Panel;
 	private JPanel teamPanel;
@@ -52,19 +52,19 @@ public class Board{
 	public void setBoardHeight(int boardHeight) {
 		this.boardHeight = boardHeight;
 	}
-	public JPanel getYourPanel() {
+	public YourPanel getYourPanel() {
 		return yourPanel;
 	}
 
-	public void setYourPanel(JPanel yourPanel) {
+	public void setYourPanel(YourPanel yourPanel) {
 		this.yourPanel = yourPanel;
 	}
 
-	public JPanel getMidPanel() {
+	public MidPanel getMidPanel() {
 		return midPanel;
 	}
 
-	public void setMidPanel(JPanel midPanel) {
+	public void setMidPanel(MidPanel midPanel) {
 		this.midPanel = midPanel;
 	}
 

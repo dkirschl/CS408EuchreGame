@@ -1,5 +1,3 @@
-import java.awt.Button;
-import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -7,12 +5,22 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-public class YourPanel extends JPanel{
+public class YourPanel{
 	int width, height, cardWidth, cardHeight;
 	String name;
 	Card middleCard;
-	ArrayList<Card> hand;
+	public ArrayList<Card> hand;
+	JPanel yourPanel;
+	Board board;
 	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
 	public YourPanel(int width, int height, String name, Card middleCard, ArrayList<Card> hand)
 	{
 		System.out.println("Created a new your panel");
@@ -21,14 +29,13 @@ public class YourPanel extends JPanel{
 		this.name = name;
 		this.middleCard = middleCard;
 		this.hand = hand;
+		yourPanel = new JPanel();
 
-		initYourPanel();
+		//initYourPanel();
 	}
 	
 	public void initYourPanel()
-	{
-		setBackground(Color.blue);
-		
+	{	
 		int yourXCoord = 0;
 		int yourYCoord = height - height/5 - 62;
 		int yourWidth = width;
@@ -38,15 +45,15 @@ public class YourPanel extends JPanel{
 		int cardHeight = 100;
 		
 		//System.out.println("Your Coordinates x: " + yourXCoord + " y: " + yourYCoord + " Dimensions width: " + yourWidth  + " height: " + yourHeight);
-		setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
+		yourPanel.setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
 		JLabel your = new JLabel(name);
 		
-		setLayout(null);
+		yourPanel.setLayout(null);
 		your.setHorizontalAlignment(SwingConstants.CENTER);
 		//your.setVerticalAlignment(SwingConstants.BOTTOM);
 		your.setBounds(yourWidth/2 - 40, yourHeight-25, 80, 40);
 		
-		add(your);
+		yourPanel.add(your);
 		System.out.println(hand.size());
 		 
 		int initialCardX = 270;
@@ -60,16 +67,22 @@ public class YourPanel extends JPanel{
 		System.out.println("Printing card in your panel");
 		System.out.println(hand.get(0).getButton().getLabel());
 		
-		hand.get(0).getButton().addActionListener(new CardPress(hand.get(0), middleCard, hand.get(1), hand.get(2), hand.get(3), hand.get(4)));
-		hand.get(1).getButton().addActionListener(new CardPress(hand.get(1), middleCard, hand.get(0), hand.get(2), hand.get(3), hand.get(4)));
-		hand.get(2).getButton().addActionListener(new CardPress(hand.get(2), middleCard, hand.get(1), hand.get(0), hand.get(3), hand.get(4)));
-		hand.get(3).getButton().addActionListener(new CardPress(hand.get(3), middleCard, hand.get(1), hand.get(2), hand.get(0), hand.get(4)));
-		hand.get(4).getButton().addActionListener(new CardPress(hand.get(4), middleCard, hand.get(1), hand.get(2), hand.get(3), hand.get(0)));
+		hand.get(0).getButton().addActionListener(new CardPress(hand.get(0), middleCard, hand.get(1), hand.get(2), hand.get(3), hand.get(4), board.getMidPanel().getPickOrPassCard()));
+		hand.get(1).getButton().addActionListener(new CardPress(hand.get(1), middleCard, hand.get(0), hand.get(2), hand.get(3), hand.get(4), board.getMidPanel().getPickOrPassCard()));
+		hand.get(2).getButton().addActionListener(new CardPress(hand.get(2), middleCard, hand.get(1), hand.get(0), hand.get(3), hand.get(4), board.getMidPanel().getPickOrPassCard()));
+		hand.get(3).getButton().addActionListener(new CardPress(hand.get(3), middleCard, hand.get(1), hand.get(2), hand.get(0), hand.get(4), board.getMidPanel().getPickOrPassCard()));
+		hand.get(4).getButton().addActionListener(new CardPress(hand.get(4), middleCard, hand.get(1), hand.get(2), hand.get(3), hand.get(0), board.getMidPanel().getPickOrPassCard()));
+		
+		hand.get(0).getButton().setEnabled(false);
+		hand.get(1).getButton().setEnabled(false);
+		hand.get(2).getButton().setEnabled(false);
+		hand.get(3).getButton().setEnabled(false);
+		hand.get(4).getButton().setEnabled(false);
 		 
-		add(hand.get(1).getButton());
-		add(hand.get(2).getButton());
-		add(hand.get(3).getButton());
-		add(hand.get(4).getButton());
-		add(hand.get(0).getButton());
+		yourPanel.add(hand.get(1).getButton());
+		yourPanel.add(hand.get(2).getButton());
+		yourPanel.add(hand.get(3).getButton());
+		yourPanel.add(hand.get(4).getButton());
+		yourPanel.add(hand.get(0).getButton());
 	}
 }

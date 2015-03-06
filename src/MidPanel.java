@@ -1,13 +1,26 @@
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
 
-public class MidPanel extends JPanel {
+public class MidPanel{
 	int width, height, cardWidth, cardHeight;
-	Card yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard, turnup;
+	Card yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard, turnup, pickOrPassCard;
+	Board board;
+	JPanel midPanel;
 	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+		System.out.println(this.board.toString());
+	}
+
 	public MidPanel(int width, int height, Card turnup)
 	{
 		this.width = width;
@@ -17,13 +30,14 @@ public class MidPanel extends JPanel {
 		opp1MiddleCard = new Card();
 		opp2MiddleCard = new Card();
 		this.turnup = turnup;
+		midPanel = new JPanel();
 		
-		initMidPanel();
+		//initMidPanel();
 	}
 	
 	public void initMidPanel()
 	{
-		setBackground(Color.gray);
+		midPanel.setBackground(Color.green);
 		
 		int cardWidth = 70;
 		int cardHeight = 100;
@@ -33,9 +47,9 @@ public class MidPanel extends JPanel {
 		int midWidth = width/2;
 		int midHeight = 3*(height/5);
 		
-		setBounds(midXCoord, midYCoord, midWidth, midHeight);
+		midPanel.setBounds(midXCoord, midYCoord, midWidth, midHeight);
 		
-		setLayout(null);
+		midPanel.setLayout(null);
 		 
 		Button ymc = new Button("");
 		Button o1c = new Button("Opp1 Card");
@@ -58,10 +72,10 @@ public class MidPanel extends JPanel {
 		tmc.setBounds(midWidth/2-30, 50, cardWidth, cardHeight);
 		tmc.setEnabled(false);
 		
-		add(tmc);
-		add(o1c);
-		add(o2c);
-		add(ymc);
+		midPanel.add(tmc);
+		midPanel.add(o1c);
+		midPanel.add(o2c);
+		midPanel.add(ymc);
 		
 		System.out.println("About to set the buttons");
 		
@@ -73,7 +87,8 @@ public class MidPanel extends JPanel {
 		teamMiddleCard.setButton(tmc);
 		
 		//******* Set up the pick or pass fields *******\\
-        Card pickPassCard = turnup;
+        //Card pickPassCard = turnup;
+		pickOrPassCard = turnup;
         Button pickPassButton = turnup.getButton();
         Button pickCard = new Button("Pick");
         Button passCard = new Button("Pass");
@@ -95,21 +110,30 @@ public class MidPanel extends JPanel {
         pickCard.setVisible(true);
         pickCard.setBounds(pickCardX, pickCardY, cardHeight, cardWidth);
         pickCard.setEnabled(true);
-        pickCard.addActionListener(new Pick(pickPassCard, pickCard, passCard));
+        System.out.println(board.toString());
+        pickCard.addActionListener(new Pick(pickOrPassCard, pickCard, passCard, board));
         
         passCard.setVisible(true);
         passCard.setBounds(passCardX, passCardY, cardHeight, cardWidth);
         passCard.setEnabled(true);
-        passCard.addActionListener(new Pass(pickPassCard, pickCard, passCard));
+        passCard.addActionListener(new Pass(pickOrPassCard, pickCard, passCard, board));
         
         deck.setVisible(true);
         deck.setBounds(deckX, deckY, cardWidth, cardHeight);
         deck.setEnabled(false);
         
-        add(pickPassCard.getButton());
-        add(pickCard);
-        add(passCard);
-        add(deck);
+        midPanel.add(pickOrPassCard.getButton());
+        midPanel.add(pickCard);
+        midPanel.add(passCard);
+        midPanel.add(deck);
+	}
+
+	public Card getPickOrPassCard() {
+		return pickOrPassCard;
+	}
+
+	public void setPickOrPassCard(Card pickOrPassCard) {
+		this.pickOrPassCard = pickOrPassCard;
 	}
 
 	public Card getYourMiddleCard() {
