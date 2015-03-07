@@ -137,11 +137,11 @@ public class EasyAI extends AI{
 					return "diamonds";
 				}
 			} else {
-				return "pass";
+				return "Pass";
 			}
 		}
 
-		return "pass";
+		return "Pass";
 	}
 	
 	/*

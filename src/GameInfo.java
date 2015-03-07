@@ -14,6 +14,7 @@ public class GameInfo {
 	static String middleSuit;
 	static String trump;
 	static String ledSuit;
+	static String selectedSuit;
 	static int dealer;
 	static int isPick;
 	static boolean picked;

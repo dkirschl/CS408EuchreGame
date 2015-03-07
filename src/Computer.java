@@ -32,8 +32,8 @@ public class Computer extends Player {
 	}
 
 	@Override
-	public boolean chooseSuit(Card c) {
-		return true;
+	public String chooseSuit() {
+		return myAI.chooseSuit();
 	}
 
 	@Override

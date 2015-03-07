@@ -165,6 +165,7 @@ public void startGame(Board board) {
 	  buildGame(board, players, turnup);
 	  
 	  GameInfo.isPick = 1;
+	  boolean choice = false;
 
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
@@ -174,8 +175,8 @@ public void startGame(Board board) {
 		  players.get(i).startTurn(human_turn);
 		  players.get(i).waitForClick(button_press);
 		  //boolean choice = players.get(i).chooseSuit(turnup);
-		  boolean choice = players.get(i).pickupOrPass();
-		  System.out.println("Player " + i + "choice is " + choice);
+		  choice = players.get(i).pickupOrPass();
+		  System.out.println("Player " + i + " choice is " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
@@ -183,8 +184,24 @@ public void startGame(Board board) {
 			  players.get(i).waitForClick(button_press);
 			  GameInfo.trump = turnup.getSuit();
 			  break;
-		  }
+		  }  
+	  }
+	  
+	  //******* Everyone passed and now it goes around again to select the suit *******\\
+	  String suit = "";
+	  
+	  if (choice==false)
+	  {
+		  System.out.println("No player picked up the card");
+		  System.out.println("Suit not available is: " + turnup.getSuit());
 		  
+		  for (int i = 0; i < 4; i++)
+		  {
+			  players.get(i).startTurn(human_turn);
+			  players.get(i).waitForClick(button_press);
+			  
+			  suit = players.get(i).chooseSuit();
+		  }
 	  }
 	  
 	  GameInfo.isPick = 0;

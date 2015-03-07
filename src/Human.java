@@ -10,8 +10,8 @@ public class Human extends Player {
 	}
 
 	@Override
-	public boolean chooseSuit(Card c) {
-		return true;
+	public String chooseSuit() {
+		return "";
 	}
 
 	@Override
