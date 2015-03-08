@@ -323,11 +323,15 @@ public void playCard() {
 		  }
 		  if (winner1 == null) {
 			  winner1 = tmp;
+			  currentWinner = GameInfo.nextPlayer;
 		  } else {
 			  winner1 = determineWinner(winner1, tmp);
+			  System.out.println("Current Winner : " + winner1.getCardId());
+			  
 			  if (winner1.getCardId() == tmp.getCardId()) {
 				  currentWinner = GameInfo.nextPlayer;
 			  }
+			  System.out.println("Winning player : " + currentWinner);
 		  }
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
@@ -339,7 +343,6 @@ public void playCard() {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		  
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 		  
 		  
