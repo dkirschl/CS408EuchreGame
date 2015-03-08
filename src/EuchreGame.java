@@ -161,7 +161,6 @@ public void startGame(Board board) {
 
 	  GameInfo.middleSuit = turnup.getSuit();
 
-	  
 	  buildGame(board, players, turnup);
 	  
 	  GameInfo.isPick = 1;

@@ -192,7 +192,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(highestValued);
 			}
-			System.out.println("A : " + highestValued.getCardId());
+			System.out.println("A : " + highestValued.getValue()+highestValued.getSuit());
 			return highestValued;
 			
 		} else {
@@ -222,7 +222,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(elCards.get(0));
 			}
-			System.out.println("B : " + elCards.get(0).getCardId());
+			System.out.println("B : " + elCards.get(0).getValue()+elCards.get(0).getSuit());
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
@@ -247,7 +247,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(lowestValued);
 			}
-			System.out.println("C : " + lowestValued.getCardId());
+			System.out.println("C : " + lowestValued.getValue() + lowestValued.getSuit());
 			return lowestValued;
 			
 		} else {
@@ -272,7 +272,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(highestValued);
 			}
-			System.out.println("D : " + highestValued.getCardId());
+			System.out.println("D : " + highestValued.getValue() + highestValued.getSuit());
 			return highestValued;
 		}
 	}
