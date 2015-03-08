@@ -14,9 +14,12 @@ public class GameInfo {
 	static String middleSuit;
 	static String trump;
 	static String ledSuit;
+	static String selectedSuit;
 	static int dealer;
 	static int isPick;
+	static boolean firstGame;
 	static boolean picked;
+	static Board board;
 	static Card playedCard;
 	static String howTo = "          The highest trump is the jack of the trump suit, called the right bower. The second-highest trump\n" +
 						  "is the jack of the other suit of the same color called the left bower. The remaining trumps, and\n" +

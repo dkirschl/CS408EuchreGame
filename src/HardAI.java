@@ -97,7 +97,7 @@ public class HardAI extends AI {
 	}
 
 	@Override
-	public int calculateValues() {
+	public int calculateValues(String suit) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

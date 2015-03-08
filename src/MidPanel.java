@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 public class MidPanel{
 	int width, height, cardWidth, cardHeight;
 	Card yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard, turnup, pickOrPassCard;
+	Button spades, clubs, hearts, diamonds, passSuit;
+	
 	Board board;
 	JPanel midPanel;
 	
@@ -18,7 +20,7 @@ public class MidPanel{
 
 	public void setBoard(Board board) {
 		this.board = board;
-		System.out.println(this.board.toString());
+		//System.out.println(this.board.toString());
 	}
 
 	public MidPanel(int width, int height, Card turnup)
@@ -30,8 +32,8 @@ public class MidPanel{
 		opp1MiddleCard = new Card();
 		opp2MiddleCard = new Card();
 		this.turnup = turnup;
-		midPanel = new JPanel();
 		
+		midPanel = new JPanel();
 		//initMidPanel();
 	}
 	
@@ -41,6 +43,9 @@ public class MidPanel{
 		
 		int cardWidth = 70;
 		int cardHeight = 100;
+		
+		int clubWidth = 40;
+		int clubHeight = 40;
 		
 		int midXCoord = width/4;
 		int midYCoord = height/5;
@@ -77,7 +82,7 @@ public class MidPanel{
 		midPanel.add(o2c);
 		midPanel.add(ymc);
 		
-		System.out.println("About to set the buttons");
+		//System.out.println("About to set the buttons");
 		
 		yourMiddleCard.setButton(ymc);
 		System.out.println("your middle card");
@@ -94,14 +99,12 @@ public class MidPanel{
         Button passCard = new Button("Pass");
         Button deck = new Button("Deck");
         
-        int pickPassCardX = midWidth/2 - cardWidth - 10;
-        int pickPassCardY = 125;
-        int deckX = midWidth/2 + 10;
-        int deckY = 125;
+        int pickPassCardX = midWidth/2 - cardWidth/2;
+        int pickPassCardY = midWidth/2-cardHeight+15;
         int pickCardX = midWidth/2-cardHeight-10;
-        int pickCardY = 225;
+        int pickCardY = 250;
         int passCardX = midWidth/2 + 10;
-        int passCardY = 225;
+        int passCardY = 250;
         
         pickPassButton.setVisible(true);
         pickPassButton.setBounds(pickPassCardX, pickPassCardY, cardWidth, cardHeight);
@@ -110,22 +113,59 @@ public class MidPanel{
         pickCard.setVisible(true);
         pickCard.setBounds(pickCardX, pickCardY, cardHeight, cardWidth);
         pickCard.setEnabled(true);
-        System.out.println(board.toString());
+        //System.out.println(board.toString());
         pickCard.addActionListener(new Pick(pickOrPassCard, pickCard, passCard, board));
         
         passCard.setVisible(true);
         passCard.setBounds(passCardX, passCardY, cardHeight, cardWidth);
         passCard.setEnabled(true);
         passCard.addActionListener(new Pass(pickOrPassCard, pickCard, passCard, board));
-        
-        deck.setVisible(true);
-        deck.setBounds(deckX, deckY, cardWidth, cardHeight);
-        deck.setEnabled(false);
-        
+
         midPanel.add(pickOrPassCard.getButton());
         midPanel.add(pickCard);
         midPanel.add(passCard);
         midPanel.add(deck);
+        
+        //******* Setup the other suit buttons *******\\
+        spades = new Button("Spades");
+        hearts = new Button("Hearts");
+        clubs = new Button("Clubs");
+        diamonds = new Button("Diamonds");
+        passSuit = new Button("Pass");
+        
+        int clubTopBorder = 75;
+        int clubSideBorder = 110;
+        
+        spades.setVisible(false);
+        spades.setBounds(clubSideBorder, midHeight/2-clubHeight, clubWidth, clubHeight);
+        spades.setEnabled(false);
+        spades.addActionListener(new ChooseSuit(spades, "spades"));
+        
+        clubs.setVisible(false);
+        clubs.setBounds(midWidth-clubSideBorder-clubWidth, midHeight/2-clubHeight, clubWidth, clubHeight);
+        clubs.setEnabled(false);
+        clubs.addActionListener(new ChooseSuit(clubs, "clubs"));
+        
+        hearts.setVisible(false);
+        hearts.setBounds(midWidth/2-clubWidth/2, clubTopBorder, clubWidth, clubHeight);
+        hearts.setEnabled(false);
+        hearts.addActionListener(new ChooseSuit(hearts, "hearts"));
+        
+        diamonds.setVisible(false);
+        diamonds.setBounds(midWidth/2-clubWidth/2, midHeight-clubHeight-clubTopBorder-40, clubWidth, clubHeight);
+        diamonds.setEnabled(false);
+        diamonds.addActionListener(new ChooseSuit(diamonds, "diamonds"));
+        
+        passSuit.setVisible(false);
+        passSuit.setBounds(midWidth/2-cardHeight/2, midHeight/2-cardWidth + 15, cardHeight, cardWidth);
+        passSuit.setEnabled(false);
+        passSuit.addActionListener(new ChooseSuit(passSuit, "pass"));
+        
+        midPanel.add(spades);
+        midPanel.add(clubs);
+        midPanel.add(hearts);
+        midPanel.add(diamonds);
+        midPanel.add(passSuit);
 	}
 
 	public Card getPickOrPassCard() {

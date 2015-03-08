@@ -13,7 +13,7 @@ public class Opponent1Panel extends JPanel{
 	
 	public Opponent1Panel(int width, int height, String name, Card middleCard)
 	{
-		System.out.println("Created a new opponent 1 panel");
+		//System.out.println("Created a new opponent 1 panel");
 		this.width = width;
 		this.height = height;
 		this.name = name;

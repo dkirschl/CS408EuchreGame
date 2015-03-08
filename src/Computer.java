@@ -14,7 +14,7 @@ public class Computer extends Player {
 	
 	public Computer(int value, int difficulty){
 		if(difficulty == 1){
-			myAI = new EasyAI(value, this);
+			myAI = new EasyAI(value);
 		} else if(difficulty == 2){
 			myAI = new MediumAI(value);
 		} else if(difficulty == 3){
@@ -30,10 +30,16 @@ public class Computer extends Player {
 		Card x = myAI.playCard();
 		return x;
 	}
+	
+	@Override
+	public boolean isHuman()
+	{
+		return false;
+	}
 
 	@Override
-	public boolean chooseSuit(Card c) {
-		return true;
+	public String chooseSuit() {
+		return myAI.chooseSuit();
 	}
 
 	@Override

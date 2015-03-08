@@ -13,7 +13,7 @@ public class TeamPanel extends JPanel{
 	
 	public TeamPanel(int width, int height, String name, Card middleCard)
 	{
-		System.out.println("Created a new team panel");
+		//System.out.println("Created a new team panel");
 		this.width = width;
 		this.height = height;
 		this.name = name;
