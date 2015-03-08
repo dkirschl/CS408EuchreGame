@@ -133,13 +133,36 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	GameInfo.firstGame = false;
 }
 public void startGame(Board board) {
+	  
+	  while (!isGameOver()) {
+		  deal();
+		  buildGame(board, GameInfo.players, GameInfo.middleCard);
+		  if (pickUpOrPass()) {
+			  for (int i = 0; i < 5; i++) {
+				  playCard();
+			  }
+		  } else {
+			  if (chooseSuit(board)) {
+				  for (int i = 0; i < 5; i++) {
+					  playCard();
+				  }
+			  } else {
+				  break;
+			  }
+		  }
+	  
+	  }
+
+	  
+  }
+
+public void deal() {
 	  Random rand = new Random();
 	  int num;
-	  gameOver = false;
-	  Card turnup;
-	  String trump = null;
-	  //while (!gameOver) {
-	  //initialize deck
+	  deck.clear();
+	  for (int i = 0; i < 4; i++) {
+		  GameInfo.players.get(i).getHand().clear();
+	  }
 	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
 	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
 	  
@@ -152,8 +175,6 @@ public void startGame(Board board) {
 	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
 	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
 	  
-	  
-	  
 	  //deal 5 cards to each player
 	  for (int i = 0; i <= 4; i++) {
 		  for (int j = 0; j <= 3; j++) {
@@ -164,143 +185,98 @@ public void startGame(Board board) {
 			  deck.remove(num);
 		  }
 	  }
-	  for (int i = 0; i < 4; i++) {
-		  for (int j = 0; j < 5; j++) {
-		  System.out.print(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
-		  
-		  }
-		  System.out.println();
-	  }
-
+	  
 	  //choose a card to be flipped up in the middle
 	  
-	  turnup = deck.get(rand.nextInt(deck.size()));
-	  Button button = new Button(turnup.getSuit() + " " + turnup.getValue());
-	  turnup.setButton(button);
+	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
+	  Button button = new Button(GameInfo.middleCard.getSuit() + " " + GameInfo.middleCard.getValue());
+	  GameInfo.middleCard.setButton(button);
 
-	  GameInfo.middleSuit = turnup.getSuit();
-	  System.out.println("Turnup is: " + turnup.getSuit() + turnup.getValue());
-	  buildGame(board, GameInfo.players, turnup);
+	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();
+	  System.out.println("Turnup is: " + GameInfo.middleCard.getSuit() + GameInfo.middleCard.getValue());
+}
 
-	  
+public boolean pickUpOrPass() {
 	  GameInfo.isPick = 1;
 	  boolean choice = false;
 
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
-		  //System.out.println("Player " + i + " pick or pass");
-		 //System.out.println("Human Pick or Pass : " + human_turn.toString());
-		  //System.out.println("Button Press : " + button_press.toString());
 		  GameInfo.players.get(i).startTurn(human_turn);
 		  GameInfo.players.get(i).waitForClick(button_press);
-		  //boolean choice = GameInfo.players.get(i).chooseSuit(turnup);
 		  choice = GameInfo.players.get(i).pickupOrPass();
-		//  System.out.println("Player " + i + " choice is " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
 			  if(i != 0){
-				  GameInfo.players.get(i).removeCard(turnup);
+				  GameInfo.players.get(i).removeCard(GameInfo.middleCard);
 			  }
 			  GameInfo.players.get(i).startTurn(human_turn);
 			  GameInfo.players.get(i).waitForClick(button_press);
-			  GameInfo.trump = turnup.getSuit();
-			  break;
+			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  return true;
 		  }  
 	  }
-	  
-	  //******* Everyone passed and now it goes around again to select the suit *******\\
+	  return false;
+}
+
+public boolean chooseSuit(Board board) {
+	//******* Everyone passed and now it goes around again to select the suit *******\\
 	  String suit = "";
 	  ArrayList<Button> chooseSuitButtons = new ArrayList<Button>();
 	  
-	  if (choice==false)
+	  
+	  System.out.println("No player picked up the card");
+	  System.out.println("Suit not available is: " + GameInfo.middleCard.getSuit().toLowerCase());
+		  
+	  //Display all of the buttons on the screen
+	  GameInfo.middleCard.getButton().setVisible(false);
+	  chooseSuitButtons = displayChooseSuit(board, GameInfo.middleCard.getSuit());
+		  
+	  for (int i = 0; i < 4; i++)
 	  {
-		  System.out.println("No player picked up the card");
-		  System.out.println("Suit not available is: " + turnup.getSuit().toLowerCase());
-		  
-		  //Display all of the buttons on the screen
-		  turnup.getButton().setVisible(false);
-		  chooseSuitButtons = displayChooseSuit(board, turnup.getSuit());
-		  
-		  for (int i = 0; i < 4; i++)
+		  GameInfo.players.get(i).startTurn(human_turn);
+			  
+		  if(GameInfo.players.get(i).isHuman() == true)
 		  {
-			  GameInfo.players.get(i).startTurn(human_turn);
-			  
-			  if(GameInfo.players.get(i).isHuman() == true)
+			  System.out.println("The player is a human so we need to enable all of the buttons");
+			  for(int x = 0; x < chooseSuitButtons.size(); x++)
 			  {
-				  System.out.println("The player is a human so we need to enable all of the buttons");
-				  for(int x = 0; x < chooseSuitButtons.size(); x++)
-				  {
-					  chooseSuitButtons.get(x).setEnabled(true);
-				  }
+				  chooseSuitButtons.get(x).setEnabled(true);
 			  }
-			  else
+		  }
+		  else
+		  {
+			  System.out.println("Disable the buttons while the AI goes");
+			  for(int x = 0; x < chooseSuitButtons.size(); x++)
 			  {
-				  System.out.println("Disable the buttons while the AI goes");
-				  for(int x = 0; x < chooseSuitButtons.size(); x++)
-				  {
-					  chooseSuitButtons.get(x).setEnabled(false);
-				  }
-			  }
-			  
-			  GameInfo.players.get(i).waitForClick(button_press);
-			  suit = GameInfo.players.get(i).chooseSuit();
-			  
-			  if(suit.toLowerCase() != "pass")
-			  {
-				  GameInfo.trump = suit;
-				  break;
+				  chooseSuitButtons.get(x).setEnabled(false);
 			  }
 		  }
 		  
-		  // Hide the visuals from the screen
-		  for(int x = 0; x < chooseSuitButtons.size(); x++)
+		  GameInfo.players.get(i).waitForClick(button_press);
+		  suit = GameInfo.players.get(i).chooseSuit();
+		  
+		  if(suit.toLowerCase() != "pass")
 		  {
-			  chooseSuitButtons.get(x).setVisible(false);
-			  chooseSuitButtons.get(x).setEnabled(false);
+			  GameInfo.trump = suit;
+			  return true;
 		  }
 	  }
-	  
-	  // if everyone passes on the choosing the suit
-	  if(GameInfo.trump.toLowerCase() == "pass")
+		  
+	  // Hide the visuals from the screen
+	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
 	  {
-		  System.out.println("END THE GAME NOW EVERYONE PASSED ON THE SUIT");
-	  }
-	  
-	//  System.out.println("Trump for the hand is: " + GameInfo.trump);
-	//  System.out.println("The dealer is: " + GameInfo.dealer);
-	  
+	  chooseSuitButtons.get(x).setVisible(false);
+	  chooseSuitButtons.get(x).setEnabled(false);
+	 }
+	 return false;
+}
+
+public void playCard() {
 	  GameInfo.isPick = 0;
 	  Card winner = null;
 	  String ledSuit1 = null;
-
-	  /*
->>>>>>> origin/master
-	  for (int i = 0; i < 4; i++) {
-		 // System.out.println("Player " + i + " turn");
-		 // System.out.println("Human Turn : " + human_turn.toString());
-		 // System.out.println("Button Press : " + button_press.toString());
-		  //boolean choice = GameInfo.players.get(i).chooseSuit(turnup);
-		  boolean choice = GameInfo.picked;
-		  if (choice == true) {
-			  //card was picked up 
-			  GameInfo.trump = turnup.getSuit();
-			  ledSuit1 = turnup.getSuit();
-			  //GameInfo.players.get(i).removeCard()
-			  break;
-		  }
-	  }
-	  if (GameInfo.trump == null) {
-		  for(int i = 0; i < 4; i++) {
-			  GameInfo.players.get(i).startTurn(human_turn);
-			  GameInfo.players.get(i).waitForClick(button_press);
-			  
-			  
-	  	}
-	  }
-	  */
-	  
-	  
 	  
 	  Card winner1 = null;
 	  for (int i = 0; i < 4; i++) {
@@ -323,10 +299,7 @@ public void startGame(Board board) {
 		  
 	  }
 	  System.out.println("Cards Played");
-	  
-//	  }
-	  
-  }
+}
   
   public Card determineWinner(Card c1, Card c2) {
 	  String trump = GameInfo.trump;
@@ -375,6 +348,14 @@ public void startGame(Board board) {
 		  }
 	  }
 	  return c;
+  }
+  
+  public boolean isGameOver() {
+	  if (GameInfo.teamOneScore >= 10 || GameInfo.teamTwoScore >= 10) {
+		  return true;
+	  } else {
+		  return false;
+	  }
   }
   
   public ArrayList<Button> displayChooseSuit(Board board, String suit)
