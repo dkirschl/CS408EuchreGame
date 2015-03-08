@@ -8,13 +8,19 @@ public class GameInfo {
 	static ArrayList<Card> AI_1_Hand;
 	static ArrayList<Card> AI_2_Hand;
 	static ArrayList<Card> AI_3_Hand;
+	static ArrayList<Card> human_Hand;
 	static ArrayList<Card> previousTrick;
-	static ArrayList<Card> currentTrick;
+	static ArrayList<Card> currentTrick = new ArrayList<Card>();
 	static String middleSuit;
 	static String trump;
 	static String ledSuit;
+	static String selectedSuit;
 	static int dealer;
 	static int isPick;
+	static boolean firstGame;
+	static boolean picked;
+	static Board board;
+	static Card playedCard;
 	static String howTo = "          The highest trump is the jack of the trump suit, called the right bower. The second-highest trump\n" +
 						  "is the jack of the other suit of the same color called the left bower. The remaining trumps, and\n" +
 						  "also the plain suits, rank as follows: A (high), K, Q, J, 10, 9, 8, 7. If a joker has been added to\n" +

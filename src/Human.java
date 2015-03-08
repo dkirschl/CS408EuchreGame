@@ -6,12 +6,12 @@ public class Human extends Player {
 
 	@Override
 	public Card playCard() {
-		return null;
+		return GameInfo.playedCard;
 	}
 
 	@Override
-	public boolean chooseSuit(Card c) {
-		return true;
+	public String chooseSuit() {
+		return GameInfo.selectedSuit;
 	}
 
 	@Override
@@ -42,6 +42,16 @@ public class Human extends Player {
 	public Card pass(Button b) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean pickupOrPass() {
+		return GameInfo.picked;
+	}
+
+	@Override
+	public boolean isHuman() {
+		return true;
 	}
 
 }

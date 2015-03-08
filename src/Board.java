@@ -15,6 +15,7 @@ public class Board{
 	private JPanel teamPanel;
 	
 	JFrame board;
+	JPanel gameBoard;
 
 	public Board()
 	{
@@ -24,6 +25,22 @@ public class Board{
 		initBoard();
 	}
 	
+	public JFrame getBoard() {
+		return board;
+	}
+
+	public void setBoard(JFrame board) {
+		this.board = board;
+	}
+
+	public JPanel getGameBoard() {
+		return gameBoard;
+	}
+
+	public void setGameBoard(JPanel gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
 	public void initBoard()
 	{		
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +52,8 @@ public class Board{
 		
 		board.setJMenuBar(new Menu(s.gameCreateScreen));
 		board.add(s.gameCreateScreen);
+		GameInfo.board = this;
+		GameInfo.firstGame = true;
 	}
 
 	public int getBoardWidth() {

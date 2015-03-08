@@ -30,10 +30,16 @@ public class Computer extends Player {
 		Card x = myAI.playCard();
 		return x;
 	}
+	
+	@Override
+	public boolean isHuman()
+	{
+		return false;
+	}
 
 	@Override
-	public boolean chooseSuit(Card c) {
-		return true;
+	public String chooseSuit() {
+		return myAI.chooseSuit();
 	}
 
 	@Override
@@ -58,6 +64,12 @@ public class Computer extends Player {
 	public Card pass(Button b) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public boolean pickupOrPass() {
+		boolean ret = myAI.passOrPickUp();
+		return ret;
 	}
 	
 }

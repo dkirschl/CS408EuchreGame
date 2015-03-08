@@ -24,7 +24,7 @@ public class Pick implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			EuchreGame.getHuman_turn().acquire();
-		
+			GameInfo.picked = true;
 			pick(card);
 			disableCards();
 			

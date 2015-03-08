@@ -138,11 +138,11 @@ public class EasyAI extends AI{
 					return "diamonds";
 				}
 			} else {
-				return "pass";
+				return "Pass";
 			}
 		}
 
-		return "pass";
+		return "Pass";
 	}
 	
 	/*
@@ -193,7 +193,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(highestValued);
 			}
-			
+			System.out.println("A : " + highestValued.getCardId());
 			return highestValued;
 			
 		} else {
@@ -223,7 +223,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(elCards.get(0));
 			}
-			
+			System.out.println("B : " + elCards.get(0).getCardId());
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
@@ -248,7 +248,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(lowestValued);
 			}
-			
+			System.out.println("C : " + lowestValued.getCardId());
 			return lowestValued;
 			
 		} else {
@@ -273,7 +273,7 @@ public class EasyAI extends AI{
 			} else if(myValue == 3){
 				GameInfo.AI_3_Hand.remove(highestValued);
 			}
-			
+			System.out.println("D : " + highestValued.getCardId());
 			return highestValued;
 		}
 	}

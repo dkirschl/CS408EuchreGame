@@ -54,6 +54,7 @@ public class CardPress implements ActionListener {
 	}
 	public void playCard(Card card, Card middleCard)
 	 {
+		GameInfo.playedCard = card;
 	 	System.out.println(card.getButton().getLabel());
 	 	middleCard.getButton().setLabel(card.getButton().getLabel());
 	 	middleCard.getButton().setVisible(true);

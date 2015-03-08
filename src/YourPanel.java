@@ -23,7 +23,7 @@ public class YourPanel{
 
 	public YourPanel(int width, int height, String name, Card middleCard, ArrayList<Card> hand)
 	{
-		System.out.println("Created a new your panel");
+		//System.out.println("Created a new your panel");
 		this.width = width;
 		this.height = height;
 		this.name = name;
