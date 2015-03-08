@@ -45,10 +45,15 @@ public class Pick implements ActionListener  {
 	public void pick(Card b)
 	{
 		//******* The human player is the dealer *******\\
-		//if(GameInfo.dealer == 0)
-		//{
+		if(GameInfo.dealer == 0)
+		{
+			System.out.println("YOU ARE THE DEALER");
 			enableCards();
-		//}
+		}
+		else
+		{
+			disableMiddleCard();
+		}
 		//******* Need to change out the cards if they are the dealer *******\\
 		/*
 		 Going to need a function or a variable that can get who the current dealer in the game is other than in the while loop
@@ -63,7 +68,7 @@ public class Pick implements ActionListener  {
 	}
 	public void enableCards()
 	{
-		System.out.println(board.toString());
+	//	System.out.println(board.toString());
 		YourPanel yourPanel = board.getYourPanel();
 		ArrayList<Card> cards = yourPanel.hand;
 		
@@ -71,5 +76,9 @@ public class Pick implements ActionListener  {
 		{
 			cards.get(x).getButton().enable();
 		}
+	}
+	public void disableMiddleCard()
+	{
+		card.getButton().setVisible(false);
 	}
 }

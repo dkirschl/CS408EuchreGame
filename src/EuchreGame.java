@@ -137,19 +137,22 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 
 public void startGame() {
 	  
+	GameInfo.dealer = dealer;
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
-		  GameInfo.nextPlayer = (dealer + 1) % 4;
+		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
+		  System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
+		  System.out.println("Dealer is: " + GameInfo.dealer);
 		  if (pickUpOrPass()) {
-			  GameInfo.nextPlayer = (dealer + 1) % 4;
+			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  for (int i = 0; i < 5; i++) {
 				  playCard();
 			  }
 		  } else {
-			  GameInfo.nextPlayer = (dealer + 1) % 4;
+			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  if (chooseSuit()) {
-				  GameInfo.nextPlayer = (dealer + 1) % 4;
+				  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
 				  }
@@ -157,7 +160,7 @@ public void startGame() {
 				  break;
 			  }
 		  }
-		  dealer = (dealer + 1) % 4;
+		  GameInfo.dealer = (GameInfo.dealer + 1) % 4;
 	  
 	  }
 
@@ -228,11 +231,15 @@ public boolean pickUpOrPass() {
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
-			  if(GameInfo.nextPlayer != 0){
-				  GameInfo.players.get(GameInfo.nextPlayer).removeCard(GameInfo.middleCard);
+			  if(GameInfo.dealer == 0)
+			  {
+				  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+				  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 			  }
-			  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
-			  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+			  else
+			  {
+				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
+			  }
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
 			  return true;
 		  }
@@ -306,7 +313,7 @@ public void playCard() {
 	  Card winner1 = null;
 	  for (int i = 0; i < 4; i++) {
 		  
-		  System.out.println("Player " + i + " turn");
+		  System.out.println("Player " + GameInfo.nextPlayer + " turn");
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
