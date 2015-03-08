@@ -106,15 +106,43 @@ public class EasyAI extends AI{
 		} else if(diamonds >= 3){
 			return "diamonds";
 		} else {
-			if(GameInfo.screwDealer){
-				if(spades >= 2){
-					return "spades";
-				} else if(clubs >= 2){
-					return "clubs";
-				} else if(hearts >= 2){
-					return "hearts";
-				} else if(diamonds >= 2){
-					return "diamonds";
+			if(GameInfo.screwDealer){ //Choose the suit with your highest valued hand
+				int winner = 0;
+				int highest = 0;
+				int returned;
+				if(spades >= 1){
+					returned = calculateValues("spades");
+					if(returned > highest){
+						winner = 1;
+						highest = returned;
+					}
+				} 
+				if(clubs >= 1){
+					returned = calculateValues("clubs");
+					if(returned > highest){
+						winner = 2;
+						highest = returned;
+					}
+				}
+				if(hearts >= 1){
+					returned = calculateValues("hearts");
+					if(returned > highest){
+						winner = 3;
+						highest = returned;
+					}
+				} 
+				if(diamonds >= 1){
+					returned = calculateValues("diamonds");
+					if(returned > highest){
+						winner = 4;
+						highest = returned;
+					}
+				}
+				switch(winner){
+					case 1:	return "spades";
+					case 2:	return "clubs";
+					case 3: return "hearts";
+					case 4: return "diamonds";
 				}
 			} else {
 				return "pass";
