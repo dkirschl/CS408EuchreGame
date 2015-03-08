@@ -228,6 +228,7 @@ public boolean pickUpOrPass() {
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 		  choice = GameInfo.players.get(GameInfo.nextPlayer).pickupOrPass();
+		  System.out.println("Player " + GameInfo.nextPlayer + " choice: " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
