@@ -26,11 +26,11 @@ public class EasyAI extends AI{
 		
 		
 		int handValue = calculateValues(GameInfo.middleSuit);
-		
+		System.out.println("Hand value is " + handValue);
 		Random randomGenerator = new Random();
 	    int randomInt = randomGenerator.nextInt(10);
 	    randomInt -= 5;
-	    
+	    System.out.println("Random int is " + randomInt);
 	    int threshold = 38;
 	    threshold += randomInt;
 	    
@@ -60,16 +60,16 @@ public class EasyAI extends AI{
 		 */
 		switch(GameInfo.middleSuit){
 		
-			case "Spades":		spades = -6;
+			case "spades":		spades = -6;
 								break;
 			
-			case "Clubs":		clubs = -6;
+			case "clubs":		clubs = -6;
 								break;
 			
-			case "Hearts":		hearts = -6;
+			case "hearts":		hearts = -6;
 								break;
 			
-			case "Diamonds":	diamonds = -6;
+			case "diamonds":	diamonds = -6;
 								break;
 			default:
 						break;
@@ -81,16 +81,16 @@ public class EasyAI extends AI{
 		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 			switch(GameInfo.players.get(myValue).getHand().get(i).getSuit()){
 				
-				case "Spades":		spades++;
+				case "spades":		spades++;
 									break;
 				
-				case "Clubs":		clubs++;
+				case "clubs":		clubs++;
 									break;
 				
-				case "Hearts":		hearts++;
+				case "hearts":		hearts++;
 									break;
 				
-				case "Diamonds":	diamonds++;
+				case "diamonds":	diamonds++;
 									break;
 				default:
 							break;
@@ -117,11 +117,11 @@ public class EasyAI extends AI{
 					return "diamonds";
 				}
 			} else {
-				return "Pass";
+				return "pass";
 			}
 		}
 
-		return "Pass";
+		return "pass";
 	}
 	
 	/*

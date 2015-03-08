@@ -96,7 +96,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	opp1Panel.setVisible(true);
 	
 	TeamPanel teamPanel = new TeamPanel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), teamName, midPanel.getTeamMiddleCard());
-	teamPanel.setVisible(true);
+	teamPanel.teamPanel.setVisible(true);
 	
 	Opponent2Panel opp2Panel = new Opponent2Panel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), opp2Name, midPanel.getOpp2MiddleCard());
 	opp2Panel.setVisible(true);
@@ -123,7 +123,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	yourPanel.initYourPanel();
 	
 	GameInfo.board.gameBoard.add(yourPanel.yourPanel);
-	GameInfo.board.gameBoard.add(teamPanel);
+	GameInfo.board.gameBoard.add(teamPanel.teamPanel);
 	GameInfo.board.gameBoard.add(opp1Panel);
 	GameInfo.board.gameBoard.add(opp2Panel);
 	GameInfo.board.gameBoard.add(midPanel.midPanel);
@@ -196,11 +196,11 @@ public void deal() {
 	  }
 
 	  for (int i = 0; i < 4; i++) {
+		  System.out.println("Player " + i + " hand:");
 		  for (int j = 0; j < 5; j++) {
-		  System.out.print(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
+		  System.out.println(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
 		  
 		  }
-		 // System.out.println();
 	  }
 
 
@@ -282,6 +282,7 @@ public boolean chooseSuit() {
 		  if(suit.toLowerCase() != "pass")
 		  {
 			  GameInfo.trump = suit;
+			  System.out.println("Trump was chosen as " + GameInfo.trump);
 			  return true;
 		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
@@ -293,6 +294,8 @@ public boolean chooseSuit() {
 	  chooseSuitButtons.get(x).setVisible(false);
 	  chooseSuitButtons.get(x).setEnabled(false);
 	 }
+	 
+	 System.out.println("Re-deal");
 	 return false;
 }
 
@@ -305,6 +308,10 @@ public void playCard() {
 		  
 		  System.out.println("Player " + i + " turn");
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
+		  {
+			  enableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
+		  }	
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
@@ -322,11 +329,24 @@ public void playCard() {
 				  currentWinner = GameInfo.nextPlayer;
 			  }
 		  }
+		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
+		  {
+			  disableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
+		  }
+		  try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
+		  
 		  
 		  
 	  }
 	  GameInfo.nextPlayer = currentWinner;
+	  GameInfo.board.getMidPanel().getYourMiddleCard().getButton().setVisible(false);
 	  
 	  System.out.println("Cards Played");
 }
@@ -454,6 +474,28 @@ public void playCard() {
 	  midPanel.diamonds.setVisible(false);
 	  midPanel.clubs.setVisible(false);
 	  midPanel.passSuit.setVisible(false);
+  }
+  
+  public void enableHumanCards(ArrayList<Card> cards)
+  {
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setEnabled(true);
+		  }
+	  }
+  }
+  
+  public void disableHumanCards(ArrayList<Card> cards)
+  {
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setEnabled(false);
+		  }
+	  }
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
