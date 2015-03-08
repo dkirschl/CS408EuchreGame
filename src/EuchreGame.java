@@ -135,7 +135,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	GameInfo.firstGame = false;
 }
 
-public void startGame(Board board) {
+public void startGame() {
 	  
 	  while (!isGameOver()) {
 		  deal();
@@ -145,7 +145,7 @@ public void startGame(Board board) {
 				  playCard();
 			  }
 		  } else {
-			  if (chooseSuit(board)) {
+			  if (chooseSuit()) {
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
 				  }
@@ -235,7 +235,7 @@ public boolean pickUpOrPass() {
 	  return false;
 }
 
-public boolean chooseSuit(Board board) {
+public boolean chooseSuit() {
 	//******* Everyone passed and now it goes around again to select the suit *******\\
 	  String suit = "";
 	  ArrayList<Button> chooseSuitButtons = new ArrayList<Button>();
@@ -245,27 +245,12 @@ public boolean chooseSuit(Board board) {
 		  
 	  //Display all of the buttons on the screen
 	  GameInfo.middleCard.getButton().setVisible(false);
-	  chooseSuitButtons = displayChooseSuit(board, GameInfo.middleCard.getSuit());
-	  
-	//	  System.out.println("No player picked up the card");
-	//	  System.out.println("Suit not available is: " + turnup.getSuit().toLowerCase());
-		  
-		  //Display all of the buttons on the screen
-		  turnup.getButton().setVisible(false);
-		  chooseSuitButtons = displayChooseSuit(turnup.getSuit());
-
+	  chooseSuitButtons = displayChooseSuit(GameInfo.middleCard.getSuit());
 		  
 	  for (int i = 0; i < 4; i++)
 	  {
 		  GameInfo.players.get(i).startTurn(human_turn);
 			  
-		  if(GameInfo.players.get(i).isHuman() == true)
-		  {
-			  System.out.println("The player is a human so we need to enable all of the buttons");
-			  for(int x = 0; x < chooseSuitButtons.size(); x++)
-			  {
-				  chooseSuitButtons.get(x).setEnabled(true);
-
 			  if(GameInfo.players.get(i).isHuman() == true)
 			  {
 	//			  System.out.println("The player is a human so we need to enable all of the buttons");
@@ -283,15 +268,7 @@ public boolean chooseSuit(Board board) {
 				  }
 
 			  }
-		  }
-		  else
-		  {
-			  System.out.println("Disable the buttons while the AI goes");
-			  for(int x = 0; x < chooseSuitButtons.size(); x++)
-			  {
-				  chooseSuitButtons.get(x).setEnabled(false);
-			  }
-		  }
+		  
 		  
 		  GameInfo.players.get(i).waitForClick(button_press);
 		  suit = GameInfo.players.get(i).chooseSuit();
@@ -301,7 +278,7 @@ public boolean chooseSuit(Board board) {
 			  GameInfo.trump = suit;
 			  return true;
 		  }
-		  
+	  }
 	  // Hide the visuals from the screen
 	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
 	  {
