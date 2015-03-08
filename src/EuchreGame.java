@@ -191,11 +191,11 @@ public void deal() {
 	  }
 
 	  for (int i = 0; i < 4; i++) {
+		  System.out.println("Player " + i + " hand:");
 		  for (int j = 0; j < 5; j++) {
-		  System.out.print(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
+		  System.out.println(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
 		  
 		  }
-		 // System.out.println();
 	  }
 
 
@@ -223,6 +223,7 @@ public boolean pickUpOrPass() {
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
+			  System.out.println("Choice was true!");
 			  if(i != 0){
 				  GameInfo.players.get(i).removeCard(GameInfo.middleCard);
 			  }
@@ -272,10 +273,11 @@ public boolean chooseSuit() {
 		  
 		  GameInfo.players.get(i).waitForClick(button_press);
 		  suit = GameInfo.players.get(i).chooseSuit();
-		  
-		  if(suit.toLowerCase() != "pass")
+		  System.out.println("Player " + i + " chose " + suit);
+		  if(suit != "pass")
 		  {
 			  GameInfo.trump = suit;
+			  System.out.println("Trump was chosen as " + GameInfo.trump);
 			  return true;
 		  }
 	  }
@@ -286,6 +288,8 @@ public boolean chooseSuit() {
 	  chooseSuitButtons.get(x).setVisible(false);
 	  chooseSuitButtons.get(x).setEnabled(false);
 	 }
+	 
+	 System.out.println("Re-deal");
 	 return false;
 }
 
