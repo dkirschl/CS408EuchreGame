@@ -96,7 +96,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	opp1Panel.setVisible(true);
 	
 	TeamPanel teamPanel = new TeamPanel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), teamName, midPanel.getTeamMiddleCard());
-	teamPanel.setVisible(true);
+	teamPanel.teamPanel.setVisible(true);
 	
 	Opponent2Panel opp2Panel = new Opponent2Panel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), opp2Name, midPanel.getOpp2MiddleCard());
 	opp2Panel.setVisible(true);
@@ -123,7 +123,7 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	yourPanel.initYourPanel();
 	
 	GameInfo.board.gameBoard.add(yourPanel.yourPanel);
-	GameInfo.board.gameBoard.add(teamPanel);
+	GameInfo.board.gameBoard.add(teamPanel.teamPanel);
 	GameInfo.board.gameBoard.add(opp1Panel);
 	GameInfo.board.gameBoard.add(opp2Panel);
 	GameInfo.board.gameBoard.add(midPanel.midPanel);

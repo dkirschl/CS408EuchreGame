@@ -14,7 +14,7 @@ public class Board{
 	private MidPanel midPanel;
 	private JPanel opp1Panel;
 	private JPanel opp2Panel;
-	private JPanel teamPanel;
+	private TeamPanel teamPanel;
 	
 	JFrame board;
 	JPanel gameBoard;
@@ -99,7 +99,7 @@ public class Board{
 		this.opp2Panel = opp2Panel;
 	}
 
-	public JPanel getTeamPanel() {
+	public TeamPanel getTeamPanel() {
 		return teamPanel;
 	}
 	public JFrame getBoard() {
@@ -110,7 +110,7 @@ public class Board{
 		this.board = board;
 	}
 
-	public void setTeamPanel(JPanel teamPanel) {
+	public void setTeamPanel(TeamPanel teamPanel) {
 		this.teamPanel = teamPanel;
 	}
 }

@@ -6,10 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-public class TeamPanel extends JPanel{
+public class TeamPanel{
 	int width, height, cardWidth, cardHeight;
 	String name;
 	Card middleCard;
+	JPanel teamPanel;
+	JLabel totalScore, trickScore;
 	
 	public TeamPanel(int width, int height, String name, Card middleCard)
 	{
@@ -18,13 +20,14 @@ public class TeamPanel extends JPanel{
 		this.height = height;
 		this.name = name;
 		this.middleCard = middleCard;
+		teamPanel = new JPanel();
 		
-		initOpponent1Panel();
+		initTeamPanel();
 	}
 	
-	public void initOpponent1Panel()
+	public void initTeamPanel()
 	{
-		setBackground(Color.yellow);
+		teamPanel.setBackground(Color.yellow);
 		int teamXCoord = 0;
 		int teamYCoord = 0;
 		int teamWidth = width;
@@ -34,14 +37,14 @@ public class TeamPanel extends JPanel{
 		int cardHeight = 100;
 		
 		//System.out.println("Team Coordinates x: " + teamXCoord + " y: " + teamYCoord + " Dimensions width: " + teamWidth  + " height: " + teamHeight);
-		setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
+		teamPanel.setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
 		JLabel team = new JLabel(name);
 		
-		 setLayout(null);
-		 team.setHorizontalAlignment(SwingConstants.CENTER);
-		 team.setBounds(teamWidth/2 - 60, -10, 120, 40);
+		teamPanel.setLayout(null);
+		team.setHorizontalAlignment(SwingConstants.CENTER);
+		team.setBounds(teamWidth/2 - 60, -10, 120, 40);
 		
-		add(team);
+		teamPanel.add(team);
 		
 		Button teamCard1 = new Button("team Card1");
 		Button teamCard2 = new Button("team Card2");
@@ -58,11 +61,32 @@ public class TeamPanel extends JPanel{
 		teamCard4.setBounds(initialCardX + 3*(cardWidth+5), initialTeamY, cardWidth, cardHeight);
 		teamCard5.setBounds(initialCardX + 4*(cardWidth+5), initialTeamY, cardWidth, cardHeight);
 
-		add(teamCard1);
-		add(teamCard2);
-		add(teamCard3);
-		add(teamCard4);
-		add(teamCard5);
+		teamPanel.add(teamCard1);
+		teamPanel.add(teamCard2);
+		teamPanel.add(teamCard3);
+		teamPanel.add(teamCard4);
+		teamPanel.add(teamCard5);
 		
+		//******* Add in the scoring for the panels
+		
+		JLabel totalScore = new JLabel();
+		totalScore.setBounds(width-140, 0, 140, 20);
+		totalScore.setText("Total: You-" + GameInfo.teamOneScore + " Opponent-" + GameInfo.teamTwoScore);
+		totalScore.setVisible(true);
+		
+		JLabel trickScore = new JLabel();
+		trickScore.setBounds(width-140, 25, 140, 20);
+		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
+		trickScore.setVisible(true);
+		
+		teamPanel.add(totalScore);
+	}
+	public void updateTotalScore()
+	{
+		totalScore.setText("Total: You-" + GameInfo.teamOneScore + " Opponent-" + GameInfo.teamTwoScore);
+	}
+	public void updateTrickScore()
+	{
+		trickScore.setText("Total: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 	}
 }
