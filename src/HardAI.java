@@ -101,4 +101,10 @@ public class HardAI extends AI {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void removeCard(Card middle) {
+		// TODO Auto-generated method stub
+		
+	}
 }

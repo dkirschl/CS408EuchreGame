@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class MediumAI extends AI{
 	
-	ArrayList<Card> myHand;
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
 	
@@ -17,32 +16,14 @@ public class MediumAI extends AI{
 
 	@Override
 	public boolean passOrPickUp() {
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
+
 		return false;
 	}
 
 
 	@Override
 	public String chooseSuit() {
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
+
 		
 		return "Hello";
 	}
@@ -50,17 +31,90 @@ public class MediumAI extends AI{
 
 	@Override
 	public Card playCard() {
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
-		return new Card(0, 0, null);
+		//Determine the leading suit
+				String leadSuit;
+				
+				
+				calculateValues(GameInfo.trump);
+				
+				/*
+				 * Clear elCards from previous trick
+				 */
+				while(elCards.size() != 0){
+					elCards.remove(0);
+				}
+				
+				if(GameInfo.currentTrick.size() == 0){
+					//Play highest valued card since you are the leader
+					int high = 0;
+					Card highestValued = new Card();
+					for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+						Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+						
+						if(nextCard.getValue() > high){
+							highestValued = nextCard;
+						}
+					}
+					
+					System.out.println("A : " + highestValued.getCardId());
+					return highestValued;
+					
+				} else {
+					leadSuit = GameInfo.currentTrick.get(0).getSuit();
+					for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+						Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+						
+						/*
+						 * Card is eligible to be played
+						 */
+						if(nextCard.getSuit() == leadSuit){
+							elCards.add(nextCard);
+						}
+					}
+				}
+				
+				if(elCards.size() == 1){
+					/*
+					 * Play the only eligible card
+					 */
+
+					System.out.println("B : " + elCards.get(0).getCardId());
+					return elCards.get(0);
+				
+				} else if(elCards.size() == 0){
+					/*
+					 * Play lowest valued card since you are going to lose unless you play trump
+					 */
+					int low = 100;
+					Card lowestValued = new Card();
+					for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+						Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+						
+						if(nextCard.getValue() < low){
+							lowestValued = nextCard;
+						}
+					}
+
+					System.out.println("C : " + lowestValued.getCardId());
+					return lowestValued;
+					
+				} else {
+					/*
+					 * Play highest valued eligible card
+					 */
+					int high = 0;
+					Card highestValued = new Card();
+					for(int i = 0; i < elCards.size(); i++){
+						Card nextCard = elCards.get(i);
+						
+						if(nextCard.getValue() > high){
+							highestValued = nextCard;
+						}
+					}
+
+					System.out.println("D : " + highestValued.getCardId());
+					return highestValued;
+				}
 	}
 
 	@Override
@@ -81,8 +135,8 @@ public class MediumAI extends AI{
 			case "diamonds": 	leftSuit = "hearts";
 					 		 	break;
 		}
-		for(int i = 0; i < myHand.size(); i++){
-			Card nextCard = myHand.get(i);
+		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 			
 			if(nextCard.getSuit() == leftSuit && nextCard.getCardId() == 11){
 				totalValue += 12;
@@ -135,5 +189,11 @@ public class MediumAI extends AI{
 			
 		}
 		return totalValue;
+	}
+
+	@Override
+	public void removeCard(Card middle) {
+		// TODO Auto-generated method stub
+		
 	}
 }
