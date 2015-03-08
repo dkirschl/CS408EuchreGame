@@ -172,19 +172,7 @@ public class GameCreateScreen{
 	      Thread t = new Thread(new Runnable(){
 	    	  @Override
 	    	  public void run(){
-	    		  System.out.println("Should be creating a new game");
-
-	    		  if(GameInfo.firstGame == true)
-	    		  {
-		    		 // GameInfo.firstGame = false;
-	    			  currentGame.startGame(board); 
-	    		  }
-	    		  else
-	    		  {
-	    			  System.out.println("Second or more new game");
-	    			  Board board = GameInfo.board;
-	    			  currentGame.startGame(board);
-	    		  }
+	    		  currentGame.startGame();
 	    	  }
 	      });
 	      t.start();

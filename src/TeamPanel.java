@@ -18,12 +18,13 @@ public class TeamPanel extends JPanel{
 		this.height = height;
 		this.name = name;
 		this.middleCard = middleCard;
-
+		
 		initOpponent1Panel();
 	}
 	
 	public void initOpponent1Panel()
 	{
+		setBackground(Color.yellow);
 		int teamXCoord = 0;
 		int teamYCoord = 0;
 		int teamWidth = width;
@@ -48,7 +49,7 @@ public class TeamPanel extends JPanel{
 		Button teamCard4 = new Button("team Card4");
 		Button teamCard5 = new Button("team Card5");
 		 
-		int initialCardX = 270;
+		int initialCardX = width/2-cardWidth/2-cardWidth-cardWidth-10;
 		int initialTeamY = 30;
 		 
 		teamCard1.setBounds(initialCardX, initialTeamY, cardWidth, cardHeight);
@@ -62,5 +63,6 @@ public class TeamPanel extends JPanel{
 		add(teamCard3);
 		add(teamCard4);
 		add(teamCard5);
+		
 	}
 }

@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,27 +26,12 @@ public class Board{
 		boardHeight = 700;
 		initBoard();
 	}
-	
-	public JFrame getBoard() {
-		return board;
-	}
-
-	public void setBoard(JFrame board) {
-		this.board = board;
-	}
-
-	public JPanel getGameBoard() {
-		return gameBoard;
-	}
-
-	public void setGameBoard(JPanel gameBoard) {
-		this.gameBoard = gameBoard;
-	}
 
 	public void initBoard()
 	{		
+		gameBoard = new JPanel(new FlowLayout());
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board.setMinimumSize(new Dimension(boardWidth + 20,boardHeight + 10));
+		board.setMinimumSize(new Dimension(boardWidth,boardHeight));
 		//setResizable(false);
 		
 		GameCreateScreen s = new GameCreateScreen(this);
@@ -52,6 +39,15 @@ public class Board{
 		
 		board.setJMenuBar(new Menu(s.gameCreateScreen));
 		board.add(s.gameCreateScreen);
+		
+		//gameBoard.setBackground(Color.blue);
+
+		board.add(gameBoard);
+		
+		board.pack();
+		System.out.println(gameBoard.getWidth());
+		System.out.println(gameBoard.getHeight());
+		
 		GameInfo.board = this;
 		GameInfo.firstGame = true;
 	}
@@ -105,6 +101,13 @@ public class Board{
 
 	public JPanel getTeamPanel() {
 		return teamPanel;
+	}
+	public JFrame getBoard() {
+		return board;
+	}
+
+	public void setBoard(JFrame board) {
+		this.board = board;
 	}
 
 	public void setTeamPanel(JPanel teamPanel) {

@@ -88,11 +88,11 @@ public class Euchre{
  }
  public static void main(String[] args)
  {
-	 System.out.println("here");
-  javax.swing.SwingUtilities.invokeLater(new Runnable() {
-   public void run(){
-    createAndShowGUI();
-   }
-  });
+	 final Euchre euchre = new Euchre();
+	 javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		 public void run(){
+			 euchre.createAndShowGUI();
+		 }
+	 });
  }
 }
