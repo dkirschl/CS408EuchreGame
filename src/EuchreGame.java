@@ -33,7 +33,7 @@ public class EuchreGame{
     opp2Difficulty = 1;
     teamName = "";
     teamDifficulty = 1;
-    dealer = 0;
+    dealer = 3;
     yourScore = 0;
     compScore = 0;
     yourTricks = 0;
@@ -47,7 +47,7 @@ public class EuchreGame{
     opp2Difficulty = o2d;
     teamName = t;
     teamDifficulty = td;
-    dealer = 0;
+    dealer = 3;
     yourScore = 0;
     compScore = 0;
     yourTricks = 0;
@@ -140,12 +140,16 @@ public void startGame() {
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
+		  GameInfo.nextPlayer = (dealer + 1) % 4;
 		  if (pickUpOrPass()) {
+			  GameInfo.nextPlayer = (dealer + 1) % 4;
 			  for (int i = 0; i < 5; i++) {
 				  playCard();
 			  }
 		  } else {
+			  GameInfo.nextPlayer = (dealer + 1) % 4;
 			  if (chooseSuit()) {
+				  GameInfo.nextPlayer = (dealer + 1) % 4;
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
 				  }
@@ -153,6 +157,7 @@ public void startGame() {
 				  break;
 			  }
 		  }
+		  dealer = (dealer + 1) % 4;
 	  
 	  }
 
@@ -217,20 +222,21 @@ public boolean pickUpOrPass() {
 
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
-		  GameInfo.players.get(i).startTurn(human_turn);
-		  GameInfo.players.get(i).waitForClick(button_press);
-		  choice = GameInfo.players.get(i).pickupOrPass();
+		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+		  choice = GameInfo.players.get(GameInfo.nextPlayer).pickupOrPass();
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
-			  if(i != 0){
-				  GameInfo.players.get(i).removeCard(GameInfo.middleCard);
+			  if(GameInfo.nextPlayer != 0){
+				  GameInfo.players.get(GameInfo.nextPlayer).removeCard(GameInfo.middleCard);
 			  }
-			  GameInfo.players.get(i).startTurn(human_turn);
-			  GameInfo.players.get(i).waitForClick(button_press);
+			  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+			  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
 			  return true;
-		  }  
+		  }
+		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 	  }
 	  return false;
 }
@@ -249,9 +255,9 @@ public boolean chooseSuit() {
 		  
 	  for (int i = 0; i < 4; i++)
 	  {
-		  GameInfo.players.get(i).startTurn(human_turn);
+		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 			  
-			  if(GameInfo.players.get(i).isHuman() == true)
+			  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 			  {
 	//			  System.out.println("The player is a human so we need to enable all of the buttons");
 				  for(int x = 0; x < chooseSuitButtons.size(); x++)
@@ -270,14 +276,15 @@ public boolean chooseSuit() {
 			  }
 		  
 		  
-		  GameInfo.players.get(i).waitForClick(button_press);
-		  suit = GameInfo.players.get(i).chooseSuit();
+		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
 		  
 		  if(suit.toLowerCase() != "pass")
 		  {
 			  GameInfo.trump = suit;
 			  return true;
 		  }
+		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 	  }
 	  // Hide the visuals from the screen
 	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
@@ -292,29 +299,35 @@ public boolean chooseSuit() {
 public void playCard() {
 
 	  GameInfo.isPick = 0;
-	  Card winner = null;
-	  String ledSuit1 = null;
-	  
+	  int currentWinner = -1;
 	  Card winner1 = null;
 	  for (int i = 0; i < 4; i++) {
+		  
 		  System.out.println("Player " + i + " turn");
-		  GameInfo.players.get(i).startTurn(human_turn);
-		  GameInfo.players.get(i).waitForClick(button_press);
+		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 
-		  Card tmp = GameInfo.players.get(i).playCard();
+		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  GameInfo.currentTrick.add(tmp);
-		  GameInfo.players.get(i).getHand().remove(tmp);
-		  if (i == 0) {
+		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
+		  if (GameInfo.nextPlayer == 0) {
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
 			  winner1 = tmp;
 		  } else {
 			  winner1 = determineWinner(winner1, tmp);
+			  if (winner1.getCardId() == tmp.getCardId()) {
+				  currentWinner = GameInfo.nextPlayer;
+			  }
 		  }
+		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
+		  
 		  
 	  }
+	  GameInfo.nextPlayer = currentWinner;
+	  
 	  System.out.println("Cards Played");
 }
   
