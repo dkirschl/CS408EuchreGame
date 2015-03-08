@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class EasyAI extends AI{
 	
-	ArrayList<Card> myHand;
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
 	
@@ -25,16 +24,6 @@ public class EasyAI extends AI{
 	@Override
 	public boolean passOrPickUp() {
 		
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
 		
 		int handValue = calculateValues(GameInfo.middleSuit);
 		
@@ -64,17 +53,7 @@ public class EasyAI extends AI{
 		int clubs = 0;
 		int hearts = 0;
 		int diamonds = 0;
-		
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
+
 				
 		/*
 		 * Cancel chance to call trump already passed on
@@ -99,8 +78,8 @@ public class EasyAI extends AI{
 		/*
 		 * Count how many of each suit in player's hand
 		 */
-		for(int i = 0; i < myHand.size(); i++){
-			switch(myHand.get(i).getSuit()){
+		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			switch(GameInfo.players.get(myValue).getHand().get(i).getSuit()){
 				
 				case "Spades":		spades++;
 									break;
@@ -153,16 +132,6 @@ public class EasyAI extends AI{
 		//Determine the leading suit
 		String leadSuit;
 		
-		//Resets AI hand
-		if(myValue == 1){
-			myHand = GameInfo.AI_1_Hand;
-		} else if(myValue == 2){
-			myHand = GameInfo.AI_2_Hand;
-		} else if(myValue == 3){
-			myHand = GameInfo.AI_3_Hand;
-		} else {
-			System.err.println("Incorrect value for AI");
-		}
 		
 		calculateValues(GameInfo.trump);
 		
@@ -177,29 +146,22 @@ public class EasyAI extends AI{
 			//Play highest valued card since you are the leader
 			int high = 0;
 			Card highestValued = new Card();
-			for(int i = 0; i < myHand.size(); i++){
-				Card nextCard = myHand.get(i);
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
-				if(nextCard.getValue() > high){
+				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
 				}
 			}
 			
-			//Remove card from AI hand
-			if(myValue == 1){
-				GameInfo.AI_1_Hand.remove(highestValued);
-			} else if(myValue == 2){
-				GameInfo.AI_2_Hand.remove(highestValued);
-			} else if(myValue == 3){
-				GameInfo.AI_3_Hand.remove(highestValued);
-			}
-			System.out.println("A : " + highestValued.getCardId());
+			
+			System.out.println("A : " + highestValued.getValue());
 			return highestValued;
 			
 		} else {
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
-			for(int i = 0; i < myHand.size(); i++){
-				Card nextCard = myHand.get(i);
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
 				/*
 				 * Card is eligible to be played
@@ -215,15 +177,7 @@ public class EasyAI extends AI{
 			 * Play the only eligible card
 			 */
 			
-			//Remove card from AI hand
-			if(myValue == 1){
-				GameInfo.AI_1_Hand.remove(elCards.get(0));
-			} else if(myValue == 2){
-				GameInfo.AI_2_Hand.remove(elCards.get(0));
-			} else if(myValue == 3){
-				GameInfo.AI_3_Hand.remove(elCards.get(0));
-			}
-			System.out.println("B : " + elCards.get(0).getCardId());
+			System.out.println("B : " + elCards.get(0).getValue());
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
@@ -232,23 +186,15 @@ public class EasyAI extends AI{
 			 */
 			int low = 100;
 			Card lowestValued = new Card();
-			for(int i = 0; i < myHand.size(); i++){
-				Card nextCard = myHand.get(i);
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
-				if(nextCard.getValue() < low){
+				if(nextCard.getWorth() < low){
 					lowestValued = nextCard;
 				}
 			}
 			
-			//Remove card from AI hand
-			if(myValue == 1){
-				GameInfo.AI_1_Hand.remove(lowestValued);
-			} else if(myValue == 2){
-				GameInfo.AI_2_Hand.remove(lowestValued);
-			} else if(myValue == 3){
-				GameInfo.AI_3_Hand.remove(lowestValued);
-			}
-			System.out.println("C : " + lowestValued.getCardId());
+			System.out.println("C : " + lowestValued.getValue());
 			return lowestValued;
 			
 		} else {
@@ -260,20 +206,12 @@ public class EasyAI extends AI{
 			for(int i = 0; i < elCards.size(); i++){
 				Card nextCard = elCards.get(i);
 				
-				if(nextCard.getValue() > high){
+				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
 				}
 			}
 			
-			//Remove card from AI hand
-			if(myValue == 1){
-				GameInfo.AI_1_Hand.remove(highestValued);
-			} else if(myValue == 2){
-				GameInfo.AI_2_Hand.remove(highestValued);
-			} else if(myValue == 3){
-				GameInfo.AI_3_Hand.remove(highestValued);
-			}
-			System.out.println("D : " + highestValued.getCardId());
+			System.out.println("D : " + highestValued.getValue());
 			return highestValued;
 		}
 	}
@@ -296,53 +234,53 @@ public class EasyAI extends AI{
 			case "diamonds": 	leftSuit = "hearts";
 					 		 	break;
 		}
-		for(int i = 0; i < myHand.size(); i++){
-			Card nextCard = myHand.get(i);
+		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 			
-			if(nextCard.getSuit() == leftSuit && nextCard.getCardId() == 11){
+			if(nextCard.getSuit() == leftSuit && nextCard.getValue() == 11){
 				totalValue += 12;
-				nextCard.setValue(12);
+				nextCard.setWorth(12);
 			} else if(nextCard.getSuit() == suit){
 				
-				switch(nextCard.getCardId()){
+				switch(nextCard.getValue()){
 					case 9: totalValue += 7;
-							nextCard.setValue(7);
+							nextCard.setWorth(7);
 							break;
 					case 10: totalValue += 8;
-							 nextCard.setValue(8);
+							 nextCard.setWorth(8);
 							 break;
 					case 11: totalValue += 13;
-							 nextCard.setValue(13);
+							 nextCard.setWorth(13);
 							 break;
 					case 12: totalValue += 9;
-							 nextCard.setValue(9);
+							 nextCard.setWorth(9);
 							 break;
 					case 13: totalValue += 10;
-							 nextCard.setValue(10);
+							 nextCard.setWorth(10);
 							 break;
 					case 14: totalValue += 11;
-							 nextCard.setValue(11);
+							 nextCard.setWorth(11);
 							 break;
 				}
 			} else {
-				switch(nextCard.getCardId()){
+				switch(nextCard.getValue()){
 					case 9:  totalValue += 1;
-							 nextCard.setValue(1);
+							 nextCard.setWorth(1);
 							 break;
 					case 10: totalValue += 2;
-							 nextCard.setValue(2);
+							 nextCard.setWorth(2);
 							 break;
 					case 11: totalValue += 3;
-							 nextCard.setValue(3);
+							 nextCard.setWorth(3);
 							 break;
 					case 12: totalValue += 4;
-							 nextCard.setValue(4);
+							 nextCard.setWorth(4);
 							 break;
 					case 13: totalValue += 5;
-							 nextCard.setValue(5);
+							 nextCard.setWorth(5);
 							 break;
 					case 14: totalValue += 6;
-							 nextCard.setValue(6);
+							 nextCard.setWorth(6);
 							 break;
 				}
 			}
@@ -350,5 +288,32 @@ public class EasyAI extends AI{
 			
 		}
 		return totalValue;
+	}
+	
+	/*
+	 * If the computer picks up the middle card, remove the lowest valued card from their hand.
+	 * Add the middle card to their hand.
+	 */
+	@Override
+	public void removeCard(Card middle) {
+		
+		//Resets values for the appropriate suit
+		calculateValues(GameInfo.middleSuit);
+		
+		int low = 100;
+		Card lowestValued = new Card();
+		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+			
+			if(nextCard.getWorth() < low){
+				lowestValued = nextCard;
+			}
+		}
+		
+		GameInfo.players.get(myValue).getHand().remove(lowestValued);
+		GameInfo.players.get(myValue).getHand().add(middle);
+		
+		return;
+		
 	}
 }

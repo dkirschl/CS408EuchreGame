@@ -71,5 +71,12 @@ public class Computer extends Player {
 		boolean ret = myAI.passOrPickUp();
 		return ret;
 	}
+
+
+	@Override
+	public void removeCard(Card middle) {
+		myAI.removeCard(middle);
+		return;
+	}
 	
 }

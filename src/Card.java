@@ -7,6 +7,7 @@ public class Card {
 	private int value;
 	private String suit;
 	private Button button;
+	private int worth;
 	
 	public Button getButton() {
 		return button;
@@ -51,5 +52,13 @@ public class Card {
 
 	public void setSuit(String suit) {
 		this.suit = suit;
+	}
+	
+	public void setWorth(int worth) {
+		this.worth = worth;
+	}
+	
+	public int getWorth() {
+		return worth;
 	}
 }

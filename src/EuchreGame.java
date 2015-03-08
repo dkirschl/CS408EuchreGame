@@ -19,7 +19,6 @@ public class EuchreGame{
   private int yourTricks;
   private int compTricks;
   private ArrayList<Card> deck = new ArrayList<Card>();
-  private ArrayList<Player> players = new ArrayList<Player>();
   private Player you, comp1, comp2, comp3;
   private boolean gameOver;
   
@@ -57,7 +56,7 @@ public class EuchreGame{
     comp1 = new Computer(1, o1d);
     comp2 = new Computer(2, o2d);
     comp3 = new Computer(3, td);
-    players.add(you); players.add(comp1); players.add(comp2); players.add(comp3);
+    GameInfo.players.add(you); GameInfo.players.add(comp1); GameInfo.players.add(comp2); GameInfo.players.add(comp3);
     human_turn = new Semaphore(1);
     button_press = new Semaphore(0);
     
@@ -159,24 +158,20 @@ public void startGame(Board board) {
 	  for (int i = 0; i <= 4; i++) {
 		  for (int j = 0; j <= 3; j++) {
 			  num = rand.nextInt(deck.size());
-			  players.get(j).receiveCard(deck.get(num));
-			  Button button = new Button(players.get(j).getHand().get(i).getSuit() + players.get(j).getHand().get(i).getValue());
-			  players.get(j).getHand().get(i).setButton(button);
+			  GameInfo.players.get(j).receiveCard(deck.get(num));
+			  Button button = new Button(GameInfo.players.get(j).getHand().get(i).getSuit() + GameInfo.players.get(j).getHand().get(i).getValue());
+			  GameInfo.players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
 	  for (int i = 0; i < 4; i++) {
 		  for (int j = 0; j < 5; j++) {
-		  System.out.print(players.get(i).getHand().get(j).getValue() + players.get(i).getHand().get(j).getSuit() + " ");
+		  System.out.print(GameInfo.players.get(i).getHand().get(j).getValue() + GameInfo.players.get(i).getHand().get(j).getSuit() + " ");
 		  
 		  }
 		  System.out.println();
 	  }
-	  GameInfo.human_Hand = players.get(0).getHand();
-	  GameInfo.AI_1_Hand = players.get(1).getHand();
-	  GameInfo.AI_2_Hand = players.get(2).getHand();
-	  GameInfo.AI_3_Hand = players.get(3).getHand();
-	 
+
 	  //choose a card to be flipped up in the middle
 	  
 	  turnup = deck.get(rand.nextInt(deck.size()));
@@ -186,7 +181,7 @@ public void startGame(Board board) {
 	  GameInfo.middleSuit = turnup.getSuit();
 
 	  System.out.println("Turnup is: " + turnup.getSuit() + turnup.getValue());
-	  buildGame(board, players, turnup);
+	  buildGame(board, GameInfo.players, turnup);
 	  
 	  GameInfo.isPick = 1;
 	  boolean choice = false;
@@ -196,16 +191,19 @@ public void startGame(Board board) {
 		  //System.out.println("Player " + i + " pick or pass");
 		 //System.out.println("Human Pick or Pass : " + human_turn.toString());
 		  //System.out.println("Button Press : " + button_press.toString());
-		  players.get(i).startTurn(human_turn);
-		  players.get(i).waitForClick(button_press);
-		  //boolean choice = players.get(i).chooseSuit(turnup);
-		  choice = players.get(i).pickupOrPass();
+		  GameInfo.players.get(i).startTurn(human_turn);
+		  GameInfo.players.get(i).waitForClick(button_press);
+		  //boolean choice = GameInfo.players.get(i).chooseSuit(turnup);
+		  choice = GameInfo.players.get(i).pickupOrPass();
 		//  System.out.println("Player " + i + " choice is " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
-			  players.get(i).startTurn(human_turn);
-			  players.get(i).waitForClick(button_press);
+			  if(i != 0){
+				  GameInfo.players.get(i).removeCard(turnup);
+			  }
+			  GameInfo.players.get(i).startTurn(human_turn);
+			  GameInfo.players.get(i).waitForClick(button_press);
 			  GameInfo.trump = turnup.getSuit();
 			  break;
 		  }  
@@ -226,9 +224,9 @@ public void startGame(Board board) {
 		  
 		  for (int i = 0; i < 4; i++)
 		  {
-			  players.get(i).startTurn(human_turn);
+			  GameInfo.players.get(i).startTurn(human_turn);
 			  
-			  if(players.get(i).isHuman() == true)
+			  if(GameInfo.players.get(i).isHuman() == true)
 			  {
 				  System.out.println("The player is a human so we need to enable all of the buttons");
 				  for(int x = 0; x < chooseSuitButtons.size(); x++)
@@ -245,8 +243,8 @@ public void startGame(Board board) {
 				  }
 			  }
 			  
-			  players.get(i).waitForClick(button_press);
-			  suit = players.get(i).chooseSuit();
+			  GameInfo.players.get(i).waitForClick(button_press);
+			  suit = GameInfo.players.get(i).chooseSuit();
 			  
 			  if(suit.toLowerCase() != "pass")
 			  {
@@ -282,20 +280,20 @@ public void startGame(Board board) {
 		 // System.out.println("Player " + i + " turn");
 		 // System.out.println("Human Turn : " + human_turn.toString());
 		 // System.out.println("Button Press : " + button_press.toString());
-		  //boolean choice = players.get(i).chooseSuit(turnup);
+		  //boolean choice = GameInfo.players.get(i).chooseSuit(turnup);
 		  boolean choice = GameInfo.picked;
 		  if (choice == true) {
 			  //card was picked up 
 			  GameInfo.trump = turnup.getSuit();
 			  ledSuit1 = turnup.getSuit();
-			  //players.get(i).removeCard()
+			  //GameInfo.players.get(i).removeCard()
 			  break;
 		  }
 	  }
 	  if (GameInfo.trump == null) {
 		  for(int i = 0; i < 4; i++) {
-			  players.get(i).startTurn(human_turn);
-			  players.get(i).waitForClick(button_press);
+			  GameInfo.players.get(i).startTurn(human_turn);
+			  GameInfo.players.get(i).waitForClick(button_press);
 			  
 			  
 	  	}
@@ -307,13 +305,13 @@ public void startGame(Board board) {
 	  Card winner1 = null;
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " turn");
-		  players.get(i).startTurn(human_turn);
-		  players.get(i).waitForClick(button_press);
+		  GameInfo.players.get(i).startTurn(human_turn);
+		  GameInfo.players.get(i).waitForClick(button_press);
 		  
-		  Card tmp = players.get(i).playCard();
+		  Card tmp = GameInfo.players.get(i).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  GameInfo.currentTrick.add(tmp);
-		  players.get(i).getHand().remove(tmp);
+		  GameInfo.players.get(i).getHand().remove(tmp);
 		  if (i == 0) {
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
@@ -423,7 +421,7 @@ public void startGame(Board board) {
   public void resetYourPanel(YourPanel yourPanel)
   {
 	  ArrayList<Card> cards = yourPanel.hand;
-	  ArrayList<Card> newHand = GameInfo.human_Hand;
+	  ArrayList<Card> newHand = GameInfo.players.get(0).getHand();
 	  for(int x = 0; x < cards.size(); x++)
 	  {
 		  cards.get(x).setSuit(newHand.get(x).getSuit());

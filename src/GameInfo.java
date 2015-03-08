@@ -5,10 +5,7 @@ public class GameInfo {
 	static boolean screwDealer;
 	static int trumpCaller;
 	static int previousLeader;
-	static ArrayList<Card> AI_1_Hand;
-	static ArrayList<Card> AI_2_Hand;
-	static ArrayList<Card> AI_3_Hand;
-	static ArrayList<Card> human_Hand;
+	static ArrayList<Player> players = new ArrayList<Player>();
 	static ArrayList<Card> previousTrick;
 	static ArrayList<Card> currentTrick = new ArrayList<Card>();
 	static String middleSuit;

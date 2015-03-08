@@ -3,4 +3,5 @@ public abstract class AI {
 	public abstract String chooseSuit();
 	public abstract Card playCard();
 	public abstract int calculateValues(String suit);
+	public abstract void removeCard(Card middle);
 }

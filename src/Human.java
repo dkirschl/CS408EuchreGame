@@ -54,4 +54,10 @@ public class Human extends Player {
 		return true;
 	}
 
+	@Override
+	public void removeCard(Card middle) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
