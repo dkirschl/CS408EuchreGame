@@ -299,6 +299,11 @@ public void playCard() {
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " turn");
 		  GameInfo.players.get(i).startTurn(human_turn);
+		  
+		  if(GameInfo.players.get(i).isHuman() == true)
+		  {
+			  enableHumanCards(GameInfo.players.get(i).getHand());
+		  }
 		  GameInfo.players.get(i).waitForClick(button_press);
 
 		  Card tmp = GameInfo.players.get(i).playCard();
@@ -312,9 +317,19 @@ public void playCard() {
 			  winner1 = tmp;
 		  } else {
 			  winner1 = determineWinner(winner1, tmp);
+		  }	  
+		  if(GameInfo.players.get(i).isHuman() == true)
+		  {
+			  disableHumanCards(GameInfo.players.get(i).getHand());
 		  }
-		  
+		  try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  }
+	  GameInfo.board.getMidPanel().getYourMiddleCard().getButton().setVisible(false);
 	  System.out.println("Cards Played");
 }
   
@@ -441,6 +456,28 @@ public void playCard() {
 	  midPanel.diamonds.setVisible(false);
 	  midPanel.clubs.setVisible(false);
 	  midPanel.passSuit.setVisible(false);
+  }
+  
+  public void enableHumanCards(ArrayList<Card> cards)
+  {
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setEnabled(true);
+		  }
+	  }
+  }
+  
+  public void disableHumanCards(ArrayList<Card> cards)
+  {
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setEnabled(false);
+		  }
+	  }
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
