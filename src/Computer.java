@@ -14,7 +14,7 @@ public class Computer extends Player {
 	
 	public Computer(int value, int difficulty){
 		if(difficulty == 1){
-			myAI = new EasyAI(value, this);
+			myAI = new EasyAI(value);
 		} else if(difficulty == 2){
 			myAI = new MediumAI(value);
 		} else if(difficulty == 3){

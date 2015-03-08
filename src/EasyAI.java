@@ -6,22 +6,21 @@ public class EasyAI extends AI{
 	ArrayList<Card> myHand;
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
-	Computer player;
 	
 	public EasyAI(){
 		;
 	}
 	
-	public EasyAI(int value, Computer c){
+	public EasyAI(int value){
 		if(value < 1 || value > 3){
 			System.err.println("Incorrect value for AI");
 		}
 		myValue = value;
-		player = c;
 	}
 
 	/*
-	 * 	Easy AI will pick up 20% of the time based on random number generator
+	 * 	Easy AI will pick up based on a stated hand value threshold.
+	 *  Easy AI's threshold will be randomly +-5 each hand to make them more random
 	 */
 	@Override
 	public boolean passOrPickUp() {
@@ -37,15 +36,19 @@ public class EasyAI extends AI{
 			System.err.println("Incorrect value for AI");
 		}
 		
-		calculateValues();
+		int handValue = calculateValues(GameInfo.middleSuit);
 		
 		Random randomGenerator = new Random();
-	    int randomInt = randomGenerator.nextInt(5);
+	    int randomInt = randomGenerator.nextInt(10);
+	    randomInt -= 5;
+	    
+	    int threshold = 38;
+	    threshold += randomInt;
 	    
 	    /*
-	     * If the random integer is 0: pick up, else: pass
+	     * If their hand value is more than the minimum value they'd want, then pick up
 	     */
-	    if(randomInt == 0){
+	    if(handValue >= threshold){
 	    	return true;
 	    } else {
 	    	return false;
@@ -72,9 +75,7 @@ public class EasyAI extends AI{
 		} else {
 			System.err.println("Incorrect value for AI");
 		}
-		
-		calculateValues();
-		
+				
 		/*
 		 * Cancel chance to call trump already passed on
 		 */
@@ -163,7 +164,7 @@ public class EasyAI extends AI{
 			System.err.println("Incorrect value for AI");
 		}
 		
-		calculateValues();
+		calculateValues(GameInfo.trump);
 		
 		/*
 		 * Clear elCards from previous trick
@@ -278,13 +279,76 @@ public class EasyAI extends AI{
 	}
 
 	@Override
-	public int calculateValues() {
+	public int calculateValues(String suit) {
+		int totalValue = 0;
+		String leftSuit = "xxxxx";
 		
+		switch(suit){
+			case "spades": 		leftSuit = "clubs";
+								break;
+								
+			case "clubs": 		leftSuit = "spades";
+					 	  		break;
+					 	  		
+			case "hearts": 		leftSuit = "diamonds";
+						   		break;
+						   		
+			case "diamonds": 	leftSuit = "hearts";
+					 		 	break;
+		}
 		for(int i = 0; i < myHand.size(); i++){
 			Card nextCard = myHand.get(i);
 			
-			nextCard.setValue(1);
+			if(nextCard.getSuit() == leftSuit && nextCard.getCardId() == 11){
+				totalValue += 12;
+				nextCard.setValue(12);
+			} else if(nextCard.getSuit() == suit){
+				
+				switch(nextCard.getCardId()){
+					case 9: totalValue += 7;
+							nextCard.setValue(7);
+							break;
+					case 10: totalValue += 8;
+							 nextCard.setValue(8);
+							 break;
+					case 11: totalValue += 13;
+							 nextCard.setValue(13);
+							 break;
+					case 12: totalValue += 9;
+							 nextCard.setValue(9);
+							 break;
+					case 13: totalValue += 10;
+							 nextCard.setValue(10);
+							 break;
+					case 14: totalValue += 11;
+							 nextCard.setValue(11);
+							 break;
+				}
+			} else {
+				switch(nextCard.getCardId()){
+					case 9:  totalValue += 1;
+							 nextCard.setValue(1);
+							 break;
+					case 10: totalValue += 2;
+							 nextCard.setValue(2);
+							 break;
+					case 11: totalValue += 3;
+							 nextCard.setValue(3);
+							 break;
+					case 12: totalValue += 4;
+							 nextCard.setValue(4);
+							 break;
+					case 13: totalValue += 5;
+							 nextCard.setValue(5);
+							 break;
+					case 14: totalValue += 6;
+							 nextCard.setValue(6);
+							 break;
+				}
+			}
+			
+			
 		}
-		return 1;
+		return totalValue;
 	}
 }

@@ -169,7 +169,7 @@ public void startGame(Board board) {
 	  
 	  GameInfo.isPick = 0;
 	  Card winner = null;
-	  String ledSuit = null;
+	  String ledSuit1 = null;
 	  for (int i = 0; i < 4; i++) {
 		 // System.out.println("Player " + i + " turn");
 		 // System.out.println("HUman Turn : " + human_turn.toString());
@@ -178,7 +178,7 @@ public void startGame(Board board) {
 		  if (choice == true) {
 			  //card was picked up 
 			  GameInfo.trump = turnup.getSuit();
-			  ledSuit = turnup.getSuit();
+			  ledSuit1 = turnup.getSuit();
 			  //players.get(i).removeCard()
 			  break;
 		  }
@@ -195,7 +195,7 @@ public void startGame(Board board) {
 	  
 	  
 	  
-	  Card winner = null;
+	  Card winner1 = null;
 	  for (int i = 0; i <= 4; i++) {
 		  System.out.println("Player " + i + " turn");
 		  System.out.println("HUman Turn : " + human_turn.toString());
@@ -207,10 +207,10 @@ public void startGame(Board board) {
 		  if (i == 0) {
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
-		  if (winner == null) {
-			  winner = tmp;
+		  if (winner1 == null) {
+			  winner1 = tmp;
 		  } else {
-			  winner = determineWinner(winner, tmp);
+			  winner1 = determineWinner(winner1, tmp);
 		  }
 		  
 	  }
