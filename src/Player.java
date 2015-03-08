@@ -14,6 +14,7 @@ public abstract class Player {
 	public abstract void startTurn(Semaphore s);
 	public abstract void waitForClick(Semaphore s);
 	public abstract boolean pickupOrPass();
+	public abstract boolean isHuman();
 	
 	public void receiveCard(Card c) {
 		hand.add(c);

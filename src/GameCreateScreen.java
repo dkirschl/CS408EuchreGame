@@ -172,7 +172,19 @@ public class GameCreateScreen{
 	      Thread t = new Thread(new Runnable(){
 	    	  @Override
 	    	  public void run(){
-	    		  currentGame.startGame(board); 
+	    		  System.out.println("Should be creating a new game");
+
+	    		  if(GameInfo.firstGame == true)
+	    		  {
+		    		 // GameInfo.firstGame = false;
+	    			  currentGame.startGame(board); 
+	    		  }
+	    		  else
+	    		  {
+	    			  System.out.println("Second or more new game");
+	    			  Board board = GameInfo.board;
+	    			  currentGame.startGame(board);
+	    		  }
 	    	  }
 	      });
 	      t.start();
@@ -184,15 +196,15 @@ public class GameCreateScreen{
 	  
 	  gameCreateScreen.add(createGameButton);
 	 // gameBoard.removeAll();
-	  gameBoard.revalidate();
+	 // gameBoard.revalidate();
 
-	  gameBoard.repaint();
+	 // gameBoard.repaint();
 	  
-	  gameBoard.add(gameCreateScreen);
-	  JMenuBar menuBar = new Menu(gameCreateScreen);
-	  gameBoard.setJMenuBar(menuBar);
+	//  gameBoard.add(gameCreateScreen);
+	 // JMenuBar menuBar = new Menu(gameCreateScreen);
+	 // gameBoard.setJMenuBar(menuBar);
 
-	  gameCreateScreen.setVisible(true);
+	  //gameCreateScreen.setVisible(true);
 	}
 	int getSelectedButton(ButtonGroup name)
 	{  

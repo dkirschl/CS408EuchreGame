@@ -30,6 +30,12 @@ public class Computer extends Player {
 		Card x = myAI.playCard();
 		return x;
 	}
+	
+	@Override
+	public boolean isHuman()
+	{
+		return false;
+	}
 
 	@Override
 	public String chooseSuit() {

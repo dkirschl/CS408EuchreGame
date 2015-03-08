@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class EuchreGame{
   private String opp1Name;
@@ -72,7 +73,23 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	JFrame gameBoard = board.board;
 	gameBoard.setLayout(null);
 	
-	MidPanel midPanel = new MidPanel(gameBoard.getWidth(), gameBoard.getHeight(), turnup);
+	MidPanel midPanel;
+	if(GameInfo.firstGame == true)
+	{
+		midPanel = new MidPanel(gameBoard.getWidth(), gameBoard.getHeight(), turnup);
+	}
+	else
+	{
+		midPanel = GameInfo.board.getMidPanel();
+		System.out.println("Second mid panel mid card is: " + midPanel.pickOrPassCard.getButton().getLabel());
+
+		midPanel.pickOrPassCard.getButton().setLabel(turnup.getButton().getLabel());
+		midPanel.pickOrPassCard.setCardId(turnup.getCardId());
+		midPanel.pickOrPassCard.setSuit(turnup.getSuit());
+		midPanel.pickOrPassCard.setValue(turnup.getValue());
+		
+		hideMidPanel(midPanel);
+	}
 	midPanel.midPanel.setVisible(true);
 	
 	Opponent1Panel opp1Panel = new Opponent1Panel(gameBoard.getWidth(), gameBoard.getHeight(), opp1Name, midPanel.getOpp1MiddleCard());
@@ -84,7 +101,15 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	Opponent2Panel opp2Panel = new Opponent2Panel(gameBoard.getWidth(), gameBoard.getHeight(), opp2Name, midPanel.getOpp2MiddleCard());
 	opp2Panel.setVisible(true);
 	
-	YourPanel yourPanel = new YourPanel(gameBoard.getWidth(), gameBoard.getHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
+	YourPanel yourPanel;
+	if(GameInfo.firstGame == true)
+		yourPanel = new YourPanel(gameBoard.getWidth(), gameBoard.getHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand());
+	else
+	{
+		//GameInfo.board.setYourPanel(new YourPanel(gameBoard.getWidth(), gameBoard.getHeight(), "You", midPanel.getYourMiddleCard(), players.get(0).getHand()));
+		yourPanel = GameInfo.board.getYourPanel();
+		resetYourPanel(yourPanel);
+	}
 	yourPanel.yourPanel.setVisible(true);
 	
 	board.setOpp1Panel(opp1Panel);
@@ -93,7 +118,6 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	board.setTeamPanel(teamPanel);
 	board.setMidPanel(midPanel);
 	
-	System.out.println(board.toString());
 	midPanel.setBoard(board);
 	midPanel.initMidPanel();
 	
@@ -107,7 +131,7 @@ public void buildGame(Board board, ArrayList<Player> players, Card turnup)	{
 	gameBoard.add(midPanel.midPanel);
 	gameBoard.setVisible(true);
 	
-	System.out.println("Buidling");
+	GameInfo.firstGame = false;
 }
 public void startGame(Board board) {
 	  Random rand = new Random();
@@ -161,7 +185,7 @@ public void startGame(Board board) {
 
 	  GameInfo.middleSuit = turnup.getSuit();
 
-	  
+	  System.out.println("Turnup is: " + turnup.getSuit() + turnup.getValue());
 	  buildGame(board, players, turnup);
 	  
 	  GameInfo.isPick = 1;
@@ -176,7 +200,7 @@ public void startGame(Board board) {
 		  players.get(i).waitForClick(button_press);
 		  //boolean choice = players.get(i).chooseSuit(turnup);
 		  choice = players.get(i).pickupOrPass();
-		  System.out.println("Player " + i + " choice is " + choice);
+		//  System.out.println("Player " + i + " choice is " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
@@ -189,20 +213,64 @@ public void startGame(Board board) {
 	  
 	  //******* Everyone passed and now it goes around again to select the suit *******\\
 	  String suit = "";
+	  ArrayList<Button> chooseSuitButtons = new ArrayList<Button>();
 	  
 	  if (choice==false)
 	  {
 		  System.out.println("No player picked up the card");
-		  System.out.println("Suit not available is: " + turnup.getSuit());
+		  System.out.println("Suit not available is: " + turnup.getSuit().toLowerCase());
+		  
+		  //Display all of the buttons on the screen
+		  turnup.getButton().setVisible(false);
+		  chooseSuitButtons = displayChooseSuit(board, turnup.getSuit());
 		  
 		  for (int i = 0; i < 4; i++)
 		  {
 			  players.get(i).startTurn(human_turn);
-			  players.get(i).waitForClick(button_press);
 			  
+			  if(players.get(i).isHuman() == true)
+			  {
+				  System.out.println("The player is a human so we need to enable all of the buttons");
+				  for(int x = 0; x < chooseSuitButtons.size(); x++)
+				  {
+					  chooseSuitButtons.get(x).setEnabled(true);
+				  }
+			  }
+			  else
+			  {
+				  System.out.println("Disable the buttons while the AI goes");
+				  for(int x = 0; x < chooseSuitButtons.size(); x++)
+				  {
+					  chooseSuitButtons.get(x).setEnabled(false);
+				  }
+			  }
+			  
+			  players.get(i).waitForClick(button_press);
 			  suit = players.get(i).chooseSuit();
+			  
+			  if(suit.toLowerCase() != "pass")
+			  {
+				  GameInfo.trump = suit;
+				  break;
+			  }
+		  }
+		  
+		  // Hide the visuals from the screen
+		  for(int x = 0; x < chooseSuitButtons.size(); x++)
+		  {
+			  chooseSuitButtons.get(x).setVisible(false);
+			  chooseSuitButtons.get(x).setEnabled(false);
 		  }
 	  }
+	  
+	  // if everyone passes on the choosing the suit
+	  if(GameInfo.trump.toLowerCase() == "pass")
+	  {
+		  System.out.println("END THE GAME NOW EVERYONE PASSED ON THE SUIT");
+	  }
+	  
+	//  System.out.println("Trump for the hand is: " + GameInfo.trump);
+	//  System.out.println("The dealer is: " + GameInfo.dealer);
 	  
 	  GameInfo.isPick = 0;
 	  Card winner = null;
@@ -307,7 +375,73 @@ public void startGame(Board board) {
 	  return c;
   }
   
+  public ArrayList<Button> displayChooseSuit(Board board, String suit)
+  {
+	  MidPanel midPanel = board.getMidPanel();
+	  ArrayList<Button> buttons = new ArrayList<Button>();
+	  
+	  if(suit == "spades")
+	  {
+		  buttons.add(midPanel.clubs);
+		  buttons.add(midPanel.hearts);
+		  buttons.add(midPanel.diamonds);
+	  }
+	  else if(suit == "clubs")
+	  {
+		  buttons.add(midPanel.spades);
+		  buttons.add(midPanel.hearts);
+		  buttons.add(midPanel.diamonds);
+	  }
+	  else if(suit == "hearts")
+	  {
+		  buttons.add(midPanel.clubs);
+		  buttons.add(midPanel.spades);
+		  buttons.add(midPanel.diamonds);
+	  }
+	  else if(suit == "diamonds")
+	  {
+		  buttons.add(midPanel.clubs);
+		  buttons.add(midPanel.hearts);
+		  buttons.add(midPanel.spades);
+	  }
+	  
+	  //if stick the dealer isn't on or else don't add it
+	  buttons.add(midPanel.passSuit);
+	  
+	  for(int x = 0; x < buttons.size(); x++)
+	  {
+		  buttons.get(x).setVisible(true);
+	  }
+	  
+	  return buttons;
+  }
   
+  public void resetYourPanel(YourPanel yourPanel)
+  {
+	  ArrayList<Card> cards = yourPanel.hand;
+	  ArrayList<Card> newHand = GameInfo.human_Hand;
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  cards.get(x).setSuit(newHand.get(x).getSuit());
+		  cards.get(x).setCardId(newHand.get(x).getCardId());
+		  cards.get(x).setValue(newHand.get(x).getValue());
+		  cards.get(x).getButton().setLabel(newHand.get(x).getButton().getLabel());
+		  cards.get(x).getButton().setVisible(true);
+	  }
+  }
+  
+  public void hideMidPanel(MidPanel midPanel)
+  {
+	  midPanel.getYourMiddleCard().getButton().setVisible(false);
+	  midPanel.getOpp1MiddleCard().getButton().setVisible(false);
+	  midPanel.getOpp2MiddleCard().getButton().setVisible(false);
+	  midPanel.getTeamMiddleCard().getButton().setVisible(false);	
+	  midPanel.hearts.setVisible(false);
+	  midPanel.spades.setVisible(false);
+	  midPanel.diamonds.setVisible(false);
+	  midPanel.clubs.setVisible(false);
+	  midPanel.passSuit.setVisible(false);
+  }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
   {
