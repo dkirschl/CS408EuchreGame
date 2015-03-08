@@ -179,9 +179,9 @@ public void startGame(Board board) {
 	  turnup.setButton(button);
 
 	  GameInfo.middleSuit = turnup.getSuit();
-
 	  System.out.println("Turnup is: " + turnup.getSuit() + turnup.getValue());
 	  buildGame(board, GameInfo.players, turnup);
+
 	  
 	  GameInfo.isPick = 1;
 	  boolean choice = false;

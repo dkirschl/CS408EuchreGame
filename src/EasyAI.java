@@ -156,6 +156,7 @@ public class EasyAI extends AI{
 			
 			
 			System.out.println("A : " + highestValued.getValue());
+
 			return highestValued;
 			
 		} else {
@@ -177,7 +178,9 @@ public class EasyAI extends AI{
 			 * Play the only eligible card
 			 */
 			
+
 			System.out.println("B : " + elCards.get(0).getValue());
+
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
@@ -194,7 +197,9 @@ public class EasyAI extends AI{
 				}
 			}
 			
+
 			System.out.println("C : " + lowestValued.getValue());
+
 			return lowestValued;
 			
 		} else {
@@ -211,7 +216,9 @@ public class EasyAI extends AI{
 				}
 			}
 			
+
 			System.out.println("D : " + highestValued.getValue());
+
 			return highestValued;
 		}
 	}
