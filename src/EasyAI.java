@@ -131,6 +131,21 @@ public class EasyAI extends AI{
 	public Card playCard() {
 		//Determine the leading suit
 		String leadSuit;
+		String leftSuit = "xxxxx";
+		
+		switch(GameInfo.trump){
+			case "spades": 		leftSuit = "clubs";
+								break;
+								
+			case "clubs": 		leftSuit = "spades";
+					 	  		break;
+					 	  		
+			case "hearts": 		leftSuit = "diamonds";
+						   		break;
+						   		
+			case "diamonds": 	leftSuit = "hearts";
+					 		 	break;
+		}		
 		
 		
 		calculateValues(GameInfo.trump);
@@ -167,9 +182,20 @@ public class EasyAI extends AI{
 				/*
 				 * Card is eligible to be played
 				 */
+				
+				
 				if(nextCard.getSuit() == leadSuit){
+					if(nextCard.getValue() == 11 && leadSuit == leftSuit){
+						//Check to make sure the left isn't an eligible card when it's suit is played
+					} else {
+						elCards.add(nextCard);
+					}
+				} else if(nextCard.getValue() == 11 && leadSuit == GameInfo.trump && nextCard.getSuit() == leftSuit){
+					//Make sure to add left to eligible cards when trump is lead
 					elCards.add(nextCard);
 				}
+				
+				
 			}
 		}
 		
@@ -177,8 +203,6 @@ public class EasyAI extends AI{
 			/*
 			 * Play the only eligible card
 			 */
-			
-
 			System.out.println("B : " + elCards.get(0).getValue());
 
 			return elCards.get(0);
