@@ -23,6 +23,7 @@ public class Opponent2Panel extends JPanel{
 	
 	public void initOpponent2Panel()
 	{		
+		setBackground(Color.red);
 		int opp2XCoord = width - width/4;
 		int opp2YCoord = height/5;
 		int opp2Width = width/4;
@@ -31,7 +32,7 @@ public class Opponent2Panel extends JPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
-		//System.out.println("Opponent 2 Coordinates x: " + opp2XCoord + " y: " + opp2YCoord + " Dimensions width: " + opp2Width  + " height: " + opp2Height);
+		System.out.println("Opponent 2 Coordinates x: " + opp2XCoord + " y: " + opp2YCoord + " Dimensions width: " + opp2Width  + " height: " + opp2Height);
 		setBounds(opp2XCoord, opp2YCoord, opp2Width, opp2Height);
 		JLabel opp2 = new JLabel(name);
 		
