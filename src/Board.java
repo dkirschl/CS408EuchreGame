@@ -12,8 +12,8 @@ public class Board{
 	
 	private YourPanel yourPanel;
 	private MidPanel midPanel;
-	private JPanel opp1Panel;
-	private JPanel opp2Panel;
+	private Opponent1Panel opp1Panel;
+	private Opponent2Panel opp2Panel;
 	private TeamPanel teamPanel;
 	
 	JFrame board;
@@ -83,19 +83,19 @@ public class Board{
 		this.midPanel = midPanel;
 	}
 
-	public JPanel getOpp1Panel() {
+	public Opponent1Panel getOpp1Panel() {
 		return opp1Panel;
 	}
 
-	public void setOpp1Panel(JPanel opp1Panel) {
+	public void setOpp1Panel(Opponent1Panel opp1Panel) {
 		this.opp1Panel = opp1Panel;
 	}
 
-	public JPanel getOpp2Panel() {
+	public Opponent2Panel getOpp2Panel() {
 		return opp2Panel;
 	}
 
-	public void setOpp2Panel(JPanel opp2Panel) {
+	public void setOpp2Panel(Opponent2Panel opp2Panel) {
 		this.opp2Panel = opp2Panel;
 	}
 

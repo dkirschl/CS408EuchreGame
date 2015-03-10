@@ -93,13 +93,13 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	midPanel.midPanel.setVisible(true);
 	
 	Opponent1Panel opp1Panel = new Opponent1Panel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), opp1Name, midPanel.getOpp1MiddleCard());
-	opp1Panel.setVisible(true);
+	opp1Panel.opp1Panel.setVisible(true);
 	
 	TeamPanel teamPanel = new TeamPanel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), teamName, midPanel.getTeamMiddleCard());
 	teamPanel.teamPanel.setVisible(true);
 	
 	Opponent2Panel opp2Panel = new Opponent2Panel(GameInfo.board.gameBoard.getWidth(), GameInfo.board.gameBoard.getHeight(), opp2Name, midPanel.getOpp2MiddleCard());
-	opp2Panel.setVisible(true);
+	opp2Panel.opp2Panel.setVisible(true);
 	
 	YourPanel yourPanel;
 	if(GameInfo.firstGame == true)
@@ -124,8 +124,8 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 	
 	GameInfo.board.gameBoard.add(yourPanel.yourPanel);
 	GameInfo.board.gameBoard.add(teamPanel.teamPanel);
-	GameInfo.board.gameBoard.add(opp1Panel);
-	GameInfo.board.gameBoard.add(opp2Panel);
+	GameInfo.board.gameBoard.add(opp1Panel.opp1Panel);
+	GameInfo.board.gameBoard.add(opp2Panel.opp2Panel);
 	GameInfo.board.gameBoard.add(midPanel.midPanel);
 	
 	GameInfo.board.gameBoard.revalidate();
@@ -138,9 +138,11 @@ public void buildGame(ArrayList<Player> players, Card turnup)	{
 public void startGame() {
 	  
 	GameInfo.dealer = dealer;
+	
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
+		  moveDealer();
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 		  System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
 		  System.out.println("Dealer is: " + GameInfo.dealer);
@@ -149,6 +151,7 @@ public void startGame() {
 			  for (int i = 0; i < 5; i++) {
 				  playCard();
 			  }
+			  hideTrump();
 		  } else {
 			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  if (chooseSuit()) {
@@ -156,6 +159,7 @@ public void startGame() {
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
 				  }
+				  hideTrump();
 			  } else {
 				  break;
 			  }
@@ -242,6 +246,7 @@ public boolean pickUpOrPass() {
 				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
 			  }
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  displayTrump();
 			  return true;
 		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
@@ -286,14 +291,6 @@ public boolean chooseSuit() {
 		  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
-		  
-		  if(suit.toLowerCase() != "pass")
-		  {
-			  GameInfo.trump = suit;
-			  System.out.println("Trump was chosen as " + GameInfo.trump);
-			  return true;
-		  }
-		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 	  }
 	  // Hide the visuals from the screen
 	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
@@ -302,7 +299,13 @@ public boolean chooseSuit() {
 	  chooseSuitButtons.get(x).setVisible(false);
 	  chooseSuitButtons.get(x).setEnabled(false);
 	 }
-	 
+	  if(suit.toLowerCase() != "pass")
+	  {
+		  GameInfo.trump = suit;
+		  System.out.println("Trump was chosen as " + GameInfo.trump);
+	//	  return true;
+	  }
+	  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 	 System.out.println("Re-deal");
 	 return false;
 }
@@ -324,6 +327,9 @@ public void playCard() {
 
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
+		  
+		  displayAICard(tmp);
+		  
 		  GameInfo.currentTrick.add(tmp);
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
 		  if (GameInfo.nextPlayer == 0) {
@@ -357,7 +363,18 @@ public void playCard() {
 		  
 	  }
 	  GameInfo.nextPlayer = currentWinner;
+	  
+	  try{
+		  Thread.sleep(2000);
+	  }catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	  }
+	  hideAICards();
 	  GameInfo.board.getMidPanel().getYourMiddleCard().getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().getOpp1MiddleCard().getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().getOpp2MiddleCard().getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().getTeamMiddleCard().getButton().setVisible(false);
 	  
 	  System.out.println("Cards Played");
 }
@@ -506,6 +523,95 @@ public void playCard() {
 		  {
 			  cards.get(x).getButton().setEnabled(false);
 		  }
+	  }
+  }
+  
+  public void displayAICard(Card card)
+  {
+	  Card opp1Card =   GameInfo.board.getMidPanel().opp1MiddleCard;
+	  Card opp2Card =   GameInfo.board.getMidPanel().opp2MiddleCard;
+	  Card teamCard =   GameInfo.board.getMidPanel().teamMiddleCard;
+	  
+	  if(GameInfo.nextPlayer == 1)
+	  {
+		  opp1Card.getButton().setLabel(card.getButton().getLabel());
+		  opp1Card.getButton().setVisible(true);
+	  }
+	  else if(GameInfo.nextPlayer == 2)
+	  {
+		  teamCard.getButton().setLabel(card.getButton().getLabel());
+		  teamCard.getButton().setVisible(true);
+	  }
+	  else if(GameInfo.nextPlayer == 3)
+	  {
+		  opp2Card.getButton().setLabel(card.getButton().getLabel());
+		  opp2Card.getButton().setVisible(true);
+	  }
+  }
+  public void hideAICards()
+  {
+	  GameInfo.board.getMidPanel().opp1MiddleCard.getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().opp2MiddleCard.getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().teamMiddleCard.getButton().setVisible(false);
+  }
+  
+  public void displayTrump()
+  {
+	  System.out.println("Displaying trump for player: " + GameInfo.nextPlayer);
+	  if(GameInfo.nextPlayer == 0)
+	  {
+		  GameInfo.board.getYourPanel().trumpSuit.setLabel(GameInfo.trump);
+		  GameInfo.board.getYourPanel().trumpSuit.setVisible(true);
+	  }
+	  if(GameInfo.nextPlayer == 1)
+	  {
+		  GameInfo.board.getOpp1Panel().trumpSuit.setLabel(GameInfo.trump);
+		  GameInfo.board.getOpp1Panel().trumpSuit.setVisible(true);
+	  }
+	  if(GameInfo.nextPlayer == 2)
+	  {
+		  GameInfo.board.getTeamPanel().trumpSuit.setLabel(GameInfo.trump);
+		  GameInfo.board.getTeamPanel().trumpSuit.setVisible(true);
+	  }
+	  if(GameInfo.nextPlayer == 3)
+	  {
+		  GameInfo.board.getOpp2Panel().trumpSuit.setLabel(GameInfo.trump);
+		  GameInfo.board.getOpp2Panel().trumpSuit.setVisible(true);
+	  }
+  }
+  
+  public void hideTrump()
+  {
+	  GameInfo.board.getYourPanel().trumpSuit.setVisible(false);
+	  GameInfo.board.getOpp1Panel().trumpSuit.setVisible(false);
+	  GameInfo.board.getOpp2Panel().trumpSuit.setVisible(false);
+	  GameInfo.board.getTeamPanel().trumpSuit.setVisible(false);
+  }
+  public void moveDealer()
+  {
+	  if(GameInfo.dealer == 0)
+	  {
+		  System.out.println("You are the dealer");
+		  GameInfo.board.getOpp2Panel().dealer.setVisible(false);
+		  GameInfo.board.getYourPanel().dealer.setVisible(true);  
+	  }
+	  else if(GameInfo.dealer == 1)
+	  {
+		  System.out.println("Opp1 is the dealer");
+		  GameInfo.board.getYourPanel().dealer.setVisible(false);
+		  GameInfo.board.getOpp1Panel().dealer.setVisible(true); 
+	  }
+	  else if(GameInfo.dealer == 2)
+	  {
+		  System.out.println("Teammate is the dealer");
+		  GameInfo.board.getOpp1Panel().dealer.setVisible(false);
+		  GameInfo.board.getTeamPanel().dealer.setVisible(true); 
+	  }
+	  else if(GameInfo.dealer == 3)
+	  {
+		  System.out.println("Opponent 2 is the dealer");
+		  GameInfo.board.getTeamPanel().dealer.setVisible(false);
+		  GameInfo.board.getOpp2Panel().dealer.setVisible(true); 
 	  }
   }
   //******* Generate the getters and setters *******//

@@ -56,11 +56,11 @@ public class MidPanel{
 		ymc.setEnabled(false);
 		 
 		o1c.setVisible(false);
-		o1c.setBounds(50, midHeight/2-cardWidth, cardHeight, cardWidth);
+		o1c.setBounds(50, midHeight/2-cardWidth/2, cardHeight, cardWidth);
 		o1c.setEnabled(false);
 		 
 		o2c.setVisible(false);
-		o2c.setBounds(midWidth - 142, midHeight/2-cardWidth, cardHeight,cardWidth);
+		o2c.setBounds(midWidth - 50-cardHeight, midHeight/2-cardWidth/2, cardHeight,cardWidth);
 		o2c.setEnabled(false);
 		 
 		tmc.setVisible(false);

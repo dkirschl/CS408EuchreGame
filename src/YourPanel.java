@@ -1,3 +1,4 @@
+import java.awt.Button;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class YourPanel{
 	Card middleCard;
 	public ArrayList<Card> hand;
 	JPanel yourPanel;
+	Button dealer, trumpSuit;
 
 	public YourPanel(int width, int height, String name, Card middleCard, ArrayList<Card> hand)
 	{
@@ -37,13 +39,15 @@ public class YourPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
+		dealer = new Button("Dealer");
+		trumpSuit = new Button("trumpSuit");
+		
 		//System.out.println("Your Coordinates x: " + yourXCoord + " y: " + yourYCoord + " Dimensions width: " + yourWidth  + " height: " + yourHeight);
 		yourPanel.setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
 		JLabel your = new JLabel(name);
 		
 		yourPanel.setLayout(null);
 		your.setHorizontalAlignment(SwingConstants.CENTER);
-		//your.setVerticalAlignment(SwingConstants.BOTTOM);
 		your.setBounds(yourWidth/2 - 40, yourHeight-15, 80, 20);
 		your.setVisible(true);
 		
@@ -78,5 +82,17 @@ public class YourPanel{
 		yourPanel.add(hand.get(3).getButton());
 		yourPanel.add(hand.get(4).getButton());
 		yourPanel.add(hand.get(0).getButton());
+		
+		// Add in the Buttons for dealer and trump suit
+		dealer.setEnabled(false);
+		dealer.setVisible(false);
+		trumpSuit.setEnabled(false);
+		trumpSuit.setVisible(false);
+		
+		dealer.setBounds(initialCardX-50, yourHeight/2-40/2, 40, 40);
+		trumpSuit.setBounds(initialCardX+4*(cardWidth+5)+cardWidth+10, yourHeight/2-40/2, 40,40);
+		
+		yourPanel.add(dealer);
+		yourPanel.add(trumpSuit);
 	}
 }

@@ -12,6 +12,7 @@ public class TeamPanel{
 	Card middleCard;
 	JPanel teamPanel;
 	JLabel totalScore, trickScore;
+	Button dealer, trumpSuit;
 	
 	public TeamPanel(int width, int height, String name, Card middleCard)
 	{
@@ -35,6 +36,9 @@ public class TeamPanel{
 		
 		int cardWidth = 70;
 		int cardHeight = 100;
+		
+		dealer = new Button("Dealer");
+		trumpSuit = new Button("trumpSuit");
 		
 		//System.out.println("Team Coordinates x: " + teamXCoord + " y: " + teamYCoord + " Dimensions width: " + teamWidth  + " height: " + teamHeight);
 		teamPanel.setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
@@ -80,6 +84,18 @@ public class TeamPanel{
 		trickScore.setVisible(true);
 		
 		teamPanel.add(totalScore);
+		
+		// Add in the Buttons for dealer and trump suit
+		dealer.setEnabled(false);
+		dealer.setVisible(false);
+		trumpSuit.setEnabled(false);
+		trumpSuit.setVisible(false);
+		
+		dealer.setBounds(initialCardX-50, initialTeamY, 40, 40);
+		trumpSuit.setBounds(initialCardX+4*(cardWidth+5)+cardWidth+10, initialTeamY, 40,40);
+		
+		teamPanel.add(dealer);
+		teamPanel.add(trumpSuit);
 	}
 	public void updateTotalScore()
 	{
