@@ -42,7 +42,7 @@ public class CardPress implements ActionListener {
 	public void switchCard(Card card, Card switchCard)
 	{
 		System.out.println("Switching Cards!!");
-		card.getButton().setLabel(switchCard.getButton().getLabel());
+		card.getButton().setIcon(switchCard.getNormalImage());
 		card.setCardId(switchCard.getCardId());
 		card.setSuit(switchCard.getSuit());
 		card.setValue(switchCard.getValue());
@@ -59,7 +59,8 @@ public class CardPress implements ActionListener {
 	 	middleCard.setCardId(card.getCardId());
 	 	middleCard.setSuit(card.getSuit());
 	 	middleCard.setValue(card.getValue());
-	 	middleCard.getButton().setLabel(card.getButton().getLabel());
+	 	middleCard.getButton().setIcon(card.getNormalImage());
+	 	//middleCard.getButton().setLabel(card.getButton().getLabel());
 	 	middleCard.getButton().setVisible(true);
 	 }
 	public void disableCards()

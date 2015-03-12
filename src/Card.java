@@ -14,6 +14,7 @@ public class Card {
 	private JButton button;
 	private int worth;
 	private String cardPath;
+	private ImageIcon normalImage;
 	
 	public JButton getButton() {
 		return button;
@@ -40,11 +41,20 @@ public class Card {
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + cardPath));
 			System.out.println(getClass().getResource("/Images/" + cardPath));
 			Image newImg = test.getScaledInstance(70, 100, java.awt.Image.SCALE_SMOOTH);
-	        button = new JButton(new ImageIcon(newImg));
+			normalImage = new ImageIcon(newImg);
+	        button = new JButton(normalImage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public ImageIcon getNormalImage() {
+		return normalImage;
+	}
+
+	public void setNormalImage(ImageIcon normalImage) {
+		this.normalImage = normalImage;
 	}
 
 	public int getCardId() {
