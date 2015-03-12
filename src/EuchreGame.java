@@ -60,6 +60,7 @@ public class EuchreGame{
     human_turn = new Semaphore(1);
     button_press = new Semaphore(0);
     
+    GameInfo.ledSuit = "";
   }
   
   public static Semaphore getHuman_turn() {
@@ -149,6 +150,7 @@ public void startGame() {
 			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  for (int i = 0; i < 5; i++) {
 				  playCard();
+				  GameInfo.ledSuit = "";
 			  }
 			  hideTrump();
 		  } else {
@@ -157,6 +159,7 @@ public void startGame() {
 				  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
+					  GameInfo.ledSuit="";
 				  }
 				  hideTrump();
 			  } else {
@@ -236,7 +239,9 @@ public boolean pickUpOrPass() {
 			  if(GameInfo.dealer == 0)
 			  {
 				  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+				  enableHumanCards(GameInfo.players.get(0).getHand());
 				  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
 			  else
 			  {
@@ -329,7 +334,8 @@ public void playCard() {
 		  
 		  GameInfo.currentTrick.add(tmp);
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
-		  if (GameInfo.nextPlayer == 0) {
+		  
+		  if (i == 0) {
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
@@ -503,13 +509,45 @@ public void playCard() {
   
   public void enableHumanCards(ArrayList<Card> cards)
   {
+	  ArrayList<Card> temp = new ArrayList<Card>();
 	  for(int x = 0; x < cards.size(); x++)
 	  {
 		  if(cards.get(x).getButton().isVisible() == true)
 		  {
-			  cards.get(x).getButton().setEnabled(true);
+			  if(cards.get(x).getSuit() == GameInfo.ledSuit)
+				  temp.add(cards.get(x));
+			  else
+			  {
+				  if(GameInfo.trump.toLowerCase() == "hearts" && cards.get(x).getSuit().toLowerCase() == "diamonds" && cards.get(x).getValue()==11)
+					  temp.add(cards.get(x));
+				  else if(GameInfo.trump.toLowerCase() == "diamonds" && cards.get(x).getSuit().toLowerCase() == "hearts" && cards.get(x).getValue()==11)
+					  temp.add(cards.get(x));
+				  else if(GameInfo.trump.toLowerCase() == "clubs" && cards.get(x).getSuit().toLowerCase() == "spades" && cards.get(x).getValue()==11)
+					  temp.add(cards.get(x));
+				  else if(GameInfo.trump.toLowerCase() == "spades" && cards.get(x).getSuit().toLowerCase() == "clubs" && cards.get(x).getValue()==11)
+					  temp.add(cards.get(x));
+			  }
 		  }
 	  }
+	  
+	  if(temp.size() == 0)
+	  {
+		  for(int x = 0; x < cards.size(); x++)
+		  {
+			  if(cards.get(x).getButton().isVisible() == true)
+			  {
+				  cards.get(x).getButton().setEnabled(true);
+			  }
+		  }
+	  }
+	  else
+	  {
+		  for(int y=0; y<temp.size(); y++)
+		  {
+			  temp.get(y).getButton().setEnabled(true);
+		  }
+	  }
+	  
   }
   
   public void disableHumanCards(ArrayList<Card> cards)
