@@ -1,14 +1,10 @@
 import java.awt.Button;
-import java.awt.Image;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class EuchreGame{
   private String opp1Name;
@@ -372,10 +368,10 @@ public void playCard() {
 			e.printStackTrace();
 	  }
 	  hideAICards();
-	  GameInfo.board.getMidPanel().getYourMiddleCard().getButton().setVisible(false);
-	  GameInfo.board.getMidPanel().getOpp1MiddleCard().getButton().setVisible(false);
-	  GameInfo.board.getMidPanel().getOpp2MiddleCard().getButton().setVisible(false);
-	  GameInfo.board.getMidPanel().getTeamMiddleCard().getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().getYourMiddleCard().setVisible(false);
+	  GameInfo.board.getMidPanel().getOpp1MiddleCard().setVisible(false);
+	  GameInfo.board.getMidPanel().getOpp2MiddleCard().setVisible(false);
+	  GameInfo.board.getMidPanel().getTeamMiddleCard().setVisible(false);
 	  
 	  System.out.println("Cards Played");
 }
@@ -494,10 +490,10 @@ public void playCard() {
   
   public void hideMidPanel(MidPanel midPanel)
   {
-	  midPanel.getYourMiddleCard().getButton().setVisible(false);
-	  midPanel.getOpp1MiddleCard().getButton().setVisible(false);
-	  midPanel.getOpp2MiddleCard().getButton().setVisible(false);
-	  midPanel.getTeamMiddleCard().getButton().setVisible(false);	
+	  midPanel.getYourMiddleCard().setVisible(false);
+	  midPanel.getOpp1MiddleCard().setVisible(false);
+	  midPanel.getOpp2MiddleCard().setVisible(false);
+	  midPanel.getTeamMiddleCard().setVisible(false);	
 	  midPanel.hearts.setVisible(false);
 	  midPanel.spades.setVisible(false);
 	  midPanel.diamonds.setVisible(false);
@@ -529,31 +525,31 @@ public void playCard() {
   
   public void displayAICard(Card card)
   {
-	  Card opp1Card =   GameInfo.board.getMidPanel().opp1MiddleCard;
-	  Card opp2Card =   GameInfo.board.getMidPanel().opp2MiddleCard;
-	  Card teamCard =   GameInfo.board.getMidPanel().teamMiddleCard;
+	  JLabel opp1Card =   GameInfo.board.getMidPanel().opp1MiddleCard;
+	  JLabel opp2Card =   GameInfo.board.getMidPanel().opp2MiddleCard;
+	  JLabel teamCard =   GameInfo.board.getMidPanel().teamMiddleCard;
 	  
 	  if(GameInfo.nextPlayer == 1)
 	  {
-		  opp1Card.getButton().setLabel(card.getButton().getLabel());
-		  opp1Card.getButton().setVisible(true);
+		  opp1Card.setIcon(card.getButton().getIcon());
+		  opp1Card.setVisible(true);
 	  }
 	  else if(GameInfo.nextPlayer == 2)
 	  {
-		  teamCard.getButton().setLabel(card.getButton().getLabel());
-		  teamCard.getButton().setVisible(true);
+		  teamCard.setIcon(card.getButton().getIcon());
+		  teamCard.setVisible(true);
 	  }
 	  else if(GameInfo.nextPlayer == 3)
 	  {
-		  opp2Card.getButton().setLabel(card.getButton().getLabel());
-		  opp2Card.getButton().setVisible(true);
+		  opp2Card.setIcon(card.getButton().getIcon());
+		  opp2Card.setVisible(true);
 	  }
   }
   public void hideAICards()
   {
-	  GameInfo.board.getMidPanel().opp1MiddleCard.getButton().setVisible(false);
-	  GameInfo.board.getMidPanel().opp2MiddleCard.getButton().setVisible(false);
-	  GameInfo.board.getMidPanel().teamMiddleCard.getButton().setVisible(false);
+	  GameInfo.board.getMidPanel().opp1MiddleCard.setVisible(false);
+	  GameInfo.board.getMidPanel().opp2MiddleCard.setVisible(false);
+	  GameInfo.board.getMidPanel().teamMiddleCard.setVisible(false);
   }
   
   public void displayTrump()

@@ -10,12 +10,12 @@ import javax.swing.SwingConstants;
 public class YourPanel{
 	int width, height, cardWidth, cardHeight;
 	String name;
-	Card middleCard;
+	JLabel middleCard;
 	public ArrayList<Card> hand;
 	JPanel yourPanel;
 	Button dealer, trumpSuit;
 
-	public YourPanel(int width, int height, String name, Card middleCard, ArrayList<Card> hand)
+	public YourPanel(int width, int height, String name, JLabel middleCard, ArrayList<Card> hand)
 	{
 		//System.out.println("Created a new your panel");
 		this.width = width;

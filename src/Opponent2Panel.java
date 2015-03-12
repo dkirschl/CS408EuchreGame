@@ -9,11 +9,11 @@ import javax.swing.SwingConstants;
 public class Opponent2Panel{
 	int width, height, cardWidth, cardHeight;
 	String name;
-	Card middleCard;
+	JLabel middleCard;
 	JPanel opp2Panel;
 	Button dealer, trumpSuit;
 	
-	public Opponent2Panel(int width, int height, String name, Card middleCard)
+	public Opponent2Panel(int width, int height, String name, JLabel middleCard)
 	{
 		this.width = width;
 		this.height = height;

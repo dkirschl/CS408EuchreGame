@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 
 public class MidPanel{
 	int width, height, cardWidth, cardHeight;
-	Card yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard, turnup, pickOrPassCard;
+	JLabel yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard;
+	Card turnup, pickOrPassCard;
 	Button spades, clubs, hearts, diamonds, passSuit;
 	
 	JPanel midPanel;
@@ -21,10 +22,10 @@ public class MidPanel{
 	{
 		this.width = width;
 		this.height = height;
-		yourMiddleCard = new Card();
-		teamMiddleCard = new Card();
-		opp1MiddleCard = new Card();
-		opp2MiddleCard = new Card();
+		yourMiddleCard = new JLabel();
+		teamMiddleCard = new JLabel();
+		opp1MiddleCard = new JLabel();
+		opp2MiddleCard = new JLabel();
 		this.turnup = turnup;
 		
 		midPanel = new JPanel();
@@ -50,40 +51,35 @@ public class MidPanel{
 		
 		midPanel.setLayout(null);
 		 
-		JButton ymc = new JButton("");
-		JButton o1c = new JButton("Opp1 Card");
-		JButton o2c = new JButton("Opp2 Card");
-		JButton tmc = new JButton("Team Card");
+		yourMiddleCard.setVisible(false);
+		yourMiddleCard.setBounds(midWidth/2-cardWidth/2, midHeight-cardHeight-10, cardWidth, cardHeight);
+		//ymc.setEnabled(false);
 		 
-		ymc.setVisible(false);
-		ymc.setBounds(midWidth/2-cardWidth/2, midHeight-cardHeight-10, cardWidth, cardHeight);
-		ymc.setEnabled(false);
+		opp1MiddleCard.setVisible(false);
+		opp1MiddleCard.setBounds(50, midHeight/2-cardHeight/2, cardWidth, cardHeight);
+		//opp1MiddleCard.setEnabled(false);
 		 
-		o1c.setVisible(false);
-		o1c.setBounds(50, midHeight/2-cardWidth/2, cardHeight, cardWidth);
-		o1c.setEnabled(false);
+		opp2MiddleCard.setVisible(false);
+		opp2MiddleCard.setBounds(midWidth - 50-cardWidth, midHeight/2-cardHeight/2, cardWidth,cardHeight);
+		//opp2MiddleCard.setEnabled(false);
 		 
-		o2c.setVisible(false);
-		o2c.setBounds(midWidth - 50-cardHeight, midHeight/2-cardWidth/2, cardHeight,cardWidth);
-		o2c.setEnabled(false);
-		 
-		tmc.setVisible(false);
-		tmc.setBounds(midWidth/2-cardWidth/2, 10, cardWidth, cardHeight);
-		tmc.setEnabled(false);
+		teamMiddleCard.setVisible(false);
+		teamMiddleCard.setBounds(midWidth/2-cardWidth/2, 10, cardWidth, cardHeight);
+		//tmc.setEnabled(false);
 		
-		midPanel.add(tmc);
-		midPanel.add(o1c);
-		midPanel.add(o2c);
-		midPanel.add(ymc);
+		midPanel.add(teamMiddleCard);
+		midPanel.add(opp1MiddleCard);
+		midPanel.add(opp2MiddleCard);
+		midPanel.add(yourMiddleCard);
 		
 		//System.out.println("About to set the buttons");
 		
-		yourMiddleCard.setButton(ymc);
-		System.out.println("your middle card");
-		System.out.println(yourMiddleCard.getButton().getLabel());
-		opp1MiddleCard.setButton(o1c);
-		opp2MiddleCard.setButton(o2c);
-		teamMiddleCard.setButton(tmc);
+		//yourMiddleCard.setIcon(ymc.getIcon());
+		//System.out.println("your middle card");
+		//System.out.println(yourMiddleCard.getButton().getLabel());
+		//opp1MiddleCard.setIcon(o1c.getIcon());
+		//opp2MiddleCard.setButton(o2c);
+		//teamMiddleCard.setButton(tmc);
 		
 		//******* Set up the pick or pass fields *******\\
         //Card pickPassCard = turnup;
@@ -171,37 +167,37 @@ public class MidPanel{
 		this.pickOrPassCard = pickOrPassCard;
 	}
 
-	public Card getYourMiddleCard() {
+	public JLabel getYourMiddleCard() {
 		return yourMiddleCard;
 	}
 
-	public void setYourMiddleCard(Card yourMiddleCard) {
+	/*public void setYourMiddleCard(Card yourMiddleCard) {
 		this.yourMiddleCard = yourMiddleCard;
-	}
+	}*/
 
-	public Card getTeamMiddleCard() {
+	public JLabel getTeamMiddleCard() {
 		return teamMiddleCard;
 	}
 
-	public void setTeamMiddleCard(Card teamMiddleCard) {
+	/*public void setTeamMiddleCard(Card teamMiddleCard) {
 		this.teamMiddleCard = teamMiddleCard;
-	}
+	}*/
 
-	public Card getOpp1MiddleCard() {
+	public JLabel getOpp1MiddleCard() {
 		return opp1MiddleCard;
 	}
 
-	public void setOpp1MiddleCard(Card opp1MiddleCard) {
+	/*public void setOpp1MiddleCard(Card opp1MiddleCard) {
 		this.opp1MiddleCard = opp1MiddleCard;
-	}
+	}*/
 
-	public Card getOpp2MiddleCard() {
+	public JLabel getOpp2MiddleCard() {
 		return opp2MiddleCard;
 	}
 
-	public void setOpp2MiddleCard(Card opp2MiddleCard) {
+	/*public void setOpp2MiddleCard(Card opp2MiddleCard) {
 		this.opp2MiddleCard = opp2MiddleCard;
-	}
+	}*/
 	
 	
 }

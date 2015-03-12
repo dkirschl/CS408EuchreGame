@@ -9,12 +9,12 @@ import javax.swing.SwingConstants;
 public class TeamPanel{
 	int width, height, cardWidth, cardHeight;
 	String name;
-	Card middleCard;
+	JLabel middleCard;
 	JPanel teamPanel;
 	JLabel totalScore, trickScore;
 	Button dealer, trumpSuit;
 	
-	public TeamPanel(int width, int height, String name, Card middleCard)
+	public TeamPanel(int width, int height, String name, JLabel middleCard)
 	{
 		//System.out.println("Created a new team panel");
 		this.width = width;

@@ -1,13 +1,15 @@
-import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
 
 
 public class CardPress implements ActionListener {
 	
-	Card yourCard, yourMiddleCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard, pickOrPassCard;
+	Card yourCard, yourFirstCard, yourSecondCard, yourThirdCard, yourFourthCard, pickOrPassCard;
+	JLabel yourMiddleCard;
 	
-	public CardPress(Card yourCard, Card yourMiddleCard, Card yourFirstCard, Card yourSecondCard, Card yourThirdCard, Card yourFourthCard, Card pickOrPassCard) {
+	public CardPress(Card yourCard, JLabel yourMiddleCard, Card yourFirstCard, Card yourSecondCard, Card yourThirdCard, Card yourFourthCard, Card pickOrPassCard) {
 		this.yourCard = yourCard;
 		this.yourMiddleCard = yourMiddleCard;
 		this.yourFirstCard = yourFirstCard;
@@ -52,16 +54,16 @@ public class CardPress implements ActionListener {
 		
 		
 	}
-	public void playCard(Card card, Card middleCard)
+	public void playCard(Card card, JLabel middleCard)
 	 {
 		GameInfo.playedCard = card;
 	 	System.out.println(card.getButton().getLabel());
-	 	middleCard.setCardId(card.getCardId());
-	 	middleCard.setSuit(card.getSuit());
-	 	middleCard.setValue(card.getValue());
-	 	middleCard.getButton().setIcon(card.getNormalImage());
+	 	//middleCard.setCardId(card.getCardId());
+	 	//middleCard.setSuit(card.getSuit());
+	 	//middleCard.setValue(card.getValue());
+	 	middleCard.setIcon(card.getNormalImage());
 	 	//middleCard.getButton().setLabel(card.getButton().getLabel());
-	 	middleCard.getButton().setVisible(true);
+	 	middleCard.setVisible(true);
 	 }
 	public void disableCards()
 	{
