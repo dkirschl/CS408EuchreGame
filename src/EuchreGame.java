@@ -1,11 +1,14 @@
 import java.awt.Button;
-import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class EuchreGame{
   private String opp1Name;
@@ -179,25 +182,25 @@ public void deal() {
 	  for (int i = 0; i < 4; i++) {
 		  GameInfo.players.get(i).getHand().clear();
 	  }
-	  deck.add(new Card(0,9,"clubs")); deck.add(new Card(1,10,"clubs")); deck.add(new Card(2,11,"clubs")); deck.add(new Card(3,12,"clubs")); 
-	  deck.add(new Card(4,13,"clubs")); deck.add(new Card(5,14,"clubs"));
+	  deck.add(new Card(0,9,"clubs", "Card8.jpg")); deck.add(new Card(1,10,"clubs", "Card9.jpg")); deck.add(new Card(2,11,"clubs", "Card10.jpg")); 
+	  deck.add(new Card(3,12,"clubs", "Card11.jpg")); deck.add(new Card(4,13,"clubs", "Card12.jpg")); deck.add(new Card(5,14,"clubs", "Card0.jpg"));
 	  
-	  deck.add(new Card(6,9,"diamonds")); deck.add(new Card(7,10,"diamonds")); deck.add(new Card(8,11,"diamonds")); deck.add(new Card(9,12,"diamonds")); 
-	  deck.add(new Card(10,13,"diamonds")); deck.add(new Card(11,14,"diamonds"));
+	  deck.add(new Card(6,9,"diamonds", "Card34.jpg")); deck.add(new Card(7,10,"diamonds", "Card35.jpg")); deck.add(new Card(8,11,"diamonds", "Card36.jpg")); 
+	  deck.add(new Card(9,12,"diamonds", "Card37.jpg")); deck.add(new Card(10,13,"diamonds", "Card38.jpg")); deck.add(new Card(11,14,"diamonds", "Card26.jpg"));
 	  
-	  deck.add(new Card(12,9,"hearts")); deck.add(new Card(13,10,"hearts")); deck.add(new Card(14,11,"hearts")); deck.add(new Card(15,12,"hearts")); 
-	  deck.add(new Card(16,13,"hearts")); deck.add(new Card(17,14,"hearts"));
+	  deck.add(new Card(12,9,"hearts", "Card47.jpg")); deck.add(new Card(13,10,"hearts", "Card48.jpg")); deck.add(new Card(14,11,"hearts", "Card49.jpg")); 
+	  deck.add(new Card(15,12,"hearts", "Card50.jpg")); deck.add(new Card(16,13,"hearts", "Card51.jpg")); deck.add(new Card(17,14,"hearts", "Card39.jpg"));
 	  
-	  deck.add(new Card(18,9,"spades")); deck.add(new Card(19,10,"spades")); deck.add(new Card(20,11,"spades")); deck.add(new Card(21,12,"spades")); 
-	  deck.add(new Card(22,13,"spades")); deck.add(new Card(23,14,"spades"));
+	  deck.add(new Card(18,9,"spades", "Card21.jpg")); deck.add(new Card(19,10,"spades", "Card22.jpg")); deck.add(new Card(20,11,"spades", "Card23.jpg")); 
+	  deck.add(new Card(21,12,"spades", "Card24.jpg")); deck.add(new Card(22,13,"spades", "Card25.jpg")); deck.add(new Card(23,14,"spades", "Card13.jpg"));
 	  
 	  //deal 5 cards to each player
 	  for (int i = 0; i <= 4; i++) {
 		  for (int j = 0; j <= 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  GameInfo.players.get(j).receiveCard(deck.get(num));
-			  Button button = new Button(GameInfo.players.get(j).getHand().get(i).getSuit() + GameInfo.players.get(j).getHand().get(i).getValue());
-			  GameInfo.players.get(j).getHand().get(i).setButton(button);
+			  //Button button = new Button(GameInfo.players.get(j).getHand().get(i).getSuit() + GameInfo.players.get(j).getHand().get(i).getValue());
+			  //GameInfo.players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
@@ -214,8 +217,6 @@ public void deal() {
 	  //choose a card to be flipped up in the middle
 	  
 	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
-	  Button button = new Button(GameInfo.middleCard.getSuit() + " " + GameInfo.middleCard.getValue());
-	  GameInfo.middleCard.setButton(button);
 
 
 	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();

@@ -1,8 +1,12 @@
 import java.awt.Button;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Image;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -46,10 +50,10 @@ public class MidPanel{
 		
 		midPanel.setLayout(null);
 		 
-		Button ymc = new Button("");
-		Button o1c = new Button("Opp1 Card");
-		Button o2c = new Button("Opp2 Card");
-		Button tmc = new Button("Team Card");
+		JButton ymc = new JButton("");
+		JButton o1c = new JButton("Opp1 Card");
+		JButton o2c = new JButton("Opp2 Card");
+		JButton tmc = new JButton("Team Card");
 		 
 		ymc.setVisible(false);
 		ymc.setBounds(midWidth/2-cardWidth/2, midHeight-cardHeight-10, cardWidth, cardHeight);
@@ -84,7 +88,8 @@ public class MidPanel{
 		//******* Set up the pick or pass fields *******\\
         //Card pickPassCard = turnup;
 		pickOrPassCard = turnup;
-        Button pickPassButton = turnup.getButton();
+        JButton pickPassButton = turnup.getButton();
+        System.out.println(turnup.getButton().getIcon().toString());
         Button pickCard = new Button("Pick");
         Button passCard = new Button("Pass");
         Button deck = new Button("Deck");

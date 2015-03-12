@@ -1,4 +1,9 @@
-import java.awt.Button;
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 
 public class Card {
@@ -6,14 +11,15 @@ public class Card {
 	private int cardId;
 	private int value;
 	private String suit;
-	private Button button;
+	private JButton button;
 	private int worth;
+	private String cardPath;
 	
-	public Button getButton() {
+	public JButton getButton() {
 		return button;
 	}
 
-	public void setButton(Button button) {
+	public void setButton(JButton button) {
 		this.button = button;
 	}
 	
@@ -24,10 +30,21 @@ public class Card {
 		suit = "";
 	}
 
-	public Card(int id, int value, String suit) {
+	public Card(int id, int value, String suit, String cardPath) {
 		cardId = id;
 		this.value = value;
 		this.suit = suit;
+		this.cardPath = cardPath;
+        Image test;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + cardPath));
+			System.out.println(getClass().getResource("/Images/" + cardPath));
+			Image newImg = test.getScaledInstance(70, 100, java.awt.Image.SCALE_SMOOTH);
+	        button = new JButton(new ImageIcon(newImg));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getCardId() {
