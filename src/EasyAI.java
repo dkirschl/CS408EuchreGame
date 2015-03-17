@@ -31,7 +31,7 @@ public class EasyAI extends AI{
 	    int randomInt = randomGenerator.nextInt(10);
 	    randomInt -= 5;
 	    System.out.println("Random int is " + randomInt);
-	    int threshold = 38;
+	    int threshold = 36;
 	    threshold += randomInt;
 	    
 	    /*
@@ -175,7 +175,6 @@ public class EasyAI extends AI{
 					 		 	break;
 		}		
 		
-		
 		calculateValues(GameInfo.trump);
 		
 		/*
@@ -187,23 +186,32 @@ public class EasyAI extends AI{
 		
 		if(GameInfo.currentTrick.size() == 0){
 			//Play highest valued card since you are the leader
-			int high = 0;
-			Card highestValued = new Card();
-			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card highestValued = GameInfo.players.get(myValue).getHand().get(0);
+			int high = highestValued.getWorth();
+			
+			for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
 				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
+					high = nextCard.getWorth();
 				}
 			}
 			
 			
-			System.out.println("A : " + highestValued.getValue());
+			System.out.println("Leading trick : worth of " + highestValued.getWorth());
 
 			return highestValued;
 			
 		} else {
+			System.out.println("Not Leading");
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
+			
+			//If the left is lead, the real suit that is lead is trump
+			if(leadSuit == leftSuit && GameInfo.currentTrick.get(0).getValue() == 11){
+				leadSuit = GameInfo.trump;
+			}
+			
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
@@ -225,13 +233,14 @@ public class EasyAI extends AI{
 				
 				
 			}
+			System.out.println("There are " + elCards.size() + " eligible cards");
 		}
 		
 		if(elCards.size() == 1){
 			/*
 			 * Play the only eligible card
 			 */
-			System.out.println("B : " + elCards.get(0).getValue());
+			System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
 
 			return elCards.get(0);
 		
@@ -239,18 +248,19 @@ public class EasyAI extends AI{
 			/*
 			 * Play lowest valued card since you are going to lose unless you play trump
 			 */
-			int low = 100;
-			Card lowestValued = new Card();
-			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+			int low = lowestValued.getWorth();
+			for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
 				if(nextCard.getWorth() < low){
 					lowestValued = nextCard;
+					low = nextCard.getWorth();
 				}
 			}
 			
 
-			System.out.println("C : " + lowestValued.getValue());
+			System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
 
 			return lowestValued;
 			
@@ -258,18 +268,20 @@ public class EasyAI extends AI{
 			/*
 			 * Play highest valued eligible card
 			 */
-			int high = 0;
-			Card highestValued = new Card();
-			for(int i = 0; i < elCards.size(); i++){
+			System.out.println("There are " + elCards.size() + " eligible Cards");
+			Card highestValued = elCards.get(0);
+			int high = highestValued.getWorth();
+			for(int i = 1; i < elCards.size(); i++){
 				Card nextCard = elCards.get(i);
 				
 				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
+					high = nextCard.getWorth();
 				}
 			}
 			
 
-			System.out.println("D : " + highestValued.getValue());
+			System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
 
 			return highestValued;
 		}
@@ -358,17 +370,23 @@ public class EasyAI extends AI{
 		
 		//Resets values for the appropriate suit
 		calculateValues(GameInfo.middleSuit);
+		System.out.println("Removing Card.........");
 		
-		int low = 100;
-		Card lowestValued = new Card();
-		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+		int low = lowestValued.getWorth();
+		
+
+		for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
 			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
-			
+
 			if(nextCard.getWorth() < low){
+
 				lowestValued = nextCard;
+				low = nextCard.getWorth();
 			}
 		}
 		
+		System.out.println("Removing " + lowestValued.getValue() + " " + lowestValued.getSuit());
 		GameInfo.players.get(myValue).getHand().remove(lowestValued);
 		GameInfo.players.get(myValue).getHand().add(middle);
 		

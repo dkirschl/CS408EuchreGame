@@ -356,10 +356,10 @@ public void playCard() {
 		  }
 		  try {
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+		  } catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 		  
 		  
@@ -373,6 +373,14 @@ public void playCard() {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 	  }
+	  
+	  GameInfo.previousTrick = GameInfo.currentTrick;
+	  
+	  //Clear The current trick array list
+	  while(GameInfo.currentTrick.size() != 0){
+		  GameInfo.currentTrick.remove(0);
+	  }
+	  
 	  hideAICards();
 	  GameInfo.board.getMidPanel().getYourMiddleCard().setVisible(false);
 	  GameInfo.board.getMidPanel().getOpp1MiddleCard().setVisible(false);
@@ -385,6 +393,7 @@ public void playCard() {
   public Card determineWinner(Card c1, Card c2) {
 	  String trump = GameInfo.trump;
 	  String ledSuit = GameInfo.ledSuit;
+	  
 	  c1 = adjustValue(c1);
 	  c2 = adjustValue(c2);
 	  if (c1.getSuit().equals(ledSuit) && c2.getSuit().equals(ledSuit)) {
