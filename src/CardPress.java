@@ -23,7 +23,7 @@ public class CardPress implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			EuchreGame.getHuman_turn().acquire();
-			System.out.println(GameInfo.isPick);
+			//System.out.println(GameInfo.isPick);
 			if(GameInfo.isPick == 1)
 			{
 				switchCard(yourCard, pickOrPassCard);

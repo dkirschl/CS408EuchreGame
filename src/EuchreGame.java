@@ -144,8 +144,8 @@ public void startGame() {
 		  buildGame(GameInfo.players, GameInfo.middleCard);
 		  moveDealer();
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
-		  System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
-		  System.out.println("Dealer is: " + GameInfo.dealer);
+		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
+		  //System.out.println("Dealer is: " + GameInfo.dealer);
 		  if (pickUpOrPass()) {
 			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  for (int i = 0; i < 5; i++) {
@@ -167,6 +167,13 @@ public void startGame() {
 			  }
 		  }
 		  GameInfo.dealer = (GameInfo.dealer + 1) % 4;
+		  GameInfo.middleCard = null;
+		  GameInfo.trump = null;
+		  GameInfo.middleSuit = null;
+		  GameInfo.ledSuit = null;
+		  GameInfo.nextPlayer = -1;
+		  GameInfo.playedCard = null;
+		  GameInfo.selectedSuit = null;
 	  
 	  }
 
@@ -248,6 +255,7 @@ public boolean pickUpOrPass() {
 				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
 			  }
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 			  displayTrump();
 			  return true;
 		  }
@@ -319,7 +327,7 @@ public void playCard() {
 	  Card winner1 = null;
 	  for (int i = 0; i < 4; i++) {
 		  
-		  System.out.println("Player " + GameInfo.nextPlayer + " turn");
+		  //System.out.println("Player " + GameInfo.nextPlayer + " turn");
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
@@ -342,13 +350,15 @@ public void playCard() {
 			  winner1 = tmp;
 			  currentWinner = GameInfo.nextPlayer;
 		  } else {
+			  System.out.println("Comparing : " + winner1.getSuit() + winner1.getValue() + " : " + tmp.getSuit() + tmp.getValue());
 			  winner1 = determineWinner(winner1, tmp);
-			  System.out.println("Current Winner : " + winner1.getCardId());
+			  
 			  
 			  if (winner1.getCardId() == tmp.getCardId()) {
 				  currentWinner = GameInfo.nextPlayer;
 			  }
 			  System.out.println("Winning player : " + currentWinner);
+			  System.out.println("Winning Card : " + winner1.getSuit() + winner1.getValue());
 		  }
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
@@ -421,6 +431,7 @@ public void playCard() {
 			  return c2;
 		  }
 	  }
+	  System.out.println("NO WIN CONDITION MET!!!!!!!!!!!!!!!!!!!");
 	  return c1;
   }
   
@@ -431,7 +442,7 @@ public void playCard() {
 		  if (c.getSuit().equals(trump)) {
 			  c.setValue(16); //the jack of trump is the highest value card
 		  } else {
-			  if ((trump.equals("Spades") && c.getSuit().equals("Clubs")) || (trump.equals("Clubs") && c.getSuit().equals("Spades")) || (trump.equals("Diamonds") && c.getSuit().equals("Hearts")) || (trump.equals("Hearts") && c.getSuit().equals("Diamonds"))) {
+			  if ((trump.equals("spades") && c.getSuit().equals("clubs")) || (trump.equals("clubs") && c.getSuit().equals("spades")) || (trump.equals("diamonds") && c.getSuit().equals("hearts")) || (trump.equals("hearts") && c.getSuit().equals("diamonds"))) {
 				  c.setValue(15); // the jack of the same color as trump is the second strongest card
 				  c.setSuit(trump);
 			  }

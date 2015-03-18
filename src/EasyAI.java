@@ -199,12 +199,12 @@ public class EasyAI extends AI{
 			}
 			
 			
-			System.out.println("Leading trick : worth of " + highestValued.getWorth());
+			//System.out.println("Leading trick : worth of " + highestValued.getWorth());
 
 			return highestValued;
 			
 		} else {
-			System.out.println("Not Leading");
+			//System.out.println("Not Leading");
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
 			
 			//If the left is lead, the real suit that is lead is trump
@@ -233,14 +233,14 @@ public class EasyAI extends AI{
 				
 				
 			}
-			System.out.println("There are " + elCards.size() + " eligible cards");
+			//System.out.println("There are " + elCards.size() + " eligible cards");
 		}
 		
 		if(elCards.size() == 1){
 			/*
 			 * Play the only eligible card
 			 */
-			System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
+			//System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
 
 			return elCards.get(0);
 		
@@ -260,7 +260,7 @@ public class EasyAI extends AI{
 			}
 			
 
-			System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
+			//System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
 
 			return lowestValued;
 			
@@ -268,7 +268,7 @@ public class EasyAI extends AI{
 			/*
 			 * Play highest valued eligible card
 			 */
-			System.out.println("There are " + elCards.size() + " eligible Cards");
+			//System.out.println("There are " + elCards.size() + " eligible Cards");
 			Card highestValued = elCards.get(0);
 			int high = highestValued.getWorth();
 			for(int i = 1; i < elCards.size(); i++){
@@ -281,7 +281,7 @@ public class EasyAI extends AI{
 			}
 			
 
-			System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
+			//System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
 
 			return highestValued;
 		}
