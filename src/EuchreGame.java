@@ -168,9 +168,25 @@ public void startGame() {
 				  }
 				  hideTrump();
 			  } else {
-				  break;
+				  continue;
 			  }
 		  }
+		  //updating score
+		  if (GameInfo.teamOneTricks > GameInfo.teamTwoTricks) {
+			  //team one won
+			  if (GameInfo.teamOneTricks == 5) { GameInfo.teamOneScore += 2; } 
+			  else { GameInfo.teamOneScore++; 
+			  //GameInfo.board.getTeamPanel().updateTotalScore();
+			  }
+		  } else {
+			  //team two won
+			  if (GameInfo.teamTwoTricks == 5) { GameInfo.teamTwoScore += 2; } 
+			  else { GameInfo.teamTwoScore++; 
+			  //GameInfo.board.getTeamPanel().updateTotalScore();
+			  }
+		  }
+		  
+		  
 		  GameInfo.dealer = (GameInfo.dealer + 1) % 4;
 		  GameInfo.middleCard = null;
 		  GameInfo.trump = null;
@@ -179,6 +195,8 @@ public void startGame() {
 		  GameInfo.nextPlayer = -1;
 		  GameInfo.playedCard = null;
 		  GameInfo.selectedSuit = null;
+		  GameInfo.teamOneTricks = 0;
+		  GameInfo.teamTwoTricks = 0;
 	  
 	  }
 
@@ -249,7 +267,9 @@ public boolean pickUpOrPass() {
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
-			  if(GameInfo.dealer == 0)
+			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  //if(GameInfo.dealer == 0)
+			  if (GameInfo.nextPlayer == 2)
 			  {
 				  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
@@ -260,7 +280,7 @@ public boolean pickUpOrPass() {
 			  {
 				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
 			  }
-			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  
 			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 			  displayTrump();
 			  return true;
@@ -307,6 +327,9 @@ public boolean chooseSuit() {
 		  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
+		  if (suit.toLowerCase() != "pass") {
+			  break;
+		  }
 	  }
 	  // Hide the visuals from the screen
 	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
@@ -350,6 +373,7 @@ public void playCard() {
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
 		  
 		  if (i == 0) {
+			  tmp = adjustValue(tmp);
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
@@ -382,6 +406,12 @@ public void playCard() {
 		  
 	  }
 	  GameInfo.nextPlayer = currentWinner;
+	  if (currentWinner == 0 || currentWinner == 2) {
+		  GameInfo.teamOneTricks++;
+	  } else {
+		  GameInfo.teamTwoTricks++;
+	  }
+	  //GameInfo.board.getTeamPanel().updateTrickScore();
 	  
 	  try{
 		  Thread.sleep(2000);
@@ -458,6 +488,7 @@ public void playCard() {
   }
   
   public boolean isGameOver() {
+	  System.out.println("Score is " + GameInfo.teamOneScore + " : " + GameInfo.teamTwoScore);
 	  if (GameInfo.teamOneScore >= 10 || GameInfo.teamTwoScore >= 10) {
 		  return true;
 	  } else {
@@ -575,6 +606,16 @@ public void playCard() {
 		  }
 	  }
 	  
+  }
+  
+  public void enableAllHumanCards(ArrayList<Card> cards) {
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setEnabled(true);
+		  }
+	  }
   }
   
   public void disableHumanCards(ArrayList<Card> cards)
