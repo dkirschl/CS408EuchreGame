@@ -1,8 +1,13 @@
 import java.awt.Button;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -219,7 +224,6 @@ public void deal() {
 		  }
 	  }
 
-
 	  //choose a card to be flipped up in the middle
 	  
 	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
@@ -227,6 +231,8 @@ public void deal() {
 
 	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();
 	  System.out.println("Turnup is: " + GameInfo.middleCard.getSuit() + GameInfo.middleCard.getValue());
+	  
+	  GameInfo.trump = "";
 }
 
 public boolean pickUpOrPass() {
@@ -267,7 +273,7 @@ public boolean pickUpOrPass() {
 public boolean chooseSuit() {
 	//******* Everyone passed and now it goes around again to select the suit *******\\
 	  String suit = "";
-	  ArrayList<Button> chooseSuitButtons = new ArrayList<Button>();
+	  ArrayList<JButton> chooseSuitButtons = new ArrayList<JButton>();
 	  
 	  System.out.println("No player picked up the card");
 	  System.out.println("Suit not available is: " + GameInfo.middleCard.getSuit().toLowerCase());
@@ -459,10 +465,10 @@ public void playCard() {
 	  }
   }
 
-  public ArrayList<Button> displayChooseSuit(String suit)
+  public ArrayList<JButton> displayChooseSuit(String suit)
   {
 	  MidPanel midPanel = GameInfo.board.getMidPanel();
-	  ArrayList<Button> buttons = new ArrayList<Button>();
+	  ArrayList<JButton> buttons = new ArrayList<JButton>();
 	  
 	  if(suit == "spades")
 	  {
@@ -538,6 +544,7 @@ public void playCard() {
 				  temp.add(cards.get(x));
 			  else
 			  {
+				  System.out.println("Trump: " + GameInfo.trump);
 				  if(GameInfo.trump.toLowerCase() == "hearts" && cards.get(x).getSuit().toLowerCase() == "diamonds" && cards.get(x).getValue()==11)
 					  temp.add(cards.get(x));
 				  else if(GameInfo.trump.toLowerCase() == "diamonds" && cards.get(x).getSuit().toLowerCase() == "hearts" && cards.get(x).getValue()==11)
@@ -612,35 +619,28 @@ public void playCard() {
   
   public void displayTrump()
   {
-	  System.out.println("Displaying trump for player: " + GameInfo.nextPlayer);
-	  if(GameInfo.nextPlayer == 0)
-	  {
-		  GameInfo.board.getYourPanel().trumpSuit.setLabel(GameInfo.trump);
-		  GameInfo.board.getYourPanel().trumpSuit.setVisible(true);
-	  }
-	  if(GameInfo.nextPlayer == 1)
-	  {
-		  GameInfo.board.getOpp1Panel().trumpSuit.setLabel(GameInfo.trump);
-		  GameInfo.board.getOpp1Panel().trumpSuit.setVisible(true);
-	  }
-	  if(GameInfo.nextPlayer == 2)
-	  {
-		  GameInfo.board.getTeamPanel().trumpSuit.setLabel(GameInfo.trump);
-		  GameInfo.board.getTeamPanel().trumpSuit.setVisible(true);
-	  }
-	  if(GameInfo.nextPlayer == 3)
-	  {
-		  GameInfo.board.getOpp2Panel().trumpSuit.setLabel(GameInfo.trump);
-		  GameInfo.board.getOpp2Panel().trumpSuit.setVisible(true);
-	  }
+      Image test;
+      ImageIcon normalImage;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + GameInfo.trump + "Image.png"));
+			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
+			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        GameInfo.board.getMidPanel().trumpSuitImage.setIcon(normalImage);
+	        GameInfo.board.getMidPanel().trumpSuitImage.setVisible(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
   }
   
   public void hideTrump()
   {
-	  GameInfo.board.getYourPanel().trumpSuit.setVisible(false);
+	  GameInfo.board.getMidPanel().trumpSuitImage.setVisible(false);
+	 /* GameInfo.board.getYourPanel().trumpSuit.setVisible(false);
 	  GameInfo.board.getOpp1Panel().trumpSuit.setVisible(false);
 	  GameInfo.board.getOpp2Panel().trumpSuit.setVisible(false);
-	  GameInfo.board.getTeamPanel().trumpSuit.setVisible(false);
+	  GameInfo.board.getTeamPanel().trumpSuit.setVisible(false); */
   }
   public void moveDealer()
   {
@@ -648,25 +648,30 @@ public void playCard() {
 	  {
 		  System.out.println("You are the dealer");
 		  GameInfo.board.getOpp2Panel().dealer.setVisible(false);
+		  System.out.println("Opponent 2 Dealer is: " + GameInfo.board.getOpp2Panel().dealer.isVisible());
 		  GameInfo.board.getYourPanel().dealer.setVisible(true);  
+		  GameInfo.board.getOpp2Panel().opp2Panel.repaint();
 	  }
 	  else if(GameInfo.dealer == 1)
 	  {
 		  System.out.println("Opp1 is the dealer");
 		  GameInfo.board.getYourPanel().dealer.setVisible(false);
 		  GameInfo.board.getOpp1Panel().dealer.setVisible(true); 
+		  //GameInfo.board.getYourPanel().yourPanel.repaint();
 	  }
 	  else if(GameInfo.dealer == 2)
 	  {
 		  System.out.println("Teammate is the dealer");
 		  GameInfo.board.getOpp1Panel().dealer.setVisible(false);
 		  GameInfo.board.getTeamPanel().dealer.setVisible(true); 
+		  GameInfo.board.getOpp1Panel().opp1Panel.repaint();
 	  }
 	  else if(GameInfo.dealer == 3)
 	  {
 		  System.out.println("Opponent 2 is the dealer");
 		  GameInfo.board.getTeamPanel().dealer.setVisible(false);
 		  GameInfo.board.getOpp2Panel().dealer.setVisible(true); 
+		  GameInfo.board.getTeamPanel().teamPanel.repaint();
 	  }
   }
   //******* Generate the getters and setters *******//

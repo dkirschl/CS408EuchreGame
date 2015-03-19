@@ -1,6 +1,11 @@
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -12,7 +17,7 @@ public class TeamPanel{
 	JLabel middleCard;
 	JPanel teamPanel;
 	JLabel totalScore, trickScore;
-	Button dealer, trumpSuit;
+	JLabel dealer;
 	
 	public TeamPanel(int width, int height, String name, JLabel middleCard)
 	{
@@ -37,8 +42,20 @@ public class TeamPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
-		dealer = new Button("Dealer");
-		trumpSuit = new Button("trumpSuit");
+        Image test;
+        ImageIcon normalImage;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
+			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
+			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        dealer = new JLabel(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		//trumpSuit = new Button("trumpSuit");
 		
 		//System.out.println("Team Coordinates x: " + teamXCoord + " y: " + teamYCoord + " Dimensions width: " + teamWidth  + " height: " + teamHeight);
 		teamPanel.setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
@@ -50,11 +67,25 @@ public class TeamPanel{
 		
 		teamPanel.add(team);
 		
-		Button teamCard1 = new Button("team Card1");
-		Button teamCard2 = new Button("team Card2");
-		Button teamCard3= new Button("team Card3");
-		Button teamCard4 = new Button("team Card4");
-		Button teamCard5 = new Button("team Card5");
+		JButton teamCard1 = new JButton("team Card1");
+		JButton teamCard2 = new JButton("team Card2");
+		JButton teamCard3 = new JButton("team Card3");
+		JButton teamCard4 = new JButton("team Card4");
+		JButton teamCard5 = new JButton("team Card5");
+		
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/BackOfCard5.jpg"));
+			Image newImg = test.getScaledInstance(cardWidth, cardHeight, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        teamCard1.setIcon(normalImage);
+	        teamCard2.setIcon(normalImage);
+	        teamCard3.setIcon(normalImage);
+	        teamCard4.setIcon(normalImage);
+	        teamCard5.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 		int initialCardX = width/2-cardWidth/2-cardWidth-cardWidth-10;
 		int initialTeamY = 30;
@@ -86,16 +117,13 @@ public class TeamPanel{
 		teamPanel.add(totalScore);
 		
 		// Add in the Buttons for dealer and trump suit
-		dealer.setEnabled(false);
+		dealer.setEnabled(true);
 		dealer.setVisible(false);
-		trumpSuit.setEnabled(false);
-		trumpSuit.setVisible(false);
+
 		
 		dealer.setBounds(initialCardX-50, initialTeamY, 40, 40);
-		trumpSuit.setBounds(initialCardX+4*(cardWidth+5)+cardWidth+10, initialTeamY, 40,40);
 		
 		teamPanel.add(dealer);
-		teamPanel.add(trumpSuit);
 	}
 	public void updateTotalScore()
 	{

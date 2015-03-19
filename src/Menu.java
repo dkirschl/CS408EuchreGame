@@ -14,12 +14,12 @@ import javax.swing.KeyStroke;
 
 
 public class Menu extends JMenuBar{
-	public Menu(JPanel gcs)
+	public Menu(JPanel gcs, JPanel howToPlay)
 	{
-		initMenu(gcs);
+		initMenu(gcs, howToPlay);
 	}
 	
-	public void initMenu(final JPanel gameCreateScreen)
+	public void initMenu(final JPanel gameCreateScreen, JPanel howToPlay)
 	{
 	    JMenu menu;
 	    JMenuItem menuItem;
@@ -58,12 +58,14 @@ public class Menu extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("HTP");
-				JTextArea textArea = new JTextArea(GameInfo.howTo);
+				
+				howToPlay.setVisible(true);
+			/*	JTextArea textArea = new JTextArea(GameInfo.howTo);
 				
 				JScrollPane scroll = new JScrollPane(textArea);
 				setPreferredSize(new Dimension(10, 250));
 				add(scroll, BorderLayout.CENTER);
-				scroll.setVisible(true);
+				scroll.setVisible(true);*/
 			}
 	    	
 	    });

@@ -18,12 +18,12 @@ import javax.swing.JTextField;
 public class GameCreateScreen{
 	JPanel gameCreateScreen;
 	
-	public GameCreateScreen(Board board)
+	public GameCreateScreen(Board board, int width, int height)
 	{
 		gameCreateScreen = new JPanel();
-		initScreen(board);
+		initScreen(board, width, height);
 	}
-	public void initScreen(final Board board)
+	public void initScreen(final Board board, int width, int height)
 	{
 		
 		JButton createGameButton;
@@ -64,8 +64,8 @@ public class GameCreateScreen{
 	  //****** Create the initial frame ******//
 	  //newGamePanel = new JFrame("Creating a new game!");
 	  
-	  gameCreateScreen.setMaximumSize(new Dimension(windowWidth, windowHeight));
-	  gameCreateScreen.setSize(new Dimension(windowWidth, windowHeight));
+	  gameCreateScreen.setMaximumSize(new Dimension(width, height));
+	  gameCreateScreen.setSize(new Dimension(width, height));
 	  gameCreateScreen.setLayout(null);
 	  
 	  

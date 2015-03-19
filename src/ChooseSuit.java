@@ -2,12 +2,14 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 
 public class ChooseSuit implements ActionListener{
 	String suit;
-	Button suitButton;
+	JButton suitButton;
 	
-	public ChooseSuit(Button suitButton, String suit)
+	public ChooseSuit(JButton suitButton, String suit)
 	{
 		this.suitButton = suitButton;
 		this.suit = suit;

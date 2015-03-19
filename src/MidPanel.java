@@ -14,7 +14,8 @@ public class MidPanel{
 	int width, height, cardWidth, cardHeight;
 	JLabel yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard;
 	Card turnup, pickOrPassCard;
-	Button spades, clubs, hearts, diamonds, passSuit;
+	JButton spades, clubs, hearts, diamonds, passSuit;
+	JLabel trumpSuitImage;
 	
 	JPanel midPanel;
 
@@ -118,29 +119,72 @@ public class MidPanel{
         midPanel.add(deck);
         
         //******* Setup the other suit buttons *******\\
-        spades = new Button("Spades");
-        hearts = new Button("Hearts");
-        clubs = new Button("Clubs");
-        diamonds = new Button("Diamonds");
-        passSuit = new Button("Pass");
+
+        spades = new JButton();
+        hearts = new JButton();
+        clubs = new JButton();
+        diamonds = new JButton();
+        passSuit = new JButton("Pass");
         
         int clubTopBorder = 115;
         int clubSideBorder = 110;
         
+        Image test;
+        ImageIcon normalImage;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/spadesImage.png"));
+			Image newImg = test.getScaledInstance(clubWidth, clubHeight, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        spades.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         spades.setVisible(false);
         spades.setBounds(clubSideBorder, midHeight/2-clubHeight/2, clubWidth, clubHeight);
         spades.setEnabled(false);
         spades.addActionListener(new ChooseSuit(spades, "spades"));
+        
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/clubsImage.png"));
+			Image newImg = test.getScaledInstance(clubWidth, clubHeight, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        clubs.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         clubs.setVisible(false);
         clubs.setBounds(midWidth-clubSideBorder-clubWidth, midHeight/2-clubHeight/2, clubWidth, clubHeight);
         clubs.setEnabled(false);
         clubs.addActionListener(new ChooseSuit(clubs, "clubs"));
         
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/heartsImage.png"));
+			Image newImg = test.getScaledInstance(clubWidth, clubHeight, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        hearts.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         hearts.setVisible(false);
         hearts.setBounds(midWidth/2-clubWidth/2, clubTopBorder, clubWidth, clubHeight);
         hearts.setEnabled(false);
         hearts.addActionListener(new ChooseSuit(hearts, "hearts"));
+        
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/diamondsImage.png"));
+			Image newImg = test.getScaledInstance(clubWidth, clubHeight, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        diamonds.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         diamonds.setVisible(false);
         diamonds.setBounds(midWidth/2-clubWidth/2, midHeight-clubHeight-clubTopBorder, clubWidth, clubHeight);
@@ -157,6 +201,13 @@ public class MidPanel{
         midPanel.add(hearts);
         midPanel.add(diamonds);
         midPanel.add(passSuit);
+        
+        trumpSuitImage = new JLabel();
+        trumpSuitImage.setVisible(false);
+        trumpSuitImage.setBounds(0,0,clubWidth, clubHeight);
+        trumpSuitImage.setEnabled(true);
+        
+        midPanel.add(trumpSuitImage);
 	}
 
 	public Card getPickOrPassCard() {

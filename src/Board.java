@@ -32,13 +32,19 @@ public class Board{
 		gameBoard = new JPanel(new FlowLayout());
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setMinimumSize(new Dimension(boardWidth,boardHeight));
-		//setResizable(false);
+		board.setResizable(false);
 		
-		GameCreateScreen s = new GameCreateScreen(this);
+		GameCreateScreen s = new GameCreateScreen(this, boardWidth, boardHeight);
 		s.gameCreateScreen.setVisible(false);
 		
-		board.setJMenuBar(new Menu(s.gameCreateScreen));
+		HowToPlay htp = new HowToPlay(this, boardWidth, boardHeight);
+		htp.howToPlayScreen.setVisible(false);
+		
+		System.out.println("HTP width: " + htp.howToPlayScreen.getWidth() + " height: " +  htp.howToPlayScreen.getHeight());
+		
+		board.setJMenuBar(new Menu(s.gameCreateScreen, htp.howToPlayScreen));
 		board.add(s.gameCreateScreen);
+		board.add(htp.howToPlayScreen);
 		
 		//gameBoard.setBackground(Color.blue);
 

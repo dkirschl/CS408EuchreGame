@@ -1,7 +1,11 @@
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -13,7 +17,7 @@ public class YourPanel{
 	JLabel middleCard;
 	public ArrayList<Card> hand;
 	JPanel yourPanel;
-	Button dealer, trumpSuit;
+	JLabel dealer;
 
 	public YourPanel(int width, int height, String name, JLabel middleCard, ArrayList<Card> hand)
 	{
@@ -39,8 +43,18 @@ public class YourPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
-		dealer = new Button("Dealer");
-		trumpSuit = new Button("trumpSuit");
+        Image test;
+        ImageIcon normalImage;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
+			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
+			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        dealer = new JLabel(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//System.out.println("Your Coordinates x: " + yourXCoord + " y: " + yourYCoord + " Dimensions width: " + yourWidth  + " height: " + yourHeight);
 		yourPanel.setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
@@ -83,16 +97,12 @@ public class YourPanel{
 		yourPanel.add(hand.get(4).getButton());
 		yourPanel.add(hand.get(0).getButton());
 		
-		// Add in the Buttons for dealer and trump suit
-		dealer.setEnabled(false);
+		// Add in the JLabel for dealer
+		dealer.setEnabled(true);
 		dealer.setVisible(false);
-		trumpSuit.setEnabled(false);
-		trumpSuit.setVisible(false);
 		
 		dealer.setBounds(initialCardX-50, yourHeight/2-40/2, 40, 40);
-		trumpSuit.setBounds(initialCardX+4*(cardWidth+5)+cardWidth+10, yourHeight/2-40/2, 40,40);
 		
 		yourPanel.add(dealer);
-		yourPanel.add(trumpSuit);
 	}
 }

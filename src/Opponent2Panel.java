@@ -1,6 +1,10 @@
-import java.awt.Button;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -11,7 +15,7 @@ public class Opponent2Panel{
 	String name;
 	JLabel middleCard;
 	JPanel opp2Panel;
-	Button dealer, trumpSuit;
+	JLabel dealer;
 	
 	public Opponent2Panel(int width, int height, String name, JLabel middleCard)
 	{
@@ -35,8 +39,19 @@ public class Opponent2Panel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
-		dealer = new Button("Dealer");
-		trumpSuit = new Button("trumpSuit");
+        Image test;
+        ImageIcon normalImage;
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
+			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
+			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        dealer = new JLabel(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//trumpSuit = new Button("trumpSuit");
 		
 		System.out.println("Opponent 2 Coordinates x: " + opp2XCoord + " y: " + opp2YCoord + " Dimensions width: " + opp2Width  + " height: " + opp2Height);
 		opp2Panel.setBounds(opp2XCoord, opp2YCoord, opp2Width, opp2Height);
@@ -48,11 +63,25 @@ public class Opponent2Panel{
 		
 		opp2Panel.add(opp2);
 		
-		Button opp2Card1 = new Button("opp2 Card1");
-		Button opp2Card2 = new Button("opp2 Card2");
-		Button opp2Card3= new Button("opp2 Card3");
-		Button opp2Card4 = new Button("opp2 Card4");
-		Button opp2Card5 = new Button("opp2 Card5");
+		JButton opp2Card1 = new JButton();
+		JButton opp2Card2 = new JButton();
+		JButton opp2Card3 = new JButton();
+		JButton opp2Card4 = new JButton();
+		JButton opp2Card5 = new JButton();
+		
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/BackOfCard5Sideways.jpg"));
+			Image newImg = test.getScaledInstance(cardHeight, cardWidth, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        opp2Card1.setIcon(normalImage);
+	        opp2Card2.setIcon(normalImage);
+	        opp2Card3.setIcon(normalImage);
+	        opp2Card4.setIcon(normalImage);
+	        opp2Card5.setIcon(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 		int intialOpp2CardY = 0;
 		 
@@ -67,16 +96,13 @@ public class Opponent2Panel{
 		opp2Panel.add(opp2Card3);
 		opp2Panel.add(opp2Card4);
 		opp2Panel.add(opp2Card5);
-		// Add in the Buttons for dealer and trump suit
-		dealer.setEnabled(false);
+		
+		// Add in the Labels for dealer and trump suit
+		dealer.setEnabled(true);
 		dealer.setVisible(false);
-		trumpSuit.setEnabled(false);
-		trumpSuit.setVisible(false);
 		
 		dealer.setBounds(opp2Width-20-40, opp2Height/2-40/2-40, 40, 40);
-		trumpSuit.setBounds(opp2Width-20-40, opp2Height/2+40/2, 40,40);
 		
 		opp2Panel.add(dealer);
-		opp2Panel.add(trumpSuit);
 	}
 }
