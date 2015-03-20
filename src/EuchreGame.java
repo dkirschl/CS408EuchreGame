@@ -166,6 +166,12 @@ public void startGame() {
 					  playCard();
 					  GameInfo.ledSuit="";
 				  }
+				  
+				  //Clear the TrumpPlayed array
+				  for(int i = 0; i < 7; i++){
+					  GameInfo.TrumpPlayed[i] = 0;
+				  }
+				  
 				  hideTrump();
 			  } else {
 				  continue;
@@ -354,6 +360,7 @@ public void playCard() {
 	  GameInfo.isPick = 0;
 	  int currentWinner = -1;
 	  Card winner1 = null;
+	  
 	  for (int i = 0; i < 4; i++) {
 		  
 		  //System.out.println("Player " + GameInfo.nextPlayer + " turn");
@@ -367,6 +374,7 @@ public void playCard() {
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  
+		  updateTrumpPlayed(tmp);
 		  displayAICard(tmp);
 		  
 		  GameInfo.currentTrick.add(tmp);
@@ -425,7 +433,7 @@ public void playCard() {
 	  //Clear The current trick array list
 	  while(GameInfo.currentTrick.size() != 0){
 		  GameInfo.currentTrick.remove(0);
-	  }
+	  }	  
 	  
 	  hideAICards();
 	  GameInfo.board.getMidPanel().getYourMiddleCard().setVisible(false);
@@ -494,6 +502,49 @@ public void playCard() {
 	  } else {
 		  return false;
 	  }
+  }
+  
+  /*
+   * Check the last card played to see if it was trump
+   * If the card played was trump then update the TrumpPlayed array
+   */
+  public void updateTrumpPlayed(Card played) {
+	  String leftSuit = "xxxxx";
+		
+	  switch(GameInfo.trump){
+		  case "spades": 	leftSuit = "clubs";
+							break;
+							
+		  case "clubs": 	leftSuit = "spades";
+				 	  		break;
+				 	  		
+		  case "hearts": 	leftSuit = "diamonds";
+					   		break;
+					   		
+		  case "diamonds": 	leftSuit = "hearts";
+				 		 	break;
+  	  }
+	  
+	  if(played.getSuit() == leftSuit && played.getValue() == 11){
+		  GameInfo.TrumpPlayed[5] = 1;
+	  } else if(played.getSuit() == GameInfo.trump){
+		  switch(played.getValue()){
+		  	case 9:		GameInfo.TrumpPlayed[0] = 1;
+		  				break;
+		  	case 10:	GameInfo.TrumpPlayed[1] = 1;
+		  				break;
+		  	case 11:	GameInfo.TrumpPlayed[6] = 1;
+	  					break;
+		  	case 12:	GameInfo.TrumpPlayed[2] = 1;
+	  					break;
+		  	case 13:	GameInfo.TrumpPlayed[3] = 1;
+	  					break;
+		  	case 14:	GameInfo.TrumpPlayed[4] = 1;
+	  					break;
+		  }
+	  }
+	  
+	  return;
   }
 
   public ArrayList<JButton> displayChooseSuit(String suit)

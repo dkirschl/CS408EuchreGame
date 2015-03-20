@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+
+/*
+ * Easy AI will act a low level, beginner Human play style with some randomness added to increase the variability of the
+ * decision making to demonstrate the inconsistent decisions of a beginner player
+ */
 public class EasyAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
@@ -97,6 +102,10 @@ public class EasyAI extends AI{
 			}
 		}
 		
+		
+		/*
+		 * If they have 3 of an eligible suit, choose that suit
+		 */
 		if(spades >= 3){
 			return "spades";
 		} else if(clubs >= 3){
@@ -106,7 +115,12 @@ public class EasyAI extends AI{
 		} else if(diamonds >= 3){
 			return "diamonds";
 		} else {
-			if(GameInfo.screwDealer){ //Choose the suit with your highest valued hand
+			
+			/*
+			 * If we are the dealer and we must chose a suit, choose the highest valued suit
+			 * Else pass
+			 */
+			if(GameInfo.screwDealer && GameInfo.dealer == myValue){ //Choose the suit with your highest valued hand
 				int winner = 0;
 				int highest = 0;
 				int returned;

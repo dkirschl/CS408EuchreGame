@@ -8,6 +8,7 @@ public class GameInfo {
 	static ArrayList<Player> players = new ArrayList<Player>();
 	static ArrayList<Card> previousTrick;
 	static ArrayList<Card> currentTrick = new ArrayList<Card>();
+	static int TrumpPlayed[] = new int []{0,0,0,0,0,0,0};
 	static Card middleCard;
 	static String middleSuit;
 	static String trump;

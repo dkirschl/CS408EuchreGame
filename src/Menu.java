@@ -19,7 +19,7 @@ public class Menu extends JMenuBar{
 		initMenu(gcs, howToPlay);
 	}
 	
-	public void initMenu(final JPanel gameCreateScreen, JPanel howToPlay)
+	public void initMenu(final JPanel gameCreateScreen, final JPanel howToPlay)
 	{
 	    JMenu menu;
 	    JMenuItem menuItem;

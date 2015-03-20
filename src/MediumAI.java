@@ -1,10 +1,18 @@
 import java.util.ArrayList;
 
+
+/*
+ * Medium AI will act as a computer player with the approximate intelligence and gameplay strategy
+ * of an average, experienced Human might play. One major advantage Medium AI has over Easy AI is that
+ * Medium knows which trump have been played and if certain players no longer have trump based on what
+ * they have played
+ */
 public class MediumAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
 	int partnerValue;
+	boolean hasTrump[] = new boolean[] {true, true, true, true};
 	
 	public MediumAI(){
 		;
