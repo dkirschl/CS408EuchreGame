@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /*
@@ -19,6 +20,9 @@ public class MediumAI extends AI{
 	}
 	
 	public MediumAI(int value){
+		if(value < 1 || value > 3){
+			System.err.println("Incorrect value for AI");
+		}
 		myValue = value;
 		switch(value){
 			case 1: partnerValue = 3;
@@ -29,11 +33,72 @@ public class MediumAI extends AI{
 		}
 	}
 
-
+	/*
+	 * Calculate the players hand value based on the middle card's suit and make adjustments on that
+	 * depending on who the dealer is before they make the decision whether to pick it up or pass
+	 */
 	@Override
 	public boolean passOrPickUp() {
 
-		return false;
+		int handValue;
+		
+		if(GameInfo.dealer == myValue){
+			handValue = calculateValuesAsDealer(GameInfo.middleCard);
+		} else if(GameInfo.dealer == partnerValue){
+			/*
+			 * If partner is dealer, add half of the middle cards value to your hand value to symbolize
+			 * that your partners hand will gain at least some value
+			 */
+			handValue = calculateValues(GameInfo.middleSuit);
+			switch(GameInfo.middleCard.getValue()){
+				case 9: handValue += 3;
+						break;
+				case 10: handValue += 4;
+						 break;
+				case 11: handValue += 6;
+						 break;
+				case 12: handValue += 4;
+						 break;
+				case 13: handValue += 5;
+						 break;
+				case 14: handValue += 5;
+						 break;
+			}
+			
+		} else {
+			/*
+			 * The opponent is the dealer so subtract half of the middle cards value from your hand to symbolize
+			 * that an opponents hand will gain at least some value
+			 */
+			handValue = calculateValues(GameInfo.middleSuit);
+			switch(GameInfo.middleCard.getValue()){
+				case 9: handValue -= 3;
+						break;
+				case 10: handValue -= 4;
+						 break;
+				case 11: handValue -= 6;
+						 break;
+				case 12: handValue -= 4;
+						 break;
+				case 13: handValue -= 5;
+						 break;
+				case 14: handValue -= 5;
+						 break;
+			}
+		}
+		
+		System.out.println("Hand value is " + handValue);
+			
+		int threshold = 36;
+	    	    
+	    /*
+	     * If their hand value is more than the minimum value they'd want, then pick up
+	     */
+	    if(handValue >= threshold){
+	    	return true;
+	    } else {
+	    	return false;
+	    }
 	}
 
 
@@ -238,5 +303,119 @@ public class MediumAI extends AI{
 		
 		return;
 		
+	}
+	
+	/*
+	 * Function to calculate the worth of each card based on the trump suit
+	 */
+	public int calculateValuesAsDealer(Card middle) {
+		int totalValue = 0;
+		String leftSuit = "xxxxx";
+		String suit = middle.getSuit();
+		
+		switch(suit){
+			case "spades": 		leftSuit = "clubs";
+								break;
+								
+			case "clubs": 		leftSuit = "spades";
+					 	  		break;
+					 	  		
+			case "hearts": 		leftSuit = "diamonds";
+						   		break;
+						   		
+			case "diamonds": 	leftSuit = "hearts";
+					 		 	break;
+		}
+		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+			
+			if(nextCard.getSuit() == leftSuit && nextCard.getValue() == 11){
+				totalValue += 12;
+				nextCard.setWorth(12);
+			} else if(nextCard.getSuit() == suit){
+				
+				switch(nextCard.getValue()){
+					case 9: totalValue += 7;
+							nextCard.setWorth(7);
+							break;
+					case 10: totalValue += 8;
+							 nextCard.setWorth(8);
+							 break;
+					case 11: totalValue += 13;
+							 nextCard.setWorth(13);
+							 break;
+					case 12: totalValue += 9;
+							 nextCard.setWorth(9);
+							 break;
+					case 13: totalValue += 10;
+							 nextCard.setWorth(10);
+							 break;
+					case 14: totalValue += 11;
+							 nextCard.setWorth(11);
+							 break;
+				}
+			} else {
+				switch(nextCard.getValue()){
+					case 9:  totalValue += 1;
+							 nextCard.setWorth(1);
+							 break;
+					case 10: totalValue += 2;
+							 nextCard.setWorth(2);
+							 break;
+					case 11: totalValue += 3;
+							 nextCard.setWorth(3);
+							 break;
+					case 12: totalValue += 4;
+							 nextCard.setWorth(4);
+							 break;
+					case 13: totalValue += 5;
+							 nextCard.setWorth(5);
+							 break;
+					case 14: totalValue += 6;
+							 nextCard.setWorth(6);
+							 break;
+				}
+			}
+			
+			
+		}
+		
+		/*
+		 * Subtract the lowest valued card you have from the total value as the card you would hypothetically
+		 * get rid of if you picked it up as the dealer
+		 */
+		int low = GameInfo.players.get(myValue).getHand().get(0).getWorth();
+		
+		for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+
+			if(nextCard.getWorth() < low){
+
+				low = nextCard.getWorth();
+			}
+		}
+		
+		totalValue -= low;
+		
+		/*
+		 * Add the value of the middle card to the total value as the value you would add if you hypothetically
+		 * picked it up
+		 */
+		switch(middle.getValue()){
+			case 9: totalValue += 7;
+					break;
+			case 10: totalValue += 8;
+					 break;
+			case 11: totalValue += 13;
+					 break;
+			case 12: totalValue += 9;
+					 break;
+			case 13: totalValue += 10;
+					 break;
+			case 14: totalValue += 11;
+					 break;
+		}
+		
+		return totalValue;
 	}
 }
