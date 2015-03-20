@@ -9,7 +9,7 @@ import java.util.Random;
 public class EasyAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
-	int myValue;
+	int myValue;//Player's global integer value
 	
 	public EasyAI(){
 		;

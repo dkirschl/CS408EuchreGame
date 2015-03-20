@@ -11,9 +11,10 @@ import java.util.Random;
 public class MediumAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
-	int myValue;
-	int partnerValue;
+	int myValue; //Players global integer value
+	int partnerValue; //Player's partner's global integer value
 	boolean hasTrump[] = new boolean[] {true, true, true, true};
+	int threshold = 36; //Value threshold to decide whether you want to declare trump
 	
 	public MediumAI(){
 		;
@@ -51,15 +52,15 @@ public class MediumAI extends AI{
 			 */
 			handValue = calculateValues(GameInfo.middleSuit);
 			switch(GameInfo.middleCard.getValue()){
-				case 9: handValue += 3;
+				case 9: handValue += 1;
 						break;
-				case 10: handValue += 4;
+				case 10: handValue += 2;
 						 break;
 				case 11: handValue += 6;
 						 break;
-				case 12: handValue += 4;
+				case 12: handValue += 3;
 						 break;
-				case 13: handValue += 5;
+				case 13: handValue += 4;
 						 break;
 				case 14: handValue += 5;
 						 break;
@@ -72,15 +73,15 @@ public class MediumAI extends AI{
 			 */
 			handValue = calculateValues(GameInfo.middleSuit);
 			switch(GameInfo.middleCard.getValue()){
-				case 9: handValue -= 3;
+				case 9: handValue -= 1;
 						break;
-				case 10: handValue -= 4;
+				case 10: handValue -= 2;
 						 break;
 				case 11: handValue -= 6;
 						 break;
-				case 12: handValue -= 4;
+				case 12: handValue -= 3;
 						 break;
-				case 13: handValue -= 5;
+				case 13: handValue -= 4;
 						 break;
 				case 14: handValue -= 5;
 						 break;
@@ -88,8 +89,6 @@ public class MediumAI extends AI{
 		}
 		
 		System.out.println("Hand value is " + handValue);
-			
-		int threshold = 36;
 	    	    
 	    /*
 	     * If their hand value is more than the minimum value they'd want, then pick up
@@ -101,12 +100,65 @@ public class MediumAI extends AI{
 	    }
 	}
 
-
+	/*
+	 * Calculate the value of your hand based off of each suit and play your highest valued hand if it 
+	 * is higher than the call trump threshold
+	 */
 	@Override
 	public String chooseSuit() {
-
+		int winner = 0;
+		int highest = 0;
+		int returned;
 		
-		return "Hello";
+		//Suit chosen cannot be whatever the middle suit was
+		if(GameInfo.middleSuit != "spades"){
+			returned = calculateValues("spades");
+			System.out.println("Spade hand value was " + returned);
+			if(returned > highest){
+				winner = 1;
+				highest = returned;
+			}
+		} else if(GameInfo.middleSuit != "clubs"){ 
+			returned = calculateValues("clubs");
+			System.out.println("Club hand value was " + returned);
+			if(returned > highest){
+				winner = 2;
+				highest = returned;
+			}
+		} else if(GameInfo.middleSuit != "hearts"){
+			returned = calculateValues("hearts");
+			System.out.println("Heart hand value was " + returned);
+			if(returned > highest){
+				winner = 3;
+				highest = returned;
+			}
+		} else if(GameInfo.middleSuit != "diamonds"){
+			returned = calculateValues("diamonds");
+			System.out.println("Diamond hand value was " + returned);
+			if(returned > highest){
+				winner = 4;
+				highest = returned;
+			}
+		}
+		
+		/*
+		 * If the highest valued hand is higher than the threshold or this is the dealer and
+		 * they must choose a suit, then return the highest valued hand they would have
+		 * 
+		 * Else pass
+		 */
+		if(highest >= threshold || (GameInfo.screwDealer && GameInfo.dealer == myValue)){
+			switch(winner){	
+				case 1:	return "spades";
+				case 2:	return "clubs";
+				case 3: return "hearts";
+				case 4: return "diamonds";
+			}
+		} else {
+			return "pass";
+		}
+		
+		return "pass";
 	}
 	
 
