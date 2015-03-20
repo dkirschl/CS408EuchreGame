@@ -246,6 +246,168 @@ public class MediumAI extends AI{
 		}
 	}
 	
+	/*
+	 * If the computer picks up the middle card, remove the least useful card from your hand
+	 * If you have a relatively low card as the only card of an off suit than get rid of that
+	 * 
+	 * Add the middle card to their hand.
+	 */
+	@Override
+	public void removeCard(Card middle) {
+		
+		//Resets values for the appropriate suit
+		calculateValues(GameInfo.middleSuit);
+		System.out.println("Removing Card.........");
+		
+		String leftSuit = "xxxxx";
+		
+		switch(middle.getSuit()){
+			case "spades": 		leftSuit = "clubs";
+								break;
+								
+			case "clubs": 		leftSuit = "spades";
+					 	  		break;
+					 	  		
+			case "hearts": 		leftSuit = "diamonds";
+						   		break;
+						   		
+			case "diamonds": 	leftSuit = "hearts";
+					 		 	break;
+		}
+		
+		int spades = 0;
+		int clubs = 0;
+		int hearts = 0;
+		int diamonds = 0;
+		
+		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+		int low = lowestValued.getWorth();
+		
+		switch(lowestValued.getSuit()){
+			case "spades":		spades++;
+								break;
+			case "clubs":		clubs++;
+								break;
+			case "hearts":		hearts++;
+								break;
+			case "diamonds":	diamonds++;
+								break;
+			default:			break;
+		}
+
+		for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+			
+			switch(nextCard.getSuit()){
+				case "spades":		spades++;
+									break;
+				case "clubs":		clubs++;
+									break;
+				case "hearts":		hearts++;
+									break;
+				case "diamonds":	diamonds++;
+									break;
+				default:			break;
+			}
+			
+			if(nextCard.getWorth() < low){
+
+				lowestValued = nextCard;
+				low = nextCard.getWorth();
+			}
+		}		
+		
+		/*
+		 * Check every card that is the only one of its suit. Remove either the lowest card that is the only one
+		 * of its own suit if it is a queen or lower, or remove the lowest valued card that you have
+		 */
+		Card newLow = lowestValued;
+		Card compare = lowestValued;
+		
+		if(spades == 1 && middle.getSuit() != "spades"){
+			System.out.println("We only have one spade!!");
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "spades"){
+					newLow = GameInfo.players.get(myValue).getHand().get(i);
+					break;
+				}
+			}
+			if(newLow.getValue() <= 12){
+				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
+					System.out.println("Set it as new compare!!");
+					compare = newLow;
+				}
+			}
+		}
+		
+		if(clubs == 1 && middle.getSuit() != "clubs"){
+			System.out.println("We only have one club!!");
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "clubs"){
+					newLow = GameInfo.players.get(myValue).getHand().get(i);
+					break;
+				}
+			}
+			if(newLow.getValue() <= 12){
+				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
+					if(compare == lowestValued){
+						System.out.println("Set as compare because compare hasn't been set!!");
+						compare = newLow;
+					} else if(newLow.getValue() < compare.getValue()){
+						System.out.println("Set as compare because it was lower valued!!");
+						compare = newLow;
+					}
+				}
+			}
+		}
+		
+		if(hearts == 1 && middle.getSuit() != "hearts"){
+			System.out.println("We only have one heart!!");
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "hearts"){
+					newLow = GameInfo.players.get(myValue).getHand().get(i);
+					break;
+				}
+			}
+			if(newLow.getValue() <= 12){
+				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
+					if(compare == lowestValued){
+						System.out.println("Set as compare because compare hasn't been set!!");
+						compare = newLow;
+					} else if(newLow.getValue() < compare.getValue()){
+						System.out.println("Set as compare because it was lower valued!!");
+						compare = newLow;
+					}
+				}
+			}
+		}
+		
+		if(diamonds == 1 && middle.getSuit() != "diamonds"){
+			System.out.println("We only have one diamond!!");
+			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "diamonds"){
+					newLow = GameInfo.players.get(myValue).getHand().get(i);
+					break;
+				}
+			}
+			if(newLow.getValue() <= 12){
+				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
+					if(compare == lowestValued){
+						System.out.println("Set as compare because compare hasn't been set!!");
+						compare = newLow;
+					} else if(newLow.getValue() < compare.getValue()){
+						System.out.println("Set as compare because it was lower valued!!");
+						compare = newLow;
+					}
+				}
+			}
+		}
+
+		GameInfo.players.get(myValue).getHand().remove(compare);
+		GameInfo.players.get(myValue).getHand().add(middle);
+		System.out.println("Removing " + compare.getValue() + " " + compare.getSuit());
+		return;
+	}
 	
 	/*
 	 * Function to calculate the worth of each card based on the trump suit
@@ -322,39 +484,6 @@ public class MediumAI extends AI{
 			
 		}
 		return totalValue;
-	}
-	
-	/*
-	 * If the computer picks up the middle card, remove the lowest valued card from their hand.
-	 * Add the middle card to their hand.
-	 */
-	@Override
-	public void removeCard(Card middle) {
-		
-		//Resets values for the appropriate suit
-		calculateValues(GameInfo.middleSuit);
-		System.out.println("Removing Card.........");
-		
-		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
-		int low = lowestValued.getWorth();
-		
-
-		for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
-			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
-
-			if(nextCard.getWorth() < low){
-
-				lowestValued = nextCard;
-				low = nextCard.getWorth();
-			}
-		}
-		
-		System.out.println("Removing " + lowestValued.getValue() + " " + lowestValued.getSuit());
-		GameInfo.players.get(myValue).getHand().remove(lowestValued);
-		GameInfo.players.get(myValue).getHand().add(middle);
-		
-		return;
-		
 	}
 	
 	/*
