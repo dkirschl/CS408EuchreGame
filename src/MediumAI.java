@@ -4,6 +4,7 @@ public class MediumAI extends AI{
 	
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue;
+	int partnerValue;
 	
 	public MediumAI(){
 		;
@@ -11,6 +12,13 @@ public class MediumAI extends AI{
 	
 	public MediumAI(int value){
 		myValue = value;
+		switch(value){
+			case 1: partnerValue = 3;
+					break;
+			case 2: partnerValue = 0;
+					break;
+			case 3: partnerValue = 1;
+		}
 	}
 
 
@@ -112,7 +120,11 @@ public class MediumAI extends AI{
 			return highestValued;
 		}
 	}
-
+	
+	
+	/*
+	 * Function to calculate the worth of each card based on the trump suit
+	 */
 	@Override
 	public int calculateValues(String suit) {
 		int totalValue = 0;
@@ -196,17 +208,23 @@ public class MediumAI extends AI{
 		
 		//Resets values for the appropriate suit
 		calculateValues(GameInfo.middleSuit);
+		System.out.println("Removing Card.........");
 		
-		int low = 100;
-		Card lowestValued = new Card();
-		for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+		int low = lowestValued.getWorth();
+		
+
+		for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
 			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
-			
+
 			if(nextCard.getWorth() < low){
+
 				lowestValued = nextCard;
+				low = nextCard.getWorth();
 			}
 		}
 		
+		System.out.println("Removing " + lowestValued.getValue() + " " + lowestValued.getSuit());
 		GameInfo.players.get(myValue).getHand().remove(lowestValued);
 		GameInfo.players.get(myValue).getHand().add(middle);
 		

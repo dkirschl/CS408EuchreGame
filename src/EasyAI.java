@@ -286,7 +286,10 @@ public class EasyAI extends AI{
 			return highestValued;
 		}
 	}
-
+	
+	/*
+	 * Function to calculate the worth of each card based on the trump suit
+	 */
 	@Override
 	public int calculateValues(String suit) {
 		int totalValue = 0;
