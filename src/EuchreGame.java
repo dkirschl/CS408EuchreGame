@@ -274,8 +274,7 @@ public boolean pickUpOrPass() {
 			  //pick selected
 			  //wait for switch
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
-			  //if(GameInfo.dealer == 0)
-			  if (GameInfo.nextPlayer == 2)
+			  if(GameInfo.dealer == 0)
 			  {
 				  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
@@ -348,7 +347,7 @@ public boolean chooseSuit() {
 	  {
 		  GameInfo.trump = suit;
 		  System.out.println("Trump was chosen as " + GameInfo.trump);
-	//	  return true;
+		  return true;
 	  }
 	  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 	 System.out.println("Re-deal");
