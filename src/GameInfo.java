@@ -4,9 +4,11 @@ public class GameInfo {
 	
 	static boolean screwDealer;
 	static int trumpCaller;
-	static int previousLeader;
+	static int previousTrickLeader;
+	static int currentTrickLeader;
+	static int currentWinner;
 	static ArrayList<Player> players = new ArrayList<Player>();
-	static ArrayList<Card> previousTrick;
+	static ArrayList<Card> previousTrick = new ArrayList<Card>();
 	static ArrayList<Card> currentTrick = new ArrayList<Card>();
 	static int TrumpPlayed[] = new int []{0,0,0,0,0,0,0};
 	static Card middleCard;

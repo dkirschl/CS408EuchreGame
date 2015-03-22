@@ -219,7 +219,7 @@ public class EasyAI extends AI{
 			
 		} else {
 			//System.out.println("Not Leading");
-			leadSuit = GameInfo.currentTrick.get(0).getSuit();
+			leadSuit = GameInfo.ledSuit;
 			
 			//If the left is lead, the real suit that is lead is trump
 			if(leadSuit == leftSuit && GameInfo.currentTrick.get(0).getValue() == 11){
@@ -228,12 +228,9 @@ public class EasyAI extends AI{
 			
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
-				
 				/*
 				 * Card is eligible to be played
 				 */
-				
-				
 				if(nextCard.getSuit() == leadSuit){
 					if(nextCard.getValue() == 11 && leadSuit == leftSuit){
 						//Check to make sure the left isn't an eligible card when it's suit is played

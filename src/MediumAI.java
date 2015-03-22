@@ -96,7 +96,7 @@ public class MediumAI extends AI{
 			}
 		}
 		
-		System.out.println("Hand value is " + handValue);
+		//System.out.println("Hand value is " + handValue);
 	    	    
 	    /*
 	     * If their hand value is more than the minimum value they'd want, then pick up
@@ -121,28 +121,28 @@ public class MediumAI extends AI{
 		//Suit chosen cannot be whatever the middle suit was
 		if(GameInfo.middleSuit != "spades"){
 			returned = calculateValues("spades");
-			System.out.println("Spade hand value was " + returned);
+			//System.out.println("Spade hand value was " + returned);
 			if(returned > highest){
 				winner = 1;
 				highest = returned;
 			}
 		} else if(GameInfo.middleSuit != "clubs"){ 
 			returned = calculateValues("clubs");
-			System.out.println("Club hand value was " + returned);
+			//System.out.println("Club hand value was " + returned);
 			if(returned > highest){
 				winner = 2;
 				highest = returned;
 			}
 		} else if(GameInfo.middleSuit != "hearts"){
 			returned = calculateValues("hearts");
-			System.out.println("Heart hand value was " + returned);
+			//System.out.println("Heart hand value was " + returned);
 			if(returned > highest){
 				winner = 3;
 				highest = returned;
 			}
 		} else if(GameInfo.middleSuit != "diamonds"){
 			returned = calculateValues("diamonds");
-			System.out.println("Diamond hand value was " + returned);
+			//System.out.println("Diamond hand value was " + returned);
 			if(returned > highest){
 				winner = 4;
 				highest = returned;
@@ -194,6 +194,31 @@ public class MediumAI extends AI{
 		
 		calculateValues(GameInfo.trump);
 		
+		//If it is the first trick of the hand, reset the hasTrump variable
+		if(GameInfo.teamOneTricks == 0 && GameInfo.teamTwoTricks == 0){
+			hasTrump[0] = hasTrump[1] = hasTrump[2] = hasTrump[3] = true;
+		} else {
+			/*
+			 * Go through last trick to determine which if any players no longer have trump
+			 * 
+			 * If trump was lead than anybody who didn't play trump must not have any
+			 */
+			if(GameInfo.previousTrick.get(0).getSuit() == GameInfo.trump || 
+					(GameInfo.previousTrick.get(0).getSuit() == leftSuit && GameInfo.previousTrick.get(0).getValue() == 11)){
+				for(int i = 1, j = (GameInfo.previousTrickLeader + 1) % 4; i < 4; j = (j + 1) % 4, i++){
+					//If the next player didn't play trump
+					if(GameInfo.previousTrick.get(i).getSuit() != GameInfo.trump){
+						//And if they didn't play the left
+						if(GameInfo.previousTrick.get(i).getSuit() != leftSuit || GameInfo.previousTrick.get(0).getValue() != 11){
+							//Then they have no trump
+							hasTrump[j] = false;
+							//System.out.println("Player " + j + " no longer has trump");
+						}
+					}
+				}
+			}
+		}
+		
 		/*
 		 * Clear elCards from previous trick
 		 */
@@ -207,11 +232,9 @@ public class MediumAI extends AI{
 			 * Otherwise, play your highest valued off suit
 			 */
 			int j = 6; //Variable to determine the highest trump card left
-			
 			while(GameInfo.TrumpPlayed[j] != 0){
 				j--;
 			}
-			
 			int value = 0;
 			
 			switch(j){
@@ -233,28 +256,42 @@ public class MediumAI extends AI{
 				if(nextCard.getSuit() == GameInfo.trump || (nextCard.getSuit() == leftSuit && nextCard.getValue() == 11)){
 					if(nextCard.getWorth() == value || (hasTrump[opponent1Value] == false && hasTrump[opponent2Value] == false)){
 						//You either have the highest trump or your opponents don't have trump so you'll automatically win
+						//System.out.println("We have the highest trump or opponents have no trump");
 						return nextCard;
 					} else {
 						//Don't play this trump since you are not sure if it'll win
+						//System.out.println("We have trump but isn't a guarantee");
 						continue;
 					}
 					
-				}
-				if(nextCard.getWorth() > high){
-					highestValued = nextCard;
-					high = nextCard.getWorth();
+				} else {
+					if(nextCard.getWorth() > high){
+						highestValued = nextCard;
+						high = nextCard.getWorth();
+					}
 				}
 			}
 			
-			
-			//System.out.println("Leading trick : worth of " + highestValued.getWorth());
+			//All we have is trump so play your higher trump
+			if(high == 0){
+				//System.out.println("All we have is trump");
+				highestValued = GameInfo.players.get(myValue).getHand().get(0);
+				high = GameInfo.players.get(myValue).getHand().get(0).getWorth();
+				
+				for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
+					Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+					if(nextCard.getWorth() > high){
+						highestValued = nextCard;
+						high = nextCard.getWorth();
+					}
+					
+				}
+			}
 
 			return highestValued;
 			
 		} else {
-			//System.out.println("Not Leading");
-			leadSuit = GameInfo.currentTrick.get(0).getSuit();
-			
+			leadSuit = GameInfo.ledSuit;
 			//If the left is lead, the real suit that is lead is trump
 			if(leadSuit == leftSuit && GameInfo.currentTrick.get(0).getValue() == 11){
 				leadSuit = GameInfo.trump;
@@ -262,12 +299,9 @@ public class MediumAI extends AI{
 			
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
-				
 				/*
 				 * Card is eligible to be played
 				 */
-				
-				
 				if(nextCard.getSuit() == leadSuit){
 					if(nextCard.getValue() == 11 && leadSuit == leftSuit){
 						//Check to make sure the left isn't an eligible card when it's suit is played
@@ -288,14 +322,99 @@ public class MediumAI extends AI{
 			/*
 			 * Play the only eligible card
 			 */
-			//System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
+			//System.out.println("One Eligible Card");
 
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
 			/*
-			 * Play lowest valued card since you are going to lose unless you play trump
+			 * If an opponent is winning and you have trump that can win, play your that trump
+			 * 
+			 * Otherwise play your lowest card
 			 */
+			if(GameInfo.currentWinner == opponent1Value || GameInfo.currentWinner == opponent2Value){
+				//Figure out the current card that is winning the hand
+				int index = GameInfo.currentTrickLeader;
+				int difference = 0;
+				
+				while(index != GameInfo.currentWinner){
+					index = (index + 1) % 4;
+					difference++;
+				}
+				Card highCard = GameInfo.currentTrick.get(difference);
+				
+				if(highCard.getSuit() == GameInfo.trump || (highCard.getSuit() == leftSuit && highCard.getValue() == 11)){
+					//They have trump so see if I have a trump that can beat it, if not play lowest card
+					//Figure out the winning card and how high of trump it is
+					Card possibleWinner = new Card();
+					int winWorth = 100;
+					int highWorth = 0;
+					if(highCard.getSuit() == leftSuit && highCard.getValue() == 11){
+						highWorth = 12;
+					} else {
+						switch(highCard.getValue()){
+							case 9: highWorth = 7; break;
+							case 10: highWorth = 8; break;
+							case 11: highWorth = 13; break;
+							case 12: highWorth = 9; break;
+							case 13: highWorth = 10; break;
+							case 14: highWorth = 11; break;
+						}
+					}
+					//Go through my hand to get the lowest trump that I have that would still win
+					for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+						Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+						
+						if(nextCard.getSuit() == GameInfo.trump || (nextCard.getSuit() == leftSuit && nextCard.getValue() == 11)){
+							if(nextCard.getWorth() < winWorth && nextCard.getWorth() > highWorth){
+								possibleWinner = nextCard;
+								winWorth = nextCard.getWorth();
+							}
+						}
+					}
+					
+					if(winWorth != 100){
+						//We have a trump that can beat the trump already played
+						//System.out.println("Playing our lowest trump that will still beat their trump");
+						return possibleWinner;
+					} else {
+						//Can't beat their trump so play your lowest card
+						//System.out.println("We can't out-trump them so play the lowest card");
+						Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+						int low = lowestValued.getWorth();
+						for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
+							Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+							
+							if(nextCard.getWorth() < low){
+								lowestValued = nextCard;
+								low = nextCard.getWorth();
+							}
+						}
+
+						return lowestValued;
+					}
+				} else {
+					//System.out.println("The opponent is winning and the winning card isn't trump, see if i have trump");
+					Card lowestTrump = new Card();
+					int low = 100;
+					for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+						Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
+						
+						if(nextCard.getSuit() == GameInfo.trump || (nextCard.getSuit() == leftSuit && nextCard.getValue() == 11)){
+							if(nextCard.getWorth() < low){
+								lowestTrump = nextCard;
+								low = nextCard.getWorth();
+							}
+						}
+					}
+					if(low != 100){
+						//System.out.println("Playing lowest trump to try to win");
+						return lowestTrump;
+					}
+				}
+			}
+			
+			//System.out.println("No eligible cards and no trump so playing lowest valued");
 			Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
 			int low = lowestValued.getWorth();
 			for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
@@ -306,17 +425,27 @@ public class MediumAI extends AI{
 					low = nextCard.getWorth();
 				}
 			}
-			
-
-			//System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
 
 			return lowestValued;
 			
 		} else {
 			/*
-			 * Play highest valued eligible card
+			 * If your highest eligible card will potentially win, play it
+			 * 
+			 * If not, play your lowest eligible card
 			 */
-			//System.out.println("There are " + elCards.size() + " eligible Cards");
+			
+			//Figure out the current card that is winning the hand
+			int index = GameInfo.currentTrickLeader;
+			int difference = 0;
+			
+			while(index != GameInfo.currentWinner){
+				index = (index + 1) % 4;
+				difference++;
+			}
+			Card highCard = GameInfo.currentTrick.get(difference);
+			
+			//Figure out your highest valued current card
 			Card highestValued = elCards.get(0);
 			int high = highestValued.getWorth();
 			for(int i = 1; i < elCards.size(); i++){
@@ -328,8 +457,77 @@ public class MediumAI extends AI{
 				}
 			}
 			
-
-			//System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
+			if(highCard.getSuit() == GameInfo.trump || (highCard.getSuit() == leftSuit && highCard.getValue() == 11)){
+				if(GameInfo.currentTrick.get(0).getSuit() != GameInfo.trump){
+					//Somebody trumped an off suit lead hand so you cannot beat them
+					//System.out.println("They trumped an off suit lead hand, play low");
+					Card lowestValued = elCards.get(0);
+					int low = lowestValued.getWorth();
+					for(int i = 1; i < elCards.size(); i++){
+						Card nextCard = elCards.get(i);
+						
+						if(nextCard.getWorth() < low){
+							lowestValued = nextCard;
+							low = nextCard.getWorth();
+						}
+					}
+	
+					return lowestValued;
+				} else {
+					//HighCard is trump and trump was lead
+					int worth = 0;
+					if(highCard.getSuit() == leftSuit && highCard.getValue() == 11){
+						worth = 12;
+					} else {
+						switch(highCard.getValue()){
+							case 9: worth = 7; break;
+							case 10: worth = 8; break;
+							case 11: worth = 13; break;
+							case 12: worth = 9; break;
+							case 13: worth = 10; break;
+							case 14: worth = 11; break;
+						}
+						if(highestValued.getWorth() > worth){
+							//System.out.println("My trump is higher");
+							return highestValued;
+						} else {
+							//System.out.println("My trump isn't high enough");
+							Card lowestValued = elCards.get(0);
+							int low = lowestValued.getWorth();
+							for(int i = 1; i < elCards.size(); i++){
+								Card nextCard = elCards.get(i);
+								
+								if(nextCard.getWorth() < low){
+									lowestValued = nextCard;
+									low = nextCard.getWorth();
+								}
+							}
+							return lowestValued;
+						}
+					}
+				}
+			} else {
+				//HighCard isn't trump so they must've followed suit
+				if(highestValued.getValue() > highCard.getValue()){
+					//Your card is higher
+					//System.out.println("My card is the same suit but higher so I'm playing it");
+					return highestValued;
+				} else {
+					//Their card is higher than yours so play your lower card
+					//System.out.println("My highest card of the same suit is not high enough so play the lower one");
+					Card lowestValued = elCards.get(0);
+					int low = lowestValued.getWorth();
+					for(int i = 1; i < elCards.size(); i++){
+						Card nextCard = elCards.get(i);
+						
+						if(nextCard.getWorth() < low){
+							lowestValued = nextCard;
+							low = nextCard.getWorth();
+						}
+					}
+					return lowestValued;
+				}
+			}
 
 			return highestValued;
 		}
@@ -346,8 +544,6 @@ public class MediumAI extends AI{
 		
 		//Resets values for the appropriate suit
 		calculateValues(GameInfo.middleSuit);
-		System.out.println("Removing Card.........");
-		
 		String leftSuit = "xxxxx";
 		
 		switch(middle.getSuit()){
@@ -414,7 +610,6 @@ public class MediumAI extends AI{
 		Card compare = lowestValued;
 		
 		if(spades == 1 && middle.getSuit() != "spades"){
-			System.out.println("We only have one spade!!");
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "spades"){
 					newLow = GameInfo.players.get(myValue).getHand().get(i);
@@ -423,14 +618,12 @@ public class MediumAI extends AI{
 			}
 			if(newLow.getValue() <= 12){
 				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
-					System.out.println("Set it as new compare!!");
 					compare = newLow;
 				}
 			}
 		}
 		
 		if(clubs == 1 && middle.getSuit() != "clubs"){
-			System.out.println("We only have one club!!");
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "clubs"){
 					newLow = GameInfo.players.get(myValue).getHand().get(i);
@@ -440,10 +633,8 @@ public class MediumAI extends AI{
 			if(newLow.getValue() <= 12){
 				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
 					if(compare == lowestValued){
-						System.out.println("Set as compare because compare hasn't been set!!");
 						compare = newLow;
 					} else if(newLow.getValue() < compare.getValue()){
-						System.out.println("Set as compare because it was lower valued!!");
 						compare = newLow;
 					}
 				}
@@ -451,7 +642,6 @@ public class MediumAI extends AI{
 		}
 		
 		if(hearts == 1 && middle.getSuit() != "hearts"){
-			System.out.println("We only have one heart!!");
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "hearts"){
 					newLow = GameInfo.players.get(myValue).getHand().get(i);
@@ -461,10 +651,8 @@ public class MediumAI extends AI{
 			if(newLow.getValue() <= 12){
 				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
 					if(compare == lowestValued){
-						System.out.println("Set as compare because compare hasn't been set!!");
 						compare = newLow;
 					} else if(newLow.getValue() < compare.getValue()){
-						System.out.println("Set as compare because it was lower valued!!");
 						compare = newLow;
 					}
 				}
@@ -472,7 +660,6 @@ public class MediumAI extends AI{
 		}
 		
 		if(diamonds == 1 && middle.getSuit() != "diamonds"){
-			System.out.println("We only have one diamond!!");
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				if(GameInfo.players.get(myValue).getHand().get(i).getSuit() == "diamonds"){
 					newLow = GameInfo.players.get(myValue).getHand().get(i);
@@ -482,10 +669,8 @@ public class MediumAI extends AI{
 			if(newLow.getValue() <= 12){
 				if(newLow.getValue() != 11 || newLow.getSuit() != leftSuit){
 					if(compare == lowestValued){
-						System.out.println("Set as compare because compare hasn't been set!!");
 						compare = newLow;
 					} else if(newLow.getValue() < compare.getValue()){
-						System.out.println("Set as compare because it was lower valued!!");
 						compare = newLow;
 					}
 				}

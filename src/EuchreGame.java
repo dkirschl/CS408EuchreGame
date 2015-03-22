@@ -378,8 +378,9 @@ public class EuchreGame{
   public void playCard() {
 
 	  GameInfo.isPick = 0;
-	  int currentWinner = -1;
+	  GameInfo.currentWinner = -1;
 	  Card winner1 = null;
+	  GameInfo.currentTrickLeader = GameInfo.nextPlayer;
 	  
 	  for (int i = 0; i < 4; i++) {
 		  
@@ -406,16 +407,16 @@ public class EuchreGame{
 		  }
 		  if (winner1 == null) {
 			  winner1 = tmp;
-			  currentWinner = GameInfo.nextPlayer;
+			  GameInfo.currentWinner = GameInfo.nextPlayer;
 		  } else {
 			  System.out.println("Comparing : " + winner1.getSuit() + winner1.getValue() + " : " + tmp.getSuit() + tmp.getValue());
 			  winner1 = determineWinner(winner1, tmp);
 			  
 			  
 			  if (winner1.getCardId() == tmp.getCardId()) {
-				  currentWinner = GameInfo.nextPlayer;
+				  GameInfo.currentWinner = GameInfo.nextPlayer;
 			  }
-			  System.out.println("Winning player : " + currentWinner);
+			  System.out.println("Winning player : " + GameInfo.currentWinner);
 			  System.out.println("Winning Card : " + winner1.getSuit() + winner1.getValue());
 		  }
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
@@ -433,8 +434,8 @@ public class EuchreGame{
 		  
 		  
 	  }
-	  GameInfo.nextPlayer = currentWinner;
-	  if (currentWinner == 0 || currentWinner == 2) {
+	  GameInfo.nextPlayer = GameInfo.currentWinner;
+	  if (GameInfo.currentWinner == 0 || GameInfo.currentWinner == 2) {
 		  GameInfo.teamOneTricks++;
 	  } else {
 		  GameInfo.teamTwoTricks++;
@@ -448,12 +449,23 @@ public class EuchreGame{
 			e.printStackTrace();
 	  }
 	  
-	  GameInfo.previousTrick = GameInfo.currentTrick;
+	  //Clear The previous trick array list
+	  while(GameInfo.previousTrick.size() != 0){
+		  GameInfo.previousTrick.remove(0);
+	  }	 
 	  
-	  //Clear The current trick array list
+	  GameInfo.previousTrickLeader = GameInfo.currentTrickLeader;
+	  
+	  //Clear The current trick array list and add it to the the previous trick array list
 	  while(GameInfo.currentTrick.size() != 0){
-		  GameInfo.currentTrick.remove(0);
+		  Card temp = GameInfo.currentTrick.remove(0);
+		  GameInfo.previousTrick.add(temp);
 	  }	  
+	  
+	  //Reset trump left global array
+	  for(int i = 0; i < 7 ; i++){
+		  GameInfo.TrumpPlayed[i] = 0;
+	  }
 	  
 	  hideAICards();
 	  GameInfo.board.getMidPanel().getYourMiddleCard().setVisible(false);
