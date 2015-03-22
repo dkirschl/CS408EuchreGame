@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 
 /*
@@ -13,6 +12,8 @@ public class MediumAI extends AI{
 	ArrayList<Card> elCards = new ArrayList<Card>();
 	int myValue; //Players global integer value
 	int partnerValue; //Player's partner's global integer value
+	int opponent1Value; //Opponents global integer value
+	int opponent2Value; //Opponents global integer value
 	boolean hasTrump[] = new boolean[] {true, true, true, true};
 	int threshold = 36; //Value threshold to decide whether you want to declare trump
 	
@@ -27,10 +28,17 @@ public class MediumAI extends AI{
 		myValue = value;
 		switch(value){
 			case 1: partnerValue = 3;
+					opponent1Value = 0;
+					opponent2Value = 2;
 					break;
 			case 2: partnerValue = 0;
+					opponent1Value = 1;
+					opponent2Value = 3;
 					break;
 			case 3: partnerValue = 1;
+					opponent1Value = 2;
+					opponent2Value = 0;
+					break;
 		}
 	}
 
@@ -161,14 +169,31 @@ public class MediumAI extends AI{
 		return "pass";
 	}
 	
-
+	/*
+	 * Medium AI will try to play the smartest card possible based on what the average human would play
+	 */
 	@Override
 	public Card playCard() {
 		//Determine the leading suit
 		String leadSuit;
-			
+		String leftSuit = "xxxxx";
+		
+		switch(GameInfo.trump){
+			case "spades": 		leftSuit = "clubs";
+								break;
+								
+			case "clubs": 		leftSuit = "spades";
+					 	  		break;
+					 	  		
+			case "hearts": 		leftSuit = "diamonds";
+						   		break;
+						   		
+			case "diamonds": 	leftSuit = "hearts";
+					 		 	break;
+		}		
+		
 		calculateValues(GameInfo.trump);
-				
+		
 		/*
 		 * Clear elCards from previous trick
 		 */
@@ -177,71 +202,135 @@ public class MediumAI extends AI{
 		}
 		
 		if(GameInfo.currentTrick.size() == 0){
-			//Play highest valued card since you are the leader
-			int high = 0;
+			/*
+			 * If you have the highest valued trump left, or if you have trump and the opponent doesn't, play it. 
+			 * Otherwise, play your highest valued off suit
+			 */
+			int j = 6; //Variable to determine the highest trump card left
+			
+			while(GameInfo.TrumpPlayed[j] != 0){
+				j--;
+			}
+			
+			int value = 0;
+			
+			switch(j){
+				case 0: value = 7; break;
+				case 1: value = 8; break;
+				case 2: value = 9; break;
+				case 3: value = 10; break;
+				case 4: value = 11; break;
+				case 5: value = 12; break;
+				case 6: value = 13; break;
+			}
+			
 			Card highestValued = new Card();
+			int high = 0;
+			
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
-				if(nextCard.getValue() > high){
+				if(nextCard.getSuit() == GameInfo.trump || (nextCard.getSuit() == leftSuit && nextCard.getValue() == 11)){
+					if(nextCard.getWorth() == value || (hasTrump[opponent1Value] == false && hasTrump[opponent2Value] == false)){
+						//You either have the highest trump or your opponents don't have trump so you'll automatically win
+						return nextCard;
+					} else {
+						//Don't play this trump since you are not sure if it'll win
+						continue;
+					}
+					
+				}
+				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
+					high = nextCard.getWorth();
 				}
 			}
 			
-			System.out.println("A : " + highestValued.getCardId());
+			
+			//System.out.println("Leading trick : worth of " + highestValued.getWorth());
+
 			return highestValued;
 			
 		} else {
+			//System.out.println("Not Leading");
 			leadSuit = GameInfo.currentTrick.get(0).getSuit();
+			
+			//If the left is lead, the real suit that is lead is trump
+			if(leadSuit == leftSuit && GameInfo.currentTrick.get(0).getValue() == 11){
+				leadSuit = GameInfo.trump;
+			}
+			
 			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
 				/*
 				 * Card is eligible to be played
 				 */
+				
+				
 				if(nextCard.getSuit() == leadSuit){
+					if(nextCard.getValue() == 11 && leadSuit == leftSuit){
+						//Check to make sure the left isn't an eligible card when it's suit is played
+					} else {
+						elCards.add(nextCard);
+					}
+				} else if(nextCard.getValue() == 11 && leadSuit == GameInfo.trump && nextCard.getSuit() == leftSuit){
+					//Make sure to add left to eligible cards when trump is lead
 					elCards.add(nextCard);
 				}
+				
+				
 			}
+			//System.out.println("There are " + elCards.size() + " eligible cards");
 		}
 		
 		if(elCards.size() == 1){
 			/*
 			 * Play the only eligible card
 			 */
-			System.out.println("B : " + elCards.get(0).getCardId());
+			//System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
+
 			return elCards.get(0);
 		
 		} else if(elCards.size() == 0){
 			/*
 			 * Play lowest valued card since you are going to lose unless you play trump
 			 */
-			int low = 100;
-			Card lowestValued = new Card();
-			for(int i = 0; i < GameInfo.players.get(myValue).getHand().size(); i++){
+			Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
+			int low = lowestValued.getWorth();
+			for(int i = 1; i < GameInfo.players.get(myValue).getHand().size(); i++){
 				Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 				
-				if(nextCard.getValue() < low){
+				if(nextCard.getWorth() < low){
 					lowestValued = nextCard;
+					low = nextCard.getWorth();
 				}
 			}
-				System.out.println("C : " + lowestValued.getCardId());
+			
+
+			//System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
+
 			return lowestValued;
 			
 		} else {
 			/*
 			 * Play highest valued eligible card
 			 */
-			int high = 0;
-			Card highestValued = new Card();
-			for(int i = 0; i < elCards.size(); i++){
+			//System.out.println("There are " + elCards.size() + " eligible Cards");
+			Card highestValued = elCards.get(0);
+			int high = highestValued.getWorth();
+			for(int i = 1; i < elCards.size(); i++){
 				Card nextCard = elCards.get(i);
 				
-				if(nextCard.getValue() > high){
+				if(nextCard.getWorth() > high){
 					highestValued = nextCard;
+					high = nextCard.getWorth();
 				}
 			}
-				System.out.println("D : " + highestValued.getCardId());
+			
+
+			//System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
+
 			return highestValued;
 		}
 	}
