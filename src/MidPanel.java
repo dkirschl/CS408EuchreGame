@@ -16,6 +16,7 @@ public class MidPanel{
 	Card turnup, pickOrPassCard;
 	JButton spades, clubs, hearts, diamonds, passSuit;
 	JLabel trumpSuitImage;
+	Button pickCard, passCard;
 	
 	JPanel midPanel;
 
@@ -87,8 +88,8 @@ public class MidPanel{
 		pickOrPassCard = turnup;
         JButton pickPassButton = turnup.getButton();
         System.out.println(turnup.getButton().getIcon().toString());
-        Button pickCard = new Button("Pick");
-        Button passCard = new Button("Pass");
+        pickCard = new Button("Pick");
+        passCard = new Button("Pass");
         Button deck = new Button("Deck");
         
         int pickPassCardX = midWidth/2 - cardWidth/2;

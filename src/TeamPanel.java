@@ -104,17 +104,18 @@ public class TeamPanel{
 		
 		//******* Add in the scoring for the panels
 		
-		JLabel totalScore = new JLabel();
+		totalScore = new JLabel();
 		totalScore.setBounds(width-140, 0, 140, 20);
 		totalScore.setText("Total: You-" + GameInfo.teamOneScore + " Opponent-" + GameInfo.teamTwoScore);
 		totalScore.setVisible(true);
 		
-		JLabel trickScore = new JLabel();
+		trickScore = new JLabel();
 		trickScore.setBounds(width-140, 25, 140, 20);
 		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 		trickScore.setVisible(true);
 		
 		teamPanel.add(totalScore);
+		teamPanel.add(trickScore);
 		
 		// Add in the Buttons for dealer and trump suit
 		dealer.setEnabled(true);
@@ -131,6 +132,10 @@ public class TeamPanel{
 	}
 	public void updateTrickScore()
 	{
+		System.out.println("Team one tricks: " + GameInfo.teamOneTricks);
+		System.out.println("Team two tricks: " + GameInfo.teamTwoTricks);
+		System.out.println(trickScore.getText());
 		trickScore.setText("Total: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
+		teamPanel.repaint();
 	}
 }

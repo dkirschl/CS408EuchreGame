@@ -37,7 +37,9 @@ public class Menu extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Clicked new game");
+				howToPlay.setVisible(false);
 				gameCreateScreen.setVisible(true);
+				
 			}
 	    	
 	    });
@@ -57,15 +59,8 @@ public class Menu extends JMenuBar{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("HTP");
-				
+				gameCreateScreen.setVisible(false);
 				howToPlay.setVisible(true);
-			/*	JTextArea textArea = new JTextArea(GameInfo.howTo);
-				
-				JScrollPane scroll = new JScrollPane(textArea);
-				setPreferredSize(new Dimension(10, 250));
-				add(scroll, BorderLayout.CENTER);
-				scroll.setVisible(true);*/
 			}
 	    	
 	    });
