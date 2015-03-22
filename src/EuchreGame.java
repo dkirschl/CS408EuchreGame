@@ -171,6 +171,7 @@ public class EuchreGame{
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
 					  GameInfo.ledSuit="";
+					  // test
 				  }
 				  
 				  //Clear the TrumpPlayed array
