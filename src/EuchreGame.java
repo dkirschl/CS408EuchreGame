@@ -149,11 +149,17 @@ public class EuchreGame{
   public void startGame() {
 	  
 	GameInfo.dealer = dealer;
+	int x = 0;
 	
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
-		  moveDealer();
+		  if (x == 0)
+		  {
+				GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
+				GameInfo.board.getMidPanel().yourDealer.setVisible(true);
+				GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  }
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
 		  //System.out.println("Dealer is: " + GameInfo.dealer);
@@ -221,7 +227,9 @@ public class EuchreGame{
 		  GameInfo.selectedSuit = null;
 		  GameInfo.teamOneTricks = 0;
 		  GameInfo.teamTwoTricks = 0;
-	  
+		  
+		  moveDealer();
+		  x++;
 	  }
 
 	  
@@ -658,12 +666,12 @@ public class EuchreGame{
 	  {
 		  if(cards.get(x).getButton().isVisible() == true)
 		  {
-			  System.out.println("GameInfo.ledSuit: " + GameInfo.ledSuit);
+			  //System.out.println("GameInfo.ledSuit: " + GameInfo.ledSuit);
 			  if(cards.get(x).getSuit() == GameInfo.ledSuit)
 				  temp.add(cards.get(x));
-			  else if (GameInfo.ledSuit != "")
+			  else if (GameInfo.ledSuit != "" && GameInfo.ledSuit != null)
 			  {
-				  //System.out.println("Trump: " + GameInfo.trump);
+				  System.out.println("Led suit: " + GameInfo.ledSuit);
 				  if(GameInfo.trump.toLowerCase() == "hearts" && cards.get(x).getSuit().toLowerCase() == "diamonds" && cards.get(x).getValue()==11)
 					  temp.add(cards.get(x));
 				  else if(GameInfo.trump.toLowerCase() == "diamonds" && cards.get(x).getSuit().toLowerCase() == "hearts" && cards.get(x).getValue()==11)
@@ -756,8 +764,27 @@ public class EuchreGame{
 			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
 			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
 			normalImage = new ImageIcon(newImg);
-	        GameInfo.board.getMidPanel().trumpSuitImage.setIcon(normalImage);
-	        GameInfo.board.getMidPanel().trumpSuitImage.setVisible(true);
+			
+			if(GameInfo.nextPlayer-1 == 0)
+			{
+				GameInfo.board.getMidPanel().yourTrumpSuitImage.setIcon(normalImage);
+				GameInfo.board.getMidPanel().yourTrumpSuitImage.setVisible(true);
+			}
+			else if(GameInfo.nextPlayer-1 == 1)
+			{
+				GameInfo.board.getMidPanel().opp1TrumpSuitImage.setIcon(normalImage);
+				GameInfo.board.getMidPanel().opp1TrumpSuitImage.setVisible(true);	
+			}
+			else if(GameInfo.nextPlayer-1 == 2)
+			{
+				GameInfo.board.getMidPanel().teamTrumpSuitImage.setIcon(normalImage);
+				GameInfo.board.getMidPanel().teamTrumpSuitImage.setVisible(true);	
+			}
+			else if(GameInfo.nextPlayer-1 == 3)
+			{
+				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setIcon(normalImage);
+				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setVisible(true);	
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -766,42 +793,36 @@ public class EuchreGame{
   
   public void hideTrump()
   {
-	  GameInfo.board.getMidPanel().trumpSuitImage.setVisible(false);
-	 /* GameInfo.board.getYourPanel().trumpSuit.setVisible(false);
-	  GameInfo.board.getOpp1Panel().trumpSuit.setVisible(false);
-	  GameInfo.board.getOpp2Panel().trumpSuit.setVisible(false);
-	  GameInfo.board.getTeamPanel().trumpSuit.setVisible(false); */
+	  GameInfo.board.getMidPanel().yourTrumpSuitImage.setVisible(false);
+	  GameInfo.board.getMidPanel().opp1TrumpSuitImage.setVisible(false);
+	  GameInfo.board.getMidPanel().opp2TrumpSuitImage.setVisible(false);
+	  GameInfo.board.getMidPanel().teamTrumpSuitImage.setVisible(false);
   }
   public void moveDealer()
   {
 	  if(GameInfo.dealer == 0)
 	  {
 		  System.out.println("You are the dealer");
-		  GameInfo.board.getOpp2Panel().dealer.setVisible(false);
-		  System.out.println("Opponent 2 Dealer is: " + GameInfo.board.getOpp2Panel().dealer.isVisible());
-		  GameInfo.board.getYourPanel().dealer.setVisible(true);  
-		  GameInfo.board.getOpp2Panel().opp2Panel.repaint();
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 1)
 	  {
 		  System.out.println("Opp1 is the dealer");
-		  GameInfo.board.getYourPanel().dealer.setVisible(false);
-		  GameInfo.board.getOpp1Panel().dealer.setVisible(true); 
-		  //GameInfo.board.getYourPanel().yourPanel.repaint();
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 2)
 	  {
 		  System.out.println("Teammate is the dealer");
-		  GameInfo.board.getOpp1Panel().dealer.setVisible(false);
-		  GameInfo.board.getTeamPanel().dealer.setVisible(true); 
-		  GameInfo.board.getOpp1Panel().opp1Panel.repaint();
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(true);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
 	  }
 	  else if(GameInfo.dealer == 3)
 	  {
 		  System.out.println("Opponent 2 is the dealer");
-		  GameInfo.board.getTeamPanel().dealer.setVisible(false);
-		  GameInfo.board.getOpp2Panel().dealer.setVisible(true); 
-		  GameInfo.board.getTeamPanel().teamPanel.repaint();
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 	  }
   }
   //******* Generate the getters and setters *******//

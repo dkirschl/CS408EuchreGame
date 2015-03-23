@@ -15,7 +15,8 @@ public class MidPanel{
 	JLabel yourMiddleCard, teamMiddleCard, opp1MiddleCard, opp2MiddleCard;
 	Card turnup, pickOrPassCard;
 	JButton spades, clubs, hearts, diamonds, passSuit;
-	JLabel trumpSuitImage;
+	JLabel yourTrumpSuitImage, opp1TrumpSuitImage, opp2TrumpSuitImage, teamTrumpSuitImage;
+	JLabel yourDealer, opp1Dealer, opp2Dealer, teamDealer;
 	Button pickCard, passCard;
 	
 	JPanel midPanel;
@@ -177,6 +178,7 @@ public class MidPanel{
         hearts.setEnabled(false);
         hearts.addActionListener(new ChooseSuit(hearts, "hearts"));
         
+        normalImage = new ImageIcon();
 		try {
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/diamondsImage.png"));
 			Image newImg = test.getScaledInstance(clubWidth, clubHeight, java.awt.Image.SCALE_SMOOTH);
@@ -203,12 +205,71 @@ public class MidPanel{
         midPanel.add(diamonds);
         midPanel.add(passSuit);
         
-        trumpSuitImage = new JLabel();
-        trumpSuitImage.setVisible(false);
-        trumpSuitImage.setBounds(0,0,clubWidth, clubHeight);
-        trumpSuitImage.setEnabled(true);
+        yourTrumpSuitImage = new JLabel();
+        yourTrumpSuitImage.setVisible(false);
+        yourTrumpSuitImage.setBounds(midWidth/2-cardWidth-clubWidth/2,midHeight - 40,clubWidth, clubHeight);
+        yourTrumpSuitImage.setIcon(normalImage);
+        yourTrumpSuitImage.setEnabled(true);
         
-        midPanel.add(trumpSuitImage);
+        opp1TrumpSuitImage = new JLabel();
+        opp1TrumpSuitImage.setVisible(false);
+        opp1TrumpSuitImage.setBounds(0, midHeight/2-cardWidth/2 - clubHeight-clubHeight/2, clubWidth, clubHeight);
+        opp1TrumpSuitImage.setIcon(normalImage);
+        opp1TrumpSuitImage.setEnabled(true);
+        
+        teamTrumpSuitImage = new JLabel();
+        teamTrumpSuitImage.setVisible(false);
+        teamTrumpSuitImage.setBounds(midWidth/2+cardWidth-10,0,clubWidth, clubHeight);
+        teamTrumpSuitImage.setIcon(normalImage);
+        teamTrumpSuitImage.setEnabled(true);
+        
+        opp2TrumpSuitImage = new JLabel();
+        opp2TrumpSuitImage.setVisible(false);
+        opp2TrumpSuitImage.setBounds(midWidth-clubWidth, midHeight/2+cardWidth/2+15, clubWidth, clubHeight);
+        opp2TrumpSuitImage.setIcon(normalImage);
+        opp2TrumpSuitImage.setEnabled(true);
+        
+        midPanel.add(yourTrumpSuitImage);
+        midPanel.add(opp1TrumpSuitImage);
+        midPanel.add(teamTrumpSuitImage);
+        midPanel.add(opp2TrumpSuitImage);
+        
+        // Add in the dealer buttons
+        
+		try {
+			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
+			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
+			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+			normalImage = new ImageIcon(newImg);
+	        yourDealer = new JLabel(normalImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		yourDealer.setVisible(false);
+		yourDealer.setBounds(midWidth/2+cardWidth/2+clubWidth/2+5, midHeight-40,clubWidth, clubHeight);
+		yourDealer.setEnabled(true);
+		
+		opp1Dealer = new JLabel(normalImage);
+		opp1Dealer.setBounds(0, midHeight/2+clubWidth/2+clubHeight/2 + 5, clubWidth, clubHeight);
+		opp1Dealer.setVisible(false);
+		opp1Dealer.setEnabled(true);
+		
+		opp2Dealer = new JLabel(normalImage);
+		opp2Dealer.setBounds(midWidth-clubWidth, midHeight/2-cardWidth/2 - clubHeight-clubHeight/2-10, clubWidth, clubHeight);
+		opp2Dealer.setVisible(false);
+		opp2Dealer.setEnabled(true);
+		
+		teamDealer = new JLabel(normalImage);
+		teamDealer.setBounds(midWidth/2-cardWidth-25, 0, clubWidth, clubHeight);
+		teamDealer.setVisible(false);
+		teamDealer.setEnabled(true);
+		
+		midPanel.add(yourDealer);
+		midPanel.add(opp1Dealer);
+		midPanel.add(opp2Dealer);
+		midPanel.add(teamDealer);
 	}
 
 	public Card getPickOrPassCard() {

@@ -76,6 +76,7 @@ public class Pick implements ActionListener  {
 		{
 			cards.get(x).getButton().enable();
 		}
+		GameInfo.isPick = 1;
 	}
 	public void disableMiddleCard()
 	{

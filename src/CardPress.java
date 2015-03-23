@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
@@ -33,7 +34,7 @@ public class CardPress implements ActionListener {
 				playCard(yourCard, yourMiddleCard);
 				disableCards();
 			}
-
+			GameInfo.isPick = 0;
 			
 			EuchreGame.getButton_press().release();
 		} catch (InterruptedException e1) {
@@ -44,10 +45,13 @@ public class CardPress implements ActionListener {
 	public void switchCard(Card card, Card switchCard)
 	{
 		System.out.println("Switching Cards!!");
+		
 		card.getButton().setIcon(switchCard.getNormalImage());
+		card.setNormalImage(switchCard.getNormalImage());
 		card.setCardId(switchCard.getCardId());
 		card.setSuit(switchCard.getSuit());
 		card.setValue(switchCard.getValue());
+		//GameInfo.players.get(0).getHand().set(chosenCard, card);
 		switchCard.getButton().setVisible(false);
 		//Card tempCard = new Card();
 		//tempCard = card;
