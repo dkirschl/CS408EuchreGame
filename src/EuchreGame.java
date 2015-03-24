@@ -194,7 +194,7 @@ public class EuchreGame{
 		  System.out.println("Updating the scores for the teams");
 		  if (GameInfo.teamOneTricks > GameInfo.teamTwoTricks) {
 			  //team one won
-			  if (GameInfo.teamOneTricks == 5)
+			  if (GameInfo.teamOneTricks == 5 || GameInfo.trumpCaller == 1 || GameInfo.trumpCaller == 3)
 			  { 
 				  GameInfo.teamOneScore += 2; 
 			  } 
@@ -205,7 +205,7 @@ public class EuchreGame{
 			  }
 		  } else {
 			  //team two won
-			  if (GameInfo.teamTwoTricks == 5) 
+			  if (GameInfo.teamTwoTricks == 5 || GameInfo.trumpCaller == 0 || GameInfo.trumpCaller == 2) 
 			  { 
 				  GameInfo.teamTwoScore += 2; 
 			  } 
@@ -299,6 +299,7 @@ public class EuchreGame{
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
+			  GameInfo.trumpCaller = GameInfo.nextPlayer;
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
 			  if(GameInfo.dealer == 0)
 			  {
@@ -325,7 +326,7 @@ public class EuchreGame{
 
   public boolean chooseSuit() {
 	//******* Everyone passed and now it goes around again to select the suit *******\\
-	  String suit = "";
+	  String suit = "pass";
 	  ArrayList<JButton> chooseSuitButtons = new ArrayList<JButton>();
 	  
 	  System.out.println("No player picked up the card");
@@ -335,23 +336,25 @@ public class EuchreGame{
 	  GameInfo.middleCard.getButton().setVisible(false);
 	  chooseSuitButtons = displayChooseSuit(GameInfo.middleCard.getSuit());
 		  
-	  for (int i = 0; i < 4; i++)
+	  for (int i = 0; i < 4 && suit == "pass"; i++)
 	  {
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 			  
 			  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 			  {
-	//			  System.out.println("The player is a human so we need to enable all of the buttons");
+				  //Enable the buttons for the human
 				  for(int x = 0; x < chooseSuitButtons.size(); x++)
 				  {
+					  chooseSuitButtons.get(x).setVisible(true);
 					  chooseSuitButtons.get(x).setEnabled(true);
 				  }
 			  }
 			  else
 			  {
-	//			  System.out.println("Disable the buttons while the AI goes");
+				  //Hide the buttons for the AI's turn
 				  for(int x = 0; x < chooseSuitButtons.size(); x++)
 				  {
+					  chooseSuitButtons.get(x).setVisible(false);
 					  chooseSuitButtons.get(x).setEnabled(false);
 				  }
 
@@ -359,27 +362,21 @@ public class EuchreGame{
 		  	  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
+		  
+		  if(suit != "pass"){
+			  //Somebody chose a suit
+			  GameInfo.trumpCaller = GameInfo.nextPlayer;
+			  GameInfo.trump = suit;
+			  System.out.println("Trump was chosen as " + GameInfo.trump);
+			  displayTrump();
+			  return true;
+		  } else {
+			  //They passed, move on to the next player
+			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
+		  }
 	  }
-	  // Hide the visuals from the screen
-	  
-	 System.out.println("Choose suit and picked: " + suit);
-	 GameInfo.trump = suit;
-	 
-	 for(int x = 0; x < chooseSuitButtons.size(); x++)		  
-	  {
 
-	  chooseSuitButtons.get(x).setVisible(false);
-	  chooseSuitButtons.get(x).setEnabled(false);
-	 }
-	  if(suit.toLowerCase() != "pass")
-	  {
-		  GameInfo.trump = suit;
-		  System.out.println("Trump was chosen as " + GameInfo.trump);
-		  displayTrump();
-		  return true;
-	  }
-	  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
-	 System.out.println("Re-deal");
+	 System.out.println("No suit was chosen -- Re-deal");
 	 return false;
 }
 
