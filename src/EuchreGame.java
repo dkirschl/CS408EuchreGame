@@ -155,6 +155,10 @@ public class EuchreGame{
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
+		  GameInfo.teamOneTricks = 0;
+		  GameInfo.teamTwoTricks = 0;
+		  GameInfo.board.getTeamPanel().updateTrickScore();
+		  GameInfo.board.getTeamPanel().updateTotalScore();
 		  if (x == 0)
 		  {
 				GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
@@ -228,7 +232,8 @@ public class EuchreGame{
 		  GameInfo.selectedSuit = null;
 		  GameInfo.teamOneTricks = 0;
 		  GameInfo.teamTwoTricks = 0;
-		  
+		  GameInfo.board.getTeamPanel().updateTrickScore();
+		  GameInfo.board.getTeamPanel().updateTotalScore();
 		  moveDealer();
 		  x++;
 	  }
@@ -619,7 +624,9 @@ public class EuchreGame{
 	  }
 	  
 	  //if stick the dealer isn't on or else don't add it
-	  buttons.add(midPanel.passSuit);
+	  if(GameInfo.screwDealer == false || GameInfo.dealer != 0){
+		  buttons.add(midPanel.passSuit);
+	  }
 	  
 	  for(int x = 0; x < buttons.size(); x++)
 	  {
