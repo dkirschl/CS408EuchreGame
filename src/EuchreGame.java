@@ -38,7 +38,7 @@ public class EuchreGame{
     opp2Difficulty = 1;
     teamName = "";
     teamDifficulty = 1;
-    dealer = 3;
+    dealer = 0;
     yourScore = 0;
     compScore = 0;
     yourTricks = 0;
@@ -313,9 +313,11 @@ public class EuchreGame{
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
 			  if(GameInfo.dealer == 0)
 			  {
-				  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
+				  GameInfo.board.getMidPanel().pickCard.setVisible(false);
+				  GameInfo.board.getMidPanel().passCard.setVisible(false);
+				  GameInfo.players.get(GameInfo.dealer).startTurn(human_turn);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
-				  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+				  GameInfo.players.get(GameInfo.dealer).waitForClick(button_press);
 				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
 			  else
@@ -337,6 +339,8 @@ public class EuchreGame{
 	//******* Everyone passed and now it goes around again to select the suit *******\\
 	  String suit = "pass";
 	  ArrayList<JButton> chooseSuitButtons = new ArrayList<JButton>();
+	  
+	  GameInfo.board.getMidPanel().getPickOrPassCard().getButton().setVisible(false);
 	  
 	  System.out.println("No player picked up the card");
 	  System.out.println("Suit not available is: " + GameInfo.middleCard.getSuit().toLowerCase());
@@ -417,6 +421,7 @@ public class EuchreGame{
 		  
 		  updateTrumpPlayed(tmp);
 		  displayAICard(tmp);
+		  hideAICard();
 		  
 		  GameInfo.currentTrick.add(tmp);
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
@@ -819,6 +824,25 @@ public class EuchreGame{
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
 		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 	  }
+  }
+  
+  public void hideAICard()
+  {
+	  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
+		  return;
+	  System.out.println("hide ai card");
+	  ArrayList<Card> cards = GameInfo.players.get(GameInfo.nextPlayer).getHand();
+	  for(int x = 0; x < cards.size(); x++)
+	  {
+		  System.out.println("X is: " + x);
+		  if(cards.get(x).getButton().isVisible() == true)
+		  {
+			  cards.get(x).getButton().setVisible(false);
+			  break;
+		  }
+	  }
+	  GameInfo.board.gameBoard.revalidate();
+	  GameInfo.board.gameBoard.repaint();
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
