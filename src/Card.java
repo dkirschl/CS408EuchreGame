@@ -48,6 +48,21 @@ public class Card {
 			e.printStackTrace();
 		}
 	}
+	
+	public void adjustValue() {
+		  String trump = GameInfo.trump;
+		  if (getValue() == 11) {
+			  //card is a Jack and might need to be changed
+			  if (getSuit().equals(trump)) {
+				  setValue(16); //the jack of trump is the highest value card
+			  } else {
+				  if ((trump.equals("spades") && getSuit().equals("clubs")) || (trump.equals("clubs") && getSuit().equals("spades")) || (trump.equals("diamonds") && getSuit().equals("hearts")) || (trump.equals("hearts") && getSuit().equals("diamonds"))) {
+					  setValue(15); // the jack of the same color as trump is the second strongest card
+					  setSuit(trump);
+				  }
+			  }
+		  }
+	  }
 
 	public ImageIcon getNormalImage() {
 		return normalImage;
