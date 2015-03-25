@@ -154,16 +154,12 @@ public class EuchreGame{
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
-		  if (x == 0)
-		  {
-				GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
-				GameInfo.board.getMidPanel().yourDealer.setVisible(true);
-				GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  }
+		  
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
 		  //System.out.println("Dealer is: " + GameInfo.dealer);
 		  if (pickUpOrPass()) {
+			  adjustAllCards();
 			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  for (int i = 0; i < 5; i++) {
 				  playCard();
@@ -173,6 +169,7 @@ public class EuchreGame{
 		  } else {
 			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 			  if (chooseSuit()) {
+				  adjustAllCards();
 				  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 				  for (int i = 0; i < 5; i++) {
 					  playCard();
@@ -369,13 +366,14 @@ public class EuchreGame{
 			  GameInfo.trump = suit;
 			  System.out.println("Trump was chosen as " + GameInfo.trump);
 			  displayTrump();
+			  disableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
 			  return true;
 		  } else {
 			  //They passed, move on to the next player
 			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 		  }
 	  }
-
+	  
 	 System.out.println("No suit was chosen -- Re-deal");
 	 return false;
 }
@@ -407,7 +405,6 @@ public class EuchreGame{
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
 		  
 		  if (i == 0) {
-			  tmp = adjustValue(tmp);
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
@@ -485,8 +482,6 @@ public class EuchreGame{
 	  String trump = GameInfo.trump;
 	  String ledSuit = GameInfo.ledSuit;
 	  
-	  c1 = adjustValue(c1);
-	  c2 = adjustValue(c2);
 	  if (c1.getSuit().equals(ledSuit) && c2.getSuit().equals(ledSuit)) {
 		  //c1 is led suit and c2 is led suit
 		  //compare value to see who wins
@@ -512,24 +507,15 @@ public class EuchreGame{
 			  return c2;
 		  }
 	  }
-	  System.out.println("NO WIN CONDITION MET!!!!!!!!!!!!!!!!!!!");
 	  return c1;
   }
   
-  public Card adjustValue(Card c) {
-	  String trump = GameInfo.trump;
-	  if (c.getValue() == 11) {
-		  //card is a Jack and might need to be changed
-		  if (c.getSuit().equals(trump)) {
-			  c.setValue(16); //the jack of trump is the highest value card
-		  } else {
-			  if ((trump.equals("spades") && c.getSuit().equals("clubs")) || (trump.equals("clubs") && c.getSuit().equals("spades")) || (trump.equals("diamonds") && c.getSuit().equals("hearts")) || (trump.equals("hearts") && c.getSuit().equals("diamonds"))) {
-				  c.setValue(15); // the jack of the same color as trump is the second strongest card
-				  c.setSuit(trump);
-			  }
+  public void adjustAllCards() {
+	  for (int i = 0; i < 4; i++) {
+		  for (int j = 0; j < 5; j++) {
+			  GameInfo.players.get(i).getHand().get(j).adjustValue();
 		  }
 	  }
-	  return c;
   }
   
   public boolean isGameOver() {
