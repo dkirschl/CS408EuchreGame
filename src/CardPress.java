@@ -27,6 +27,7 @@ public class CardPress implements ActionListener {
 			//System.out.println(GameInfo.isPick);
 			if(GameInfo.isPick == 1)
 			{
+				System.out.println(pickOrPassCard.path);
 				switchCard(yourCard, pickOrPassCard);
 			}
 			else
@@ -44,8 +45,6 @@ public class CardPress implements ActionListener {
 	
 	public void switchCard(Card card, Card switchCard)
 	{
-		System.out.println("Switching Cards!!");
-		
 		card.getButton().setIcon(switchCard.getNormalImage());
 		card.setNormalImage(switchCard.getNormalImage());
 		card.setCardId(switchCard.getCardId());

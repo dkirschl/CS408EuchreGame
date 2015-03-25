@@ -92,7 +92,8 @@ public class EuchreGame{
 		midPanel = GameInfo.board.getMidPanel();
 		System.out.println("Second mid panel mid card is: " + midPanel.pickOrPassCard.getButton().getLabel());
 
-		midPanel.pickOrPassCard.getButton().setIcon(turnup.getButton().getIcon());
+		midPanel.pickOrPassCard.getButton().setIcon(turnup.getNormalImage());
+		midPanel.pickOrPassCard.setNormalImage(turnup.getNormalImage());
 		//midPanel.pickOrPassCard.getButton().setLabel(turnup.getButton().getLabel());
 		midPanel.pickOrPassCard.setCardId(turnup.getCardId());
 		midPanel.pickOrPassCard.setSuit(turnup.getSuit());
@@ -277,6 +278,7 @@ public class EuchreGame{
 	  //choose a card to be flipped up in the middle
 	  
 	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
+	  System.out.println("LOOOOOOOK HERE: " + GameInfo.middleCard.path);
 
 
 	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();
@@ -313,10 +315,8 @@ public class EuchreGame{
 				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
 				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
-			  
-			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
-			
 			  displayTrump();
+			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 			  return true;
 		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
@@ -362,7 +362,11 @@ public class EuchreGame{
 		  	  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
-		  
+		  for(int x = 0; x < chooseSuitButtons.size(); x++)
+		  {
+			  chooseSuitButtons.get(x).setVisible(false);
+			  chooseSuitButtons.get(x).setEnabled(false);
+		  }
 		  if(suit != "pass"){
 			  //Somebody chose a suit
 			  GameInfo.trumpCaller = GameInfo.nextPlayer;
@@ -762,22 +766,22 @@ public class EuchreGame{
 			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
 			normalImage = new ImageIcon(newImg);
 			
-			if(GameInfo.nextPlayer-1 == 0)
+			if(GameInfo.nextPlayer == 0)
 			{
 				GameInfo.board.getMidPanel().yourTrumpSuitImage.setIcon(normalImage);
 				GameInfo.board.getMidPanel().yourTrumpSuitImage.setVisible(true);
 			}
-			else if(GameInfo.nextPlayer-1 == 1)
+			else if(GameInfo.nextPlayer == 1)
 			{
 				GameInfo.board.getMidPanel().opp1TrumpSuitImage.setIcon(normalImage);
 				GameInfo.board.getMidPanel().opp1TrumpSuitImage.setVisible(true);	
 			}
-			else if(GameInfo.nextPlayer-1 == 2)
+			else if(GameInfo.nextPlayer == 2)
 			{
 				GameInfo.board.getMidPanel().teamTrumpSuitImage.setIcon(normalImage);
 				GameInfo.board.getMidPanel().teamTrumpSuitImage.setVisible(true);	
 			}
-			else if(GameInfo.nextPlayer-1 == 3)
+			else if(GameInfo.nextPlayer == 3)
 			{
 				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setIcon(normalImage);
 				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setVisible(true);	
