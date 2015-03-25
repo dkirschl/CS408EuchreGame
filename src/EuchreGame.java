@@ -152,6 +152,7 @@ public class EuchreGame{
 	  
 	GameInfo.dealer = dealer;
 	int x = 0;
+	clearEverything();
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
@@ -819,6 +820,46 @@ public class EuchreGame{
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
 		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 	  }
+  }
+  
+  /*
+   * Function to reset all proper variables to start a new game
+   */
+  public void clearEverything(){
+	  GameInfo.trumpCaller = 0;
+	  GameInfo.previousTrickLeader = 0;
+	  GameInfo.currentTrickLeader = 0;
+	  GameInfo.currentWinner = 0;
+	  while(!GameInfo.previousTrick.isEmpty()){
+		  GameInfo.previousTrick.remove(0);
+	  }
+	  
+	  while(!GameInfo.currentTrick.isEmpty()){
+		  GameInfo.currentTrick.remove(0);
+	  }
+	  
+	  for(int i = 0; i < 4; i++){
+		  while(!GameInfo.players.get(i).getHand().isEmpty()){
+			  GameInfo.players.get(i).getHand().remove(0);
+		  }
+	  }
+	  
+	  GameInfo.TrumpPlayed[0]=GameInfo.TrumpPlayed[1]=GameInfo.TrumpPlayed[2]=GameInfo.TrumpPlayed[3]=GameInfo.TrumpPlayed[4]=
+			  GameInfo.TrumpPlayed[5] = GameInfo.TrumpPlayed[6]= 0;
+	  GameInfo.middleCard = null;
+	  GameInfo.middleSuit = null;
+	  GameInfo.trump = null;
+	  GameInfo.ledSuit = null;
+	  GameInfo.selectedSuit = null;
+	  GameInfo.nextPlayer = 0;
+	  GameInfo.isPick = 0;
+	  GameInfo.picked = false;
+	  GameInfo.playedCard = null;
+	  GameInfo.teamOneTricks = 0;
+	  GameInfo.teamTwoTricks = 0;
+	  GameInfo.teamOneScore = 0;
+	  GameInfo.teamTwoScore = 0;
+	  
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
