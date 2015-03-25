@@ -161,12 +161,7 @@ public class EuchreGame{
 		  GameInfo.teamTwoTricks = 0;
 		  GameInfo.board.getTeamPanel().updateTrickScore();
 		  GameInfo.board.getTeamPanel().updateTotalScore();
-		  if (x == 0)
-		  {
-				GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
-				GameInfo.board.getMidPanel().yourDealer.setVisible(true);
-				GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  }
+		  
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
 		  //System.out.println("Dealer is: " + GameInfo.dealer);
@@ -252,6 +247,7 @@ public class EuchreGame{
 	  deck.clear();
 	  for (int i = 0; i < 4; i++) {
 		  GameInfo.players.get(i).getHand().clear();
+		  
 	  }
 	  deck.add(new Card(0,9,"clubs", "Card8.jpg")); deck.add(new Card(1,10,"clubs", "Card9.jpg")); deck.add(new Card(2,11,"clubs", "Card10.jpg")); 
 	  deck.add(new Card(3,12,"clubs", "Card11.jpg")); deck.add(new Card(4,13,"clubs", "Card12.jpg")); deck.add(new Card(5,14,"clubs", "Card0.jpg"));
@@ -275,6 +271,26 @@ public class EuchreGame{
 			  deck.remove(num);
 		  }
 	  }
+	  /*
+	  if(GameInfo.firstGame == false)
+	  {
+		  for(int x = 0; x < 5; x ++)
+		  {
+			  GameInfo.board.getYourPanel().hand.get(x).getButton().setEnabled(false);
+			  GameInfo.board.getYourPanel().hand.get(x).getButton().setIcon(GameInfo.players.get(0).getHand().get(x).getNormalImage());
+			  GameInfo.board.getYourPanel().hand.get(x).setNormalImage(GameInfo.players.get(0).getHand().get(x).getNormalImage());
+			  GameInfo.board.getYourPanel().hand.get(x).setCardId(GameInfo.players.get(0).getHand().get(x).getCardId());
+			  GameInfo.board.getYourPanel().hand.get(x).setSuit(GameInfo.players.get(0).getHand().get(x).getSuit());
+			  GameInfo.board.getYourPanel().hand.get(x).setValue(GameInfo.players.get(0).getHand().get(x).getValue());
+			  			  
+		//	  GameInfo.board.getYourPanel().yourPanel.revalidate();
+		//	  GameInfo.board.getYourPanel().yourPanel.repaint();
+			  
+			  enableHumanCards(GameInfo.players.get(0).getHand());
+		  }
+		  
+	  }
+	  */
 
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " hand:");
@@ -396,6 +412,10 @@ public class EuchreGame{
 		  }
 	  }
 	  
+	  for (int i = 0; i < 5; i++) {
+		  GameInfo.players.get(0).getHand().get(i).getButton().setVisible(false);
+	  }
+	  
 	 System.out.println("No suit was chosen -- Re-deal");
 	 return false;
 }
@@ -406,6 +426,13 @@ public class EuchreGame{
 	  GameInfo.currentWinner = -1;
 	  Card winner1 = null;
 	  GameInfo.currentTrickLeader = GameInfo.nextPlayer;
+	  try {
+		  System.out.println("1");
+		Thread.sleep(1000);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	  
 	  for (int i = 0; i < 4; i++) {
 		  
@@ -413,7 +440,21 @@ public class EuchreGame{
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
+			  try {
+				  System.out.println("2");
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			  enableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
+			  try {
+				  System.out.println("3");
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		  }	
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
 

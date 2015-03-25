@@ -54,6 +54,7 @@ public class EasyAI extends AI{
 	 */
 	@Override
 	public String chooseSuit() {
+		
 		int spades = 0;
 		int clubs = 0;
 		int hearts = 0;
