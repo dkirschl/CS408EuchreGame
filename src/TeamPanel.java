@@ -132,10 +132,7 @@ public class TeamPanel{
 	}
 	public void updateTrickScore()
 	{
-		System.out.println("Team one tricks: " + GameInfo.teamOneTricks);
-		System.out.println("Team two tricks: " + GameInfo.teamTwoTricks);
-		System.out.println(trickScore.getText());
-		trickScore.setText("Total: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
+		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 		teamPanel.repaint();
 	}
 }

@@ -15,6 +15,7 @@ public class Card {
 	private int worth;
 	private String cardPath;
 	private ImageIcon normalImage;
+	public String path;
 	
 	public JButton getButton() {
 		return button;
@@ -38,6 +39,7 @@ public class Card {
 		this.cardPath = cardPath;
         Image test;
 		try {
+			path = "/Images/"+ cardPath;
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + cardPath));
 			System.out.println(getClass().getResource("/Images/" + cardPath));
 			Image newImg = test.getScaledInstance(70, 100, java.awt.Image.SCALE_SMOOTH);
