@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class EuchreGame{
   private String opp1Name;
@@ -151,7 +152,6 @@ public class EuchreGame{
 	  
 	GameInfo.dealer = dealer;
 	int x = 0;
-	
 	  while (!isGameOver()) {
 		  deal();
 		  buildGame(GameInfo.players, GameInfo.middleCard);
@@ -535,7 +535,11 @@ public class EuchreGame{
   
   public boolean isGameOver() {
 	  System.out.println("Score is " + GameInfo.teamOneScore + " : " + GameInfo.teamTwoScore);
-	  if (GameInfo.teamOneScore >= 10 || GameInfo.teamTwoScore >= 10) {
+	  if (GameInfo.teamOneScore >= 10){
+		  JOptionPane.showMessageDialog(GameInfo.board.board, "You Won!!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		  return true;
+	  } else if(GameInfo.teamTwoScore >= 10){
+		  JOptionPane.showMessageDialog(GameInfo.board.board, "You Lose!!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 		  return true;
 	  } else {
 		  return false;
