@@ -316,7 +316,8 @@ public class EuchreGame{
 				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
 			  displayTrump();
-			  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
+			  disableHumanCards(GameInfo.players.get(0).getHand());
+			  //GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 			  return true;
 		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
@@ -373,6 +374,7 @@ public class EuchreGame{
 			  GameInfo.trump = suit;
 			  System.out.println("Trump was chosen as " + GameInfo.trump);
 			  displayTrump();
+			  disableHumanCards(GameInfo.players.get(0).getHand());
 			  return true;
 		  } else {
 			  //They passed, move on to the next player
@@ -662,6 +664,7 @@ public class EuchreGame{
   
   public void enableHumanCards(ArrayList<Card> cards)
   {
+	  System.out.println("EEEENNNNABLING CCCAAARRRDDDSSSSS");
 	  ArrayList<Card> temp = new ArrayList<Card>();
 	  for(int x = 0; x < cards.size(); x++)
 	  {
@@ -670,18 +673,6 @@ public class EuchreGame{
 			  //System.out.println("GameInfo.ledSuit: " + GameInfo.ledSuit);
 			  if(cards.get(x).getSuit() == GameInfo.ledSuit)
 				  temp.add(cards.get(x));
-			  else if (GameInfo.ledSuit != "" && GameInfo.ledSuit != null)
-			  {
-				  System.out.println("Led suit: " + GameInfo.ledSuit);
-				  if(GameInfo.trump.toLowerCase() == "hearts" && cards.get(x).getSuit().toLowerCase() == "diamonds" && cards.get(x).getValue()==11)
-					  temp.add(cards.get(x));
-				  else if(GameInfo.trump.toLowerCase() == "diamonds" && cards.get(x).getSuit().toLowerCase() == "hearts" && cards.get(x).getValue()==11)
-					  temp.add(cards.get(x));
-				  else if(GameInfo.trump.toLowerCase() == "clubs" && cards.get(x).getSuit().toLowerCase() == "spades" && cards.get(x).getValue()==11)
-					  temp.add(cards.get(x));
-				  else if(GameInfo.trump.toLowerCase() == "spades" && cards.get(x).getSuit().toLowerCase() == "clubs" && cards.get(x).getValue()==11)
-					  temp.add(cards.get(x));
-			  }
 		  }
 	  }
 	  
