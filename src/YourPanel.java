@@ -27,7 +27,7 @@ public class YourPanel{
 		this.middleCard = middleCard;
 		this.hand = hand;
 		yourPanel = new JPanel();
-		yourPanel.setBackground(Color.blue);
+		yourPanel.setBackground(Color.decode("#006600"));
 
 		//initYourPanel();
 	}
@@ -46,6 +46,7 @@ public class YourPanel{
 		yourPanel.setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
 		JLabel your = new JLabel(name);
 		
+		your.setForeground(Color.white);
 		yourPanel.setLayout(null);
 		your.setHorizontalAlignment(SwingConstants.CENTER);
 		your.setBounds(yourWidth/2 - 40, yourHeight-15, 80, 20);

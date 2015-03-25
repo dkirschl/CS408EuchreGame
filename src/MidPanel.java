@@ -37,7 +37,7 @@ public class MidPanel{
 	
 	public void initMidPanel()
 	{
-		midPanel.setBackground(Color.green);
+		midPanel.setBackground(Color.decode("#006600"));
 		
 		int cardWidth = 70;
 		int cardHeight = 100;

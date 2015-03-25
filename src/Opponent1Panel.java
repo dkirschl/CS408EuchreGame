@@ -31,7 +31,7 @@ public class Opponent1Panel{
 	
 	public void initOpponent1Panel()
 	{		
-		opp1Panel.setBackground(Color.cyan);
+		opp1Panel.setBackground(Color.decode("#006600"));
 		int opp1XCoord = 0;
 		int opp1YCoord = height/5;
 		int opp1Width = width/4;
@@ -39,7 +39,6 @@ public class Opponent1Panel{
 		
 		int cardWidth = 70;
 		int cardHeight = 100;
-		
         Image test;
         ImageIcon normalImage;
 		try {
@@ -57,6 +56,7 @@ public class Opponent1Panel{
 		opp1Panel.setBounds(opp1XCoord, opp1YCoord, opp1Width, opp1Height);
 		JLabel opp1 = new JLabel(name);
 		
+		opp1.setForeground(Color.white);
 		opp1Panel.setLayout(null);
 		opp1.setVerticalAlignment(SwingConstants.CENTER);
 		opp1.setBounds(0,opp1Height/2-20,80,40);

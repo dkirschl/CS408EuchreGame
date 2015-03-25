@@ -33,7 +33,7 @@ public class TeamPanel{
 	
 	public void initTeamPanel()
 	{
-		teamPanel.setBackground(Color.yellow);
+		teamPanel.setBackground(Color.decode("#006600"));
 		int teamXCoord = 0;
 		int teamYCoord = 0;
 		int teamWidth = width;
@@ -61,6 +61,7 @@ public class TeamPanel{
 		teamPanel.setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
 		JLabel team = new JLabel(name);
 		
+		team.setForeground(Color.white);
 		teamPanel.setLayout(null);
 		team.setHorizontalAlignment(SwingConstants.CENTER);
 		team.setBounds(teamWidth/2 - 60, -10, 120, 40);
@@ -105,11 +106,13 @@ public class TeamPanel{
 		//******* Add in the scoring for the panels
 		
 		totalScore = new JLabel();
+		totalScore.setForeground(Color.white);
 		totalScore.setBounds(width-140, 0, 140, 20);
 		totalScore.setText("Total: You-" + GameInfo.teamOneScore + " Opponent-" + GameInfo.teamTwoScore);
 		totalScore.setVisible(true);
 		
 		trickScore = new JLabel();
+		trickScore.setForeground(Color.white);
 		trickScore.setBounds(width-140, 25, 140, 20);
 		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 		trickScore.setVisible(true);

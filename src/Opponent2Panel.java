@@ -30,7 +30,7 @@ public class Opponent2Panel{
 	
 	public void initOpponent2Panel()
 	{		
-		opp2Panel.setBackground(Color.red);
+		opp2Panel.setBackground(Color.decode("#006600"));
 		int opp2XCoord = width - width/4;
 		int opp2YCoord = height/5;
 		int opp2Width = width/4;
@@ -57,6 +57,7 @@ public class Opponent2Panel{
 		opp2Panel.setBounds(opp2XCoord, opp2YCoord, opp2Width, opp2Height);
 		JLabel opp2 = new JLabel(name);
 		
+		opp2.setForeground(Color.white);
 		opp2Panel.setLayout(null);
 		opp2.setHorizontalAlignment(SwingConstants.RIGHT);
 		opp2.setBounds(opp2Width-110, opp2Height/2-40/2, 110,40);

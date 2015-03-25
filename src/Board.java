@@ -46,7 +46,7 @@ public class Board{
 		board.add(s.gameCreateScreen);
 		board.add(htp.howToPlayScreen);
 		
-		//gameBoard.setBackground(Color.blue);
+		gameBoard.setBackground(Color.decode("#006600"));
 
 		board.add(gameBoard);
 		
