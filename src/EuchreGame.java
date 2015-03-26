@@ -80,7 +80,6 @@ public class EuchreGame{
 	return button_press;
 }
   public void buildGame(ArrayList<Player> players, Card turnup)	{
-	JFrame gameBoard = GameInfo.board.board;
 	GameInfo.board.gameBoard.setLayout(null);
 	
 	MidPanel midPanel;
@@ -135,11 +134,11 @@ public class EuchreGame{
 
 	yourPanel.initYourPanel();
 	
-	GameInfo.board.gameBoard.add(yourPanel.yourPanel);
-	GameInfo.board.gameBoard.add(teamPanel.teamPanel);
-	GameInfo.board.gameBoard.add(opp1Panel.opp1Panel);
-	GameInfo.board.gameBoard.add(opp2Panel.opp2Panel);
-	GameInfo.board.gameBoard.add(midPanel.midPanel);
+	GameInfo.board.gameBoard.add(yourPanel.yourPanel, 0);
+	GameInfo.board.gameBoard.add(teamPanel.teamPanel, 0);
+	GameInfo.board.gameBoard.add(opp1Panel.opp1Panel, 0);
+	GameInfo.board.gameBoard.add(opp2Panel.opp2Panel, 0);
+	GameInfo.board.gameBoard.add(midPanel.midPanel, 0);
 	
 	GameInfo.board.gameBoard.revalidate();
 	GameInfo.board.gameBoard.repaint();
@@ -161,7 +160,7 @@ public class EuchreGame{
 		  GameInfo.teamTwoTricks = 0;
 		  GameInfo.board.getTeamPanel().updateTrickScore();
 		  GameInfo.board.getTeamPanel().updateTotalScore();
-		  
+		  moveDealer();
 		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
 		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
 		  //System.out.println("Dealer is: " + GameInfo.dealer);
@@ -846,25 +845,37 @@ public class EuchreGame{
 	  {
 		  System.out.println("You are the dealer");
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().yourDealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 1)
 	  {
 		  System.out.println("Opp1 is the dealer");
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
 		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 2)
 	  {
 		  System.out.println("Teammate is the dealer");
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(true);
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
 	  }
 	  else if(GameInfo.dealer == 3)
 	  {
 		  System.out.println("Opponent 2 is the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
 	  }
   }
 

@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 
@@ -17,7 +18,7 @@ public class Board{
 	private TeamPanel teamPanel;
 	
 	JFrame board;
-	JPanel gameBoard;
+	JLayeredPane gameBoard;
 
 	public Board()
 	{
@@ -29,7 +30,7 @@ public class Board{
 
 	public void initBoard()
 	{		
-		gameBoard = new JPanel(new FlowLayout());
+		gameBoard = new JLayeredPane();
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setMinimumSize(new Dimension(boardWidth,boardHeight));
 		board.setResizable(false);
@@ -43,6 +44,8 @@ public class Board{
 		System.out.println("HTP width: " + htp.howToPlayScreen.getWidth() + " height: " +  htp.howToPlayScreen.getHeight());
 		
 		board.setJMenuBar(new Menu(s.gameCreateScreen, htp.howToPlayScreen));
+		
+		System.out.println("About to add the game Create Screen");
 		board.add(s.gameCreateScreen);
 		board.add(htp.howToPlayScreen);
 		
