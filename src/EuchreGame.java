@@ -901,6 +901,11 @@ public class EuchreGame{
    * Function to reset all proper variables to start a new game
    */
   public void clearEverything(){
+	  if (!GameInfo.players.get(0).getHand().isEmpty()) {
+		  for (int i = 0; i < GameInfo.players.get(0).getHand().size(); i++) {
+			  GameInfo.players.get(0).getHand().get(i).getButton().setVisible(false);
+		  }
+	  }
 	  GameInfo.trumpCaller = 0;
 	  GameInfo.previousTrickLeader = 0;
 	  GameInfo.currentTrickLeader = 0;
@@ -934,6 +939,7 @@ public class EuchreGame{
 	  GameInfo.teamTwoTricks = 0;
 	  GameInfo.teamOneScore = 0;
 	  GameInfo.teamTwoScore = 0;
+	  
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
