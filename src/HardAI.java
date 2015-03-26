@@ -514,7 +514,7 @@ public class HardAI extends AI {
 			
 			currentWinningCard = GameInfo.currentTrick.get(currentLeader);	// extract the current winning card from the current trick
 			
-			currentWinner = (currentLeader + GameInfo.previousLeader) % 4;	// find actual value of currentLeader (as opposed to the number of spots away from the leader like currentLeader found.)
+			currentWinner = (currentLeader + GameInfo.previousTrickLeader) % 4;	// find actual value of currentLeader (as opposed to the number of spots away from the leader like currentLeader found.)
 		}
 	}
 	
