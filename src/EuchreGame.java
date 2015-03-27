@@ -207,7 +207,6 @@ public class EuchreGame{
 			}
 		}
 		//updating score
-		System.out.println("Updating the scores for the teams");
 		if (GameInfo.teamOneTricks > GameInfo.teamTwoTricks) {
 			//team one won
 			if (GameInfo.teamOneTricks == 5 || GameInfo.trumpCaller == 1 || GameInfo.trumpCaller == 3)
@@ -296,7 +295,6 @@ public class EuchreGame{
 	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
 
 	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();
-	  System.out.println("Turnup is: " + GameInfo.middleCard.getSuit() + GameInfo.middleCard.getValue());
 	  
 	  GameInfo.trump = "";
 }
@@ -321,7 +319,6 @@ public class EuchreGame{
 		  
 		  //for Human Players choice pickUpOrPass() returns GameInfo.picked which shows whether the human player picked up or passed
 		  choice = GameInfo.players.get(GameInfo.nextPlayer).pickupOrPass();
-		  System.out.println("Player " + GameInfo.nextPlayer + " choice: " + choice);
 		  if (choice == true) {
 			  //pick selected
 			  //wait for switch
@@ -378,10 +375,7 @@ public class EuchreGame{
 	  ArrayList<JButton> chooseSuitButtons = new ArrayList<JButton>();
 	  
 	  GameInfo.board.getMidPanel().getPickOrPassCard().getButton().setVisible(false);
-	  
-	  System.out.println("No player picked up the card");
-	  System.out.println("Suit not available is: " + GameInfo.middleCard.getSuit().toLowerCase());
-		  
+	  		  
 	  //Display all of the buttons on the screen
 	  GameInfo.middleCard.getButton().setVisible(false);
 	  chooseSuitButtons = displayChooseSuit(GameInfo.middleCard.getSuit());
@@ -424,7 +418,6 @@ public class EuchreGame{
 			  //Somebody chose a suit
 			  GameInfo.trumpCaller = GameInfo.nextPlayer;
 			  GameInfo.trump = suit;
-			  System.out.println("Trump was chosen as " + GameInfo.trump);
 			  displayTrump();
 			  disableHumanCards(GameInfo.players.get(0).getHand());
 
@@ -439,7 +432,6 @@ public class EuchreGame{
 		  GameInfo.players.get(0).getHand().get(i).getButton().setVisible(false);
 	  }
 	  
-	 System.out.println("No suit was chosen -- Re-deal");
 	 return false;
 }
 
@@ -464,7 +456,6 @@ public class EuchreGame{
 		  
 		  //playCard for Computer will call an AI function, playCard for Human will return the card that was selected
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
-		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  
 		  updateTrumpPlayed(tmp);
 		  displayAICard(tmp);
@@ -483,7 +474,6 @@ public class EuchreGame{
 			  GameInfo.currentWinner = GameInfo.nextPlayer;
 		  } else {
 			  
-			  System.out.println("Comparing : " + winner1.getSuit() + winner1.getValue() + " : " + tmp.getSuit() + tmp.getValue());
 			  //determineWinner figures out whether the new card beats the current winner
 			  winner1 = determineWinner(winner1, tmp);
 			  
@@ -491,8 +481,6 @@ public class EuchreGame{
 			  if (winner1.getCardId() == tmp.getCardId()) {
 				  GameInfo.currentWinner = GameInfo.nextPlayer;
 			  }
-			  System.out.println("Winning player : " + GameInfo.currentWinner);
-			  System.out.println("Winning Card : " + winner1.getSuit() + winner1.getValue());
 		  }
 		  //Disable the humans cards until next turn
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
@@ -550,7 +538,6 @@ public class EuchreGame{
 	  GameInfo.board.getMidPanel().getOpp2MiddleCard().setVisible(false);
 	  GameInfo.board.getMidPanel().getTeamMiddleCard().setVisible(false);
 	  
-	  System.out.println("Cards Played");
 }
   
   public Card determineWinner(Card c1, Card c2) {
@@ -725,13 +712,11 @@ public class EuchreGame{
   
   public void enableHumanCards(ArrayList<Card> cards)
   {
-	  System.out.println("EEEENNNNABLING CCCAAARRRDDDSSSSS");
 	  ArrayList<Card> temp = new ArrayList<Card>();
 	  for(int x = 0; x < cards.size(); x++)
 	  {
 		  if(cards.get(x).getButton().isVisible() == true)
 		  {
-			  //System.out.println("GameInfo.ledSuit: " + GameInfo.ledSuit);
 			  if(cards.get(x).getSuit() == GameInfo.ledSuit)
 				  temp.add(cards.get(x));
 		  }
@@ -811,10 +796,8 @@ public class EuchreGame{
   {
       Image test;
       ImageIcon normalImage;
-      System.out.println("Displaying Trump: " + GameInfo.trump);
 		try {
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + GameInfo.trump + "Image.png"));
-			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
 			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
 			normalImage = new ImageIcon(newImg);
 			
