@@ -4,18 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
 public class HowToPlay {
-	JPanel howToPlayScreen;
+	JInternalFrame howToPlayScreen;
 	
 	public HowToPlay(Board board, int width, int height)
 	{
-		howToPlayScreen = new JPanel();
+		howToPlayScreen = new JInternalFrame();
 		initHowToPlay(board, width, height);
 	}
 
@@ -28,6 +28,7 @@ public class HowToPlay {
 		howToPlayScreen.setMaximumSize(new Dimension(width, height));
 		howToPlayScreen.setSize(new Dimension(width, height));
 		howToPlayScreen.setVisible(false);
+		howToPlayScreen.setClosable(true);
 		howToPlayScreen.setLayout(null);
 		
 		title.setBounds((width-200)/2, 0, width-200, 40);

@@ -1,25 +1,22 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 
 public class Menu extends JMenuBar{
-	public Menu(JPanel gcs, JPanel howToPlay)
+	public Menu(JInternalFrame gcs, JInternalFrame howToPlay)
 	{
 		initMenu(gcs, howToPlay);
 	}
 	
-	public void initMenu(final JPanel gameCreateScreen, final JPanel howToPlay)
+	public void initMenu(final JInternalFrame gameCreateScreen, final JInternalFrame howToPlay)
 	{
 	    JMenu menu;
 	    JMenuItem menuItem;
@@ -44,12 +41,6 @@ public class Menu extends JMenuBar{
 	    	
 	    });
 	   // menuItem.addActionListener();
-	    menu.add(menuItem);
-	    
-	    menuItem = new JMenuItem("Records", KeyEvent.VK_T);
-	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-	    menuItem.getAccessibleContext().setAccessibleDescription("See your records");
-	    //menuItem.addActionListener(startGame);
 	    menu.add(menuItem);
 	    
 	    menuItem = new JMenuItem("How To Play", KeyEvent.VK_T);

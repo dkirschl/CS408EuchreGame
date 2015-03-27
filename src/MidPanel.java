@@ -16,7 +16,7 @@ public class MidPanel{
 	Card turnup, pickOrPassCard;
 	JButton spades, clubs, hearts, diamonds, passSuit;
 	JLabel yourTrumpSuitImage, opp1TrumpSuitImage, opp2TrumpSuitImage, teamTrumpSuitImage;
-	JLabel yourDealer, opp1Dealer, opp2Dealer, teamDealer;
+	JLabel yourDealer, opp1Dealer, opp2Dealer, teamDealer, dealer;
 	Button pickCard, passCard;
 	
 	JPanel midPanel;
@@ -236,7 +236,7 @@ public class MidPanel{
         
         // Add in the dealer buttons
         
-		try {
+	/*	try {
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
 			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
 			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
@@ -269,9 +269,11 @@ public class MidPanel{
 		midPanel.add(yourDealer);
 		midPanel.add(opp1Dealer);
 		midPanel.add(opp2Dealer);
-		midPanel.add(teamDealer);
-	}
+		midPanel.add(teamDealer);*/
+        
 
+	}
+	
 	public Card getPickOrPassCard() {
 		return pickOrPassCard;
 	}

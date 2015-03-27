@@ -1,4 +1,3 @@
-import java.awt.Button;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.concurrent.Semaphore;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,8 +24,6 @@ public class EuchreGame{
   private int compTricks;
   private ArrayList<Card> deck = new ArrayList<Card>();
   private Player you, comp1, comp2, comp3;
-  private boolean gameOver;
-  
   private static Semaphore human_turn, button_press;
   
   public EuchreGame()
@@ -60,8 +56,8 @@ public class EuchreGame{
     
     you = new Human();
     comp1 = new Computer(1, o1d);
-    comp2 = new Computer(2, o2d);
-    comp3 = new Computer(3, td);
+    comp2 = new Computer(2, td);
+    comp3 = new Computer(3, o2d);
     GameInfo.players.add(you); GameInfo.players.add(comp1); GameInfo.players.add(comp2); GameInfo.players.add(comp3);
     human_turn = new Semaphore(1);
     button_press = new Semaphore(0);
@@ -72,15 +68,15 @@ public class EuchreGame{
     GameInfo.teamOneTricks = 0;
     GameInfo.teamTwoTricks = 0;
   }
-  
   public static Semaphore getHuman_turn() {
-	return human_turn;
-}
+	  return human_turn;
+  }
+  
   public static Semaphore getButton_press() {
-	return button_press;
-}
+	  return button_press;
+  }
+  
   public void buildGame(ArrayList<Player> players, Card turnup)	{
-	JFrame gameBoard = GameInfo.board.board;
 	GameInfo.board.gameBoard.setLayout(null);
 	
 	MidPanel midPanel;
@@ -91,7 +87,6 @@ public class EuchreGame{
 	else
 	{
 		midPanel = GameInfo.board.getMidPanel();
-		System.out.println("Second mid panel mid card is: " + midPanel.pickOrPassCard.getButton().getLabel());
 
 		midPanel.pickOrPassCard.getButton().setIcon(turnup.getNormalImage());
 		midPanel.pickOrPassCard.setNormalImage(turnup.getNormalImage());
@@ -135,11 +130,11 @@ public class EuchreGame{
 
 	yourPanel.initYourPanel();
 	
-	GameInfo.board.gameBoard.add(yourPanel.yourPanel);
-	GameInfo.board.gameBoard.add(teamPanel.teamPanel);
-	GameInfo.board.gameBoard.add(opp1Panel.opp1Panel);
-	GameInfo.board.gameBoard.add(opp2Panel.opp2Panel);
-	GameInfo.board.gameBoard.add(midPanel.midPanel);
+	GameInfo.board.gameBoard.add(yourPanel.yourPanel, 0);
+	GameInfo.board.gameBoard.add(teamPanel.teamPanel, 0);
+	GameInfo.board.gameBoard.add(opp1Panel.opp1Panel, 0);
+	GameInfo.board.gameBoard.add(opp2Panel.opp2Panel, 0);
+	GameInfo.board.gameBoard.add(midPanel.midPanel, 0);
 	
 	GameInfo.board.gameBoard.revalidate();
 	GameInfo.board.gameBoard.repaint();
@@ -150,105 +145,124 @@ public class EuchreGame{
 
   public void startGame() {
 	  
+	  //This function runs the game logic from start to end
+	  
 	GameInfo.dealer = dealer;
-	int x = 0;
+	//clear all data if a new game was started
 	clearEverything();
-	  while (!isGameOver()) {
-		  deal();
-		  buildGame(GameInfo.players, GameInfo.middleCard);
-
-		  GameInfo.teamOneTricks = 0;
-		  GameInfo.teamTwoTricks = 0;
-		  GameInfo.board.getTeamPanel().updateTrickScore();
-		  GameInfo.board.getTeamPanel().updateTotalScore();
-		  
-		  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
-		  //System.out.println("Next of the dealer is: " + GameInfo.nextPlayer);
-		  //System.out.println("Dealer is: " + GameInfo.dealer);
-		  if (pickUpOrPass()) {
-			  adjustAllCards();
-			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
-			  for (int i = 0; i < 5; i++) {
-				  playCard();
-				  GameInfo.ledSuit = "";
-			  }
-			  hideTrump();
-		  } else {
-			  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
-			  if (chooseSuit()) {
-				  adjustAllCards();
-				  GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
-				  for (int i = 0; i < 5; i++) {
-					  playCard();
-					  GameInfo.ledSuit="";
-					  // test
-				  }
+	
+	//isGameOver() checks the scores of each team to see if a winner was determined
+	//the while loop includes all functions needed to play the game and will end once a  winner has been determined
+	while (!isGameOver()) {
+		//deal cards to each player and set the middle card
+		deal();
+		//create the game board
+		buildGame(GameInfo.players, GameInfo.middleCard);
+	
+		//set each teams trick score to 0 because it is a new hand
+		GameInfo.teamOneTricks = 0;
+		GameInfo.teamTwoTricks = 0;
+		//update the trick scoreboard with the new zeroed out score
+		GameInfo.board.getTeamPanel().updateTrickScore();
+		GameInfo.board.getTeamPanel().updateTotalScore();
+		
+		moveDealer();
+		//the first player to act is the left of the dealer
+		GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
+		//the pickUpOrPass() function gives each player the opportunity to set trump and give the dealer the middle card
+		//it returns false if every player passes
+		if (pickUpOrPass()) {
+			//adjust the value of the two jacks that are now the two highest cards now that trump suit has been set
+			adjustAllCards();
+			//Run playcard() 5 times -- once for each card in play
+			//reset nextPlayer to the left of the dealer
+			GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
+			for (int i = 0; i < 5; i++) {
+				playCard();
+				//the ledSuit is nullified after each trick
+				GameInfo.ledSuit = "";
+			}
+			hideTrump();
+		} else {
+			//if pickUpOrPass returns false each player has the opportunity to select the suit they would like to be trump -- starting from left of the dealer
+			GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
+			//if chooseSuit() returns false the cards will be redealt -- otherwise a normal hand gets played
+			if (chooseSuit()) {
+				adjustAllCards();
+				GameInfo.nextPlayer = (GameInfo.dealer + 1) % 4;
+				for (int i = 0; i < 5; i++) {
+					playCard();
+					GameInfo.ledSuit="";
+				}
 				  
-				  //Clear the TrumpPlayed array
-				  for(int i = 0; i < 7; i++){
-					  GameInfo.TrumpPlayed[i] = 0;
-				  }
+				//Clear the TrumpPlayed array
+				//This is used for the AI classes that keep track of certain information
+				for(int i = 0; i < 7; i++){
+					GameInfo.TrumpPlayed[i] = 0;
+				}
 				  
-				  hideTrump();
-			  } else {
-				  continue;
-			  }
-		  }
-		  //updating score
-		  System.out.println("Updating the scores for the teams");
-		  if (GameInfo.teamOneTricks > GameInfo.teamTwoTricks) {
-			  //team one won
-			  if (GameInfo.teamOneTricks == 5 || GameInfo.trumpCaller == 1 || GameInfo.trumpCaller == 3)
-			  { 
-				  GameInfo.teamOneScore += 2; 
-			  } 
-			  else
-			  { 
-				  GameInfo.teamOneScore++; 
-				  GameInfo.board.getTeamPanel().updateTotalScore();
-			  }
-		  } else {
-			  //team two won
-			  if (GameInfo.teamTwoTricks == 5 || GameInfo.trumpCaller == 0 || GameInfo.trumpCaller == 2) 
-			  { 
-				  GameInfo.teamTwoScore += 2; 
-			  } 
-			  else 
-			  { 
-				  GameInfo.teamTwoScore++; 
-				  GameInfo.board.getTeamPanel().updateTotalScore();
-			  }
-		  }
+				hideTrump();
+			} else {
+				continue;
+			}
+		}
+		//updating score
+		System.out.println("Updating the scores for the teams");
+		if (GameInfo.teamOneTricks > GameInfo.teamTwoTricks) {
+			//team one won
+			if (GameInfo.teamOneTricks == 5 || GameInfo.trumpCaller == 1 || GameInfo.trumpCaller == 3)
+			{ 
+				GameInfo.teamOneScore += 2; 
+			} 
+			else
+			{ 
+				GameInfo.teamOneScore++; 
+				GameInfo.board.getTeamPanel().updateTotalScore();
+			}
+		} else {
+			//team two won
+			if (GameInfo.teamTwoTricks == 5 || GameInfo.trumpCaller == 0 || GameInfo.trumpCaller == 2) 
+			{ 
+				GameInfo.teamTwoScore += 2; 
+			} 
+			else 
+			{ 
+				GameInfo.teamTwoScore++; 
+				GameInfo.board.getTeamPanel().updateTotalScore();
+			}
+		}
 		  
-		  
-		  GameInfo.dealer = (GameInfo.dealer + 1) % 4;
-		  GameInfo.middleCard = null;
-		  GameInfo.trump = null;
-		  GameInfo.middleSuit = null;
-		  GameInfo.ledSuit = null;
-		  GameInfo.nextPlayer = -1;
-		  GameInfo.playedCard = null;
-		  GameInfo.selectedSuit = null;
-		  GameInfo.teamOneTricks = 0;
-		  GameInfo.teamTwoTricks = 0;
-		  GameInfo.board.getTeamPanel().updateTrickScore();
-		  GameInfo.board.getTeamPanel().updateTotalScore();
-		  moveDealer();
-		  x++;
-	  }
+		//reset various values in GameInfo so that no information from the previous hand is used in the next hand
+		GameInfo.dealer = (GameInfo.dealer + 1) % 4;
+		GameInfo.middleCard = null;
+		GameInfo.trump = null;
+		GameInfo.middleSuit = null;
+		GameInfo.ledSuit = null;
+		GameInfo.nextPlayer = -1;
+		GameInfo.playedCard = null;
+		GameInfo.selectedSuit = null;
+		GameInfo.teamOneTricks = 0;
+		GameInfo.teamTwoTricks = 0;
+		GameInfo.board.getTeamPanel().updateTrickScore();
+		GameInfo.board.getTeamPanel().updateTotalScore();
+		moveDealer();
+	}
 
 	  
-  }
-
+}
+  //Deal out 5 cards to each player randomly
+  //Also initializes the deck
   public void deal() {
 
 	  Random rand = new Random();
 	  int num;
+	  //clear the deck and every hand so that each player starts with a new set of cards
 	  deck.clear();
 	  for (int i = 0; i < 4; i++) {
 		  GameInfo.players.get(i).getHand().clear();
 		  
 	  }
+	  //Add each card to the deck
 	  deck.add(new Card(0,9,"clubs", "Card8.jpg")); deck.add(new Card(1,10,"clubs", "Card9.jpg")); deck.add(new Card(2,11,"clubs", "Card10.jpg")); 
 	  deck.add(new Card(3,12,"clubs", "Card11.jpg")); deck.add(new Card(4,13,"clubs", "Card12.jpg")); deck.add(new Card(5,14,"clubs", "Card0.jpg"));
 	  
@@ -266,32 +280,10 @@ public class EuchreGame{
 		  for (int j = 0; j <= 3; j++) {
 			  num = rand.nextInt(deck.size());
 			  GameInfo.players.get(j).receiveCard(deck.get(num));
-			  //Button button = new Button(GameInfo.players.get(j).getHand().get(i).getSuit() + GameInfo.players.get(j).getHand().get(i).getValue());
-			  //GameInfo.players.get(j).getHand().get(i).setButton(button);
 			  deck.remove(num);
 		  }
 	  }
-	  /*
-	  if(GameInfo.firstGame == false)
-	  {
-		  for(int x = 0; x < 5; x ++)
-		  {
-			  GameInfo.board.getYourPanel().hand.get(x).getButton().setEnabled(false);
-			  GameInfo.board.getYourPanel().hand.get(x).getButton().setIcon(GameInfo.players.get(0).getHand().get(x).getNormalImage());
-			  GameInfo.board.getYourPanel().hand.get(x).setNormalImage(GameInfo.players.get(0).getHand().get(x).getNormalImage());
-			  GameInfo.board.getYourPanel().hand.get(x).setCardId(GameInfo.players.get(0).getHand().get(x).getCardId());
-			  GameInfo.board.getYourPanel().hand.get(x).setSuit(GameInfo.players.get(0).getHand().get(x).getSuit());
-			  GameInfo.board.getYourPanel().hand.get(x).setValue(GameInfo.players.get(0).getHand().get(x).getValue());
-			  			  
-		//	  GameInfo.board.getYourPanel().yourPanel.revalidate();
-		//	  GameInfo.board.getYourPanel().yourPanel.repaint();
-			  
-			  enableHumanCards(GameInfo.players.get(0).getHand());
-		  }
-		  
-	  }
-	  */
-
+	  //print each hand for debugging purposes
 	  for (int i = 0; i < 4; i++) {
 		  System.out.println("Player " + i + " hand:");
 		  for (int j = 0; j < 5; j++) {
@@ -301,26 +293,33 @@ public class EuchreGame{
 	  }
 
 	  //choose a card to be flipped up in the middle
-	  
 	  GameInfo.middleCard = deck.get(rand.nextInt(deck.size()));
-	  System.out.println("LOOOOOOOK HERE: " + GameInfo.middleCard.path);
-
 
 	  GameInfo.middleSuit = GameInfo.middleCard.getSuit();
 	  System.out.println("Turnup is: " + GameInfo.middleCard.getSuit() + GameInfo.middleCard.getValue());
 	  
 	  GameInfo.trump = "";
 }
-
+  //This function gives each player a chance to set the suit of the middle card as trump and give the middle card to the dealer
+  // returns true if the card is picked up / false if passed
   public boolean pickUpOrPass() {
 
 	  GameInfo.isPick = 1;
 	  boolean choice = false;
-
+	  try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
+		  //startTurn and waitForClick pause the game logic thread and wait for a human response from the UI thread
+		  //If the player calling either function is a Computer Player the method does nothing
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+		  
+		  //for Human Players choice pickUpOrPass() returns GameInfo.picked which shows whether the human player picked up or passed
 		  choice = GameInfo.players.get(GameInfo.nextPlayer).pickupOrPass();
 		  System.out.println("Player " + GameInfo.nextPlayer + " choice: " + choice);
 		  if (choice == true) {
@@ -328,23 +327,44 @@ public class EuchreGame{
 			  //wait for switch
 			  GameInfo.trumpCaller = GameInfo.nextPlayer;
 			  GameInfo.trump = GameInfo.middleCard.getSuit();
+			  //if the dealer is the human player than the human player has to be prompted to select a card to switch with the middle card
 			  if(GameInfo.dealer == 0)
 			  {
 				  GameInfo.board.getMidPanel().pickCard.setVisible(false);
 				  GameInfo.board.getMidPanel().passCard.setVisible(false);
+				  
 				  GameInfo.players.get(GameInfo.dealer).startTurn(human_turn);
+				  String name = "";
+				  switch(GameInfo.nextPlayer)
+				  {
+				  case 1: 
+					  name = GameInfo.board.getOpp1Panel().name;
+					  break;
+				  case 2:
+					  name = GameInfo.board.getTeamPanel().name;
+					  break;
+				  case 3:
+					  name = GameInfo.board.getOpp2Panel().name;
+					  break;
+				  default:
+					  break;
+				  }
+				  
+				  JOptionPane.showMessageDialog(GameInfo.board.board, name + " told you to pick up the card!\nPlease replace a card in your hand", "Pick it up", JOptionPane.INFORMATION_MESSAGE);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
 				  GameInfo.players.get(GameInfo.dealer).waitForClick(button_press);
 				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
 			  else
 			  {
+				  //otherwise call removeCard on an AI player which makes the switch without pausing any threads
 				  GameInfo.players.get(GameInfo.dealer).removeCard(GameInfo.middleCard);
 				  hideMidPanel(GameInfo.board.getMidPanel());
 			  }
+			  //display the trump suit on the UI
 			  displayTrump();
+			  //disable the humans cards until the hand begins
 			  disableHumanCards(GameInfo.players.get(0).getHand());
-			  //GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 			  return true;
 		  }
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
@@ -391,7 +411,10 @@ public class EuchreGame{
 			  }
 		  	  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+		  
+		  //Prompts for player "i" to choose any suit as trump, except for the suit of the original center card
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
+		  
 		  for(int x = 0; x < chooseSuitButtons.size(); x++)
 		  {
 			  chooseSuitButtons.get(x).setVisible(false);
@@ -426,38 +449,20 @@ public class EuchreGame{
 	  GameInfo.currentWinner = -1;
 	  Card winner1 = null;
 	  GameInfo.currentTrickLeader = GameInfo.nextPlayer;
-	  try {
-		  System.out.println("1");
-		Thread.sleep(1000);
-	} catch (InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
 	  
+	  //Each player gets a chance to play a card, starting from left of the dealer
 	  for (int i = 0; i < 4; i++) {
 		  
-		  //System.out.println("Player " + GameInfo.nextPlayer + " turn");
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
-			  try {
-				  System.out.println("2");
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			  //enable the human cards that are legal to be played
 			  enableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
-			  try {
-				  System.out.println("3");
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			  
 		  }	
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
-
+		  
+		  //playCard for Computer will call an AI function, playCard for Human will return the card that was selected
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  
@@ -469,32 +474,39 @@ public class EuchreGame{
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
 		  
 		  if (i == 0) {
+			  //if this is the first card played, GameInfo.ledSuit gets set
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
+			  //if there are no winners, set the current player to winner
 			  winner1 = tmp;
 			  GameInfo.currentWinner = GameInfo.nextPlayer;
 		  } else {
+			  
 			  System.out.println("Comparing : " + winner1.getSuit() + winner1.getValue() + " : " + tmp.getSuit() + tmp.getValue());
+			  //determineWinner figures out whether the new card beats the current winner
 			  winner1 = determineWinner(winner1, tmp);
 			  
-			  
+			  //if the winning cardID is the same as the recently played card, the currentWinner switches the to currentPlayer
 			  if (winner1.getCardId() == tmp.getCardId()) {
 				  GameInfo.currentWinner = GameInfo.nextPlayer;
 			  }
 			  System.out.println("Winning player : " + GameInfo.currentWinner);
 			  System.out.println("Winning Card : " + winner1.getSuit() + winner1.getValue());
 		  }
+		  //Disable the humans cards until next turn
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
 			  disableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
 		  }
+		  
+		  //Wait one second after every card is played to control game speed
 		  try {
 				Thread.sleep(1000);
 		  } catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		  }
+		  
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 		  
 		  
@@ -511,7 +523,6 @@ public class EuchreGame{
 	  try{
 		  Thread.sleep(2000);
 	  }catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 	  }
 	  
@@ -828,7 +839,6 @@ public class EuchreGame{
 				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setVisible(true);	
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
   }
@@ -842,30 +852,43 @@ public class EuchreGame{
   }
   public void moveDealer()
   {
-	  if(GameInfo.dealer == 0)
+	  GameInfo.board.getTeamPanel().setDealer();
+	/*  if(GameInfo.dealer == 0)
 	  {
 		  System.out.println("You are the dealer");
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().yourDealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 1)
 	  {
 		  System.out.println("Opp1 is the dealer");
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
 		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(true);
 	  }
 	  else if(GameInfo.dealer == 2)
 	  {
 		  System.out.println("Teammate is the dealer");
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(true);
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
+		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
 	  }
 	  else if(GameInfo.dealer == 3)
 	  {
 		  System.out.println("Opponent 2 is the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
+		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
-	  }
+		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
+	  }*/
   }
 
   public void hideAICard()
@@ -890,6 +913,11 @@ public class EuchreGame{
    * Function to reset all proper variables to start a new game
    */
   public void clearEverything(){
+	  if (!GameInfo.players.get(0).getHand().isEmpty()) {
+		  for (int i = 0; i < GameInfo.players.get(0).getHand().size(); i++) {
+			  GameInfo.players.get(0).getHand().get(i).getButton().setVisible(false);
+		  }
+	  }
 	  GameInfo.trumpCaller = 0;
 	  GameInfo.previousTrickLeader = 0;
 	  GameInfo.currentTrickLeader = 0;
@@ -923,6 +951,7 @@ public class EuchreGame{
 	  GameInfo.teamTwoTricks = 0;
 	  GameInfo.teamOneScore = 0;
 	  GameInfo.teamTwoScore = 0;
+	  
   }
   //******* Generate the getters and setters *******//
   public String getOpp1Name()
