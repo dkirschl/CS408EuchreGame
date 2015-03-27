@@ -4,6 +4,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.image.*;
+import java.awt.*;
 
 
 public class Card {
@@ -15,6 +18,7 @@ public class Card {
 	private int worth;
 	private String cardPath;
 	private ImageIcon normalImage;
+	private ImageIcon greyImage;
 	public String path;
 	
 	public JButton getButton() {
@@ -45,10 +49,35 @@ public class Card {
 			Image newImg = test.getScaledInstance(70, 100, java.awt.Image.SCALE_SMOOTH);
 			normalImage = new ImageIcon(newImg);
 	        button = new JButton(normalImage);
+	        button.setDisabledIcon(normalImage);
+	        
+	        Toolkit tk = Toolkit.getDefaultToolkit();
+	        ImageFilter filter = new GrayFilter(true, 10);
+	        ImageProducer producer = new FilteredImageSource(newImg.getSource(),filter);
+	        Image newGreyImage = tk.createImage(producer);
+	        greyImage = new ImageIcon(newGreyImage);
+	        
+	        //button.setDisabledIcon(greyImage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public Card(Card another){
+		this.cardId = another.getCardId();
+		this.value = another.getValue();
+		this.suit = another.getSuit();
+		this.button = another.getButton();
+		this.worth = another.getWorth();
+	}
+	
+	public void setGray() {
+		button.setDisabledIcon(greyImage);
+	}
+	
+	public void unsetGray(){
+		button.setDisabledIcon(normalImage);
 	}
 	
 	public void adjustValue() {
