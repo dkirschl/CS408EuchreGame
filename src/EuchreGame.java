@@ -7,7 +7,6 @@ import java.util.concurrent.Semaphore;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -25,8 +24,6 @@ public class EuchreGame{
   private int compTricks;
   private ArrayList<Card> deck = new ArrayList<Card>();
   private Player you, comp1, comp2, comp3;
-  private boolean gameOver;
-  
   private static Semaphore human_turn, button_press;
   
   public EuchreGame()
@@ -71,13 +68,14 @@ public class EuchreGame{
     GameInfo.teamOneTricks = 0;
     GameInfo.teamTwoTricks = 0;
   }
-  
   public static Semaphore getHuman_turn() {
-	return human_turn;
-}
+	  return human_turn;
+  }
+  
   public static Semaphore getButton_press() {
-	return button_press;
-}
+	  return button_press;
+  }
+  
   public void buildGame(ArrayList<Player> players, Card turnup)	{
 	GameInfo.board.gameBoard.setLayout(null);
 	
@@ -89,7 +87,6 @@ public class EuchreGame{
 	else
 	{
 		midPanel = GameInfo.board.getMidPanel();
-		System.out.println("Second mid panel mid card is: " + midPanel.pickOrPassCard.getButton().getLabel());
 
 		midPanel.pickOrPassCard.getButton().setIcon(turnup.getNormalImage());
 		midPanel.pickOrPassCard.setNormalImage(turnup.getNormalImage());
@@ -151,7 +148,6 @@ public class EuchreGame{
 	  //This function runs the game logic from start to end
 	  
 	GameInfo.dealer = dealer;
-	int x = 0;
 	//clear all data if a new game was started
 	clearEverything();
 	
@@ -250,7 +246,6 @@ public class EuchreGame{
 		GameInfo.board.getTeamPanel().updateTrickScore();
 		GameInfo.board.getTeamPanel().updateTotalScore();
 		moveDealer();
-		x++;
 	}
 
 	  
@@ -416,7 +411,10 @@ public class EuchreGame{
 			  }
 		  	  
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
+		  
+		  //Prompts for player "i" to choose any suit as trump, except for the suit of the original center card
 		  suit = GameInfo.players.get(GameInfo.nextPlayer).chooseSuit();
+		  
 		  for(int x = 0; x < chooseSuitButtons.size(); x++)
 		  {
 			  chooseSuitButtons.get(x).setVisible(false);
@@ -452,16 +450,19 @@ public class EuchreGame{
 	  Card winner1 = null;
 	  GameInfo.currentTrickLeader = GameInfo.nextPlayer;
 	  
+	  //Each player gets a chance to play a card, starting from left of the dealer
 	  for (int i = 0; i < 4; i++) {
 		  
 		  GameInfo.players.get(GameInfo.nextPlayer).startTurn(human_turn);
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
+			  //enable the human cards that are legal to be played
 			  enableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
 			  
 		  }	
 		  GameInfo.players.get(GameInfo.nextPlayer).waitForClick(button_press);
-
+		  
+		  //playCard for Computer will call an AI function, playCard for Human will return the card that was selected
 		  Card tmp = GameInfo.players.get(GameInfo.nextPlayer).playCard();
 		  System.out.println("Card Played : " + tmp.getValue() + tmp.getSuit());
 		  
@@ -473,32 +474,39 @@ public class EuchreGame{
 		  GameInfo.players.get(GameInfo.nextPlayer).getHand().remove(tmp);
 		  
 		  if (i == 0) {
+			  //if this is the first card played, GameInfo.ledSuit gets set
 			  GameInfo.ledSuit = tmp.getSuit();
 		  }
 		  if (winner1 == null) {
+			  //if there are no winners, set the current player to winner
 			  winner1 = tmp;
 			  GameInfo.currentWinner = GameInfo.nextPlayer;
 		  } else {
+			  
 			  System.out.println("Comparing : " + winner1.getSuit() + winner1.getValue() + " : " + tmp.getSuit() + tmp.getValue());
+			  //determineWinner figures out whether the new card beats the current winner
 			  winner1 = determineWinner(winner1, tmp);
 			  
-			  
+			  //if the winning cardID is the same as the recently played card, the currentWinner switches the to currentPlayer
 			  if (winner1.getCardId() == tmp.getCardId()) {
 				  GameInfo.currentWinner = GameInfo.nextPlayer;
 			  }
 			  System.out.println("Winning player : " + GameInfo.currentWinner);
 			  System.out.println("Winning Card : " + winner1.getSuit() + winner1.getValue());
 		  }
+		  //Disable the humans cards until next turn
 		  if(GameInfo.players.get(GameInfo.nextPlayer).isHuman() == true)
 		  {
 			  disableHumanCards(GameInfo.players.get(GameInfo.nextPlayer).getHand());
 		  }
+		  
+		  //Wait one second after every card is played to control game speed
 		  try {
 				Thread.sleep(1000);
 		  } catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 		  }
+		  
 		  GameInfo.nextPlayer = (GameInfo.nextPlayer + 1) % 4;
 		  
 		  
@@ -515,7 +523,6 @@ public class EuchreGame{
 	  try{
 		  Thread.sleep(2000);
 	  }catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 	  }
 	  
@@ -832,7 +839,6 @@ public class EuchreGame{
 				GameInfo.board.getMidPanel().opp2TrumpSuitImage.setVisible(true);	
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
   }
