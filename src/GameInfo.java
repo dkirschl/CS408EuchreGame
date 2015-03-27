@@ -2,32 +2,32 @@ import java.util.ArrayList;
 
 public class GameInfo {
 	
-	static boolean screwDealer;
-	static int trumpCaller;
-	static int previousTrickLeader;
-	static int currentTrickLeader;
-	static int currentWinner;
-	static ArrayList<Player> players = new ArrayList<Player>();
-	static ArrayList<Card> previousTrick = new ArrayList<Card>();
-	static ArrayList<Card> currentTrick = new ArrayList<Card>();
-	static int TrumpPlayed[] = new int []{0,0,0,0,0,0,0};
-	static Card middleCard;
-	static String middleSuit;
-	static String trump;
-	static String ledSuit;
-	static String selectedSuit;
-	static int dealer;
-	static int nextPlayer;
-	static int isPick;
-	static boolean firstGame;
-	static boolean picked;
-	static Board board;
-	static Card playedCard;
-	static int teamOneTricks = 0;
-	static int teamTwoTricks = 0;
-	static int teamOneScore = 0;
-	static int teamTwoScore = 0;
-	static String howTo = 
+	static boolean screwDealer;	//is screw the dealer on?
+	static int trumpCaller;     //who called trump
+	static int previousTrickLeader; //who won the last trick
+	static int currentTrickLeader;  //you is currently winning the trick
+	static int currentWinner;       //who is winning
+	static ArrayList<Player> players = new ArrayList<Player>();  //list of players
+	static ArrayList<Card> previousTrick = new ArrayList<Card>(); //list of cards for previous trick
+	static ArrayList<Card> currentTrick = new ArrayList<Card>();  // list of cards played for current trick
+	static int TrumpPlayed[] = new int []{0,0,0,0,0,0,0};         //keeps track of which trumps have been played
+	static Card middleCard;  //the middle card in the beginning of a hand
+	static String middleSuit;  //the suit of the middle card
+	static String trump;     //trump suit
+	static String ledSuit;   //the suit that was led for each trick
+	static String selectedSuit;  //suit selected from chooseSuit()
+	static int dealer;          //who is the dealer
+	static int nextPlayer;      //the next player to act
+	static int isPick;          //is the human player selecting a card
+	static boolean firstGame;   //is this the first game
+	static boolean picked;      //has the human picked a card
+	static Board board;         //the gameboard
+	static Card playedCard;     //the card that the human player played
+	static int teamOneTricks = 0;  //team one trick score
+	static int teamTwoTricks = 0;  //team two trick score
+	static int teamOneScore = 0;   //team one total score
+	static int teamTwoScore = 0;   //team two total score
+	static String howTo =   //how to text
 						  "          The highest trump is the jack of the trump suit, called the right bower. The second-highest trump is the jack of the other " +
 						  "suit of the same color called the left bower. The remaining trumps, and also the plain rank as follows: A (high), K, Q, J, 10, 9, 8, 7. " +
 						  "If a joker has been added to the pack, it acts as the highest trump.\n" +
@@ -52,21 +52,21 @@ public class GameInfo {
 						  "passing again or of naming the trump suit. The rejected suit may not be named. Declaring the other suit of the same color as the reject is " +
 						  "'making it next'; declaring a suit of opposite color is called 'crossing it.'\n" +
 						  
-						  "          If all four players pass in the second round, the cards are gathered and shuffled, and the next dealer deals. Once the trump is" +
+						  "          If all four players pass in the second round, the cards are gathered and shuffled, and the dealer redeals. If you play with" +
+						  "stick the dealer on and everyone passes ten the dealer is forced to pick a suit. Once the trump is" +
 						  "fixed, either by acceptance of the turn-up or by the naming of another suit, the turn-up is rejected, the bidding ends and play begins.\n" +
 						  
 						  "          The goal is to win at least three tricks. If the side that fixed the trump fails to get three tricks, it is " +
 						  "said to be 'euchred.' Winning all five tricks is called a 'march.'\n" +
 						  
-						  "          The opening lead is made by the player to the dealer's left, or if this player's partner is playing alone, " +
-						  "it is made by the player across from the dealer. If he can, each player must follow suit to a lead. If unable to follow" +
+						  "          The opening lead is made by the player to the dealer's left. If he can, each player must follow suit to a lead. If unable to follow" +
 						  "suit, the player may trump or discard any card. A trick is won by the highest card of the suit led, or, if it contains" +
 						  "trumps, by the highest trump. The winner of a trick leads next." +
 						  "\n\n" +
 						  
 						  "The following shows all scoring situations:\n     Partnership making trump wins 3 or 4 tricks = 1\n" +
-						  "     Partnership making trump wins 5 tricks = 2\n     Lone hand wins 3 or 4 tricks = 1\n" +
-						  "     Lone hand wins 5 tricks = 4\n     Partnership or lone hand is euchred, opponents score = 2\n\n" +
+						  "     Partnership making trump wins 5 tricks = 2\n " +
+						  "     Partnership is euchred, opponents score = 2\n\n" +
 						  
 						  "The first partnership to score 10 points wins the game";
 	

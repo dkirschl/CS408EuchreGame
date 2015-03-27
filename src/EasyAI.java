@@ -31,11 +31,9 @@ public class EasyAI extends AI{
 		
 		
 		int handValue = calculateValues(GameInfo.middleSuit);
-		System.out.println("Hand value is " + handValue);
 		Random randomGenerator = new Random();
 	    int randomInt = randomGenerator.nextInt(10);
 	    randomInt -= 5;
-	    System.out.println("Random int is " + randomInt);
 	    int threshold = 36;
 	    threshold += randomInt;
 	    
@@ -214,12 +212,10 @@ public class EasyAI extends AI{
 			}
 			
 			
-			//System.out.println("Leading trick : worth of " + highestValued.getWorth());
 
 			return highestValued;
 			
 		} else {
-			//System.out.println("Not Leading");
 			leadSuit = GameInfo.ledSuit;
 			
 			//If the left is lead, the real suit that is lead is trump
@@ -245,14 +241,12 @@ public class EasyAI extends AI{
 				
 				
 			}
-			//System.out.println("There are " + elCards.size() + " eligible cards");
 		}
 		
 		if(elCards.size() == 1){
 			/*
 			 * Play the only eligible card
 			 */
-			//System.out.println("One Eligible Card : worth of " + elCards.get(0).getWorth());
 
 			return elCards.get(0);
 		
@@ -270,9 +264,6 @@ public class EasyAI extends AI{
 					low = nextCard.getWorth();
 				}
 			}
-			
-
-			//System.out.println("No Eligibles: worth of " + lowestValued.getWorth());
 
 			return lowestValued;
 			
@@ -280,7 +271,6 @@ public class EasyAI extends AI{
 			/*
 			 * Play highest valued eligible card
 			 */
-			//System.out.println("There are " + elCards.size() + " eligible Cards");
 			Card highestValued = elCards.get(0);
 			int high = highestValued.getWorth();
 			for(int i = 1; i < elCards.size(); i++){
@@ -291,9 +281,6 @@ public class EasyAI extends AI{
 					high = nextCard.getWorth();
 				}
 			}
-			
-
-			//System.out.println("Multiple Eligibles: worth of " + highestValued.getWorth());
 
 			return highestValued;
 		}
@@ -324,11 +311,13 @@ public class EasyAI extends AI{
 			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 			
 			if(nextCard.getSuit() == leftSuit && nextCard.getValue() == 11){
+				//This is the left bauer so it is a trump card
 				totalValue += 12;
 				nextCard.setWorth(12);
 			} else if(nextCard.getSuit() == suit){
 				
 				switch(nextCard.getValue()){
+					//These are trump cards so set the proper worths
 					case 9: totalValue += 7;
 							nextCard.setWorth(7);
 							break;
@@ -350,6 +339,7 @@ public class EasyAI extends AI{
 				}
 			} else {
 				switch(nextCard.getValue()){
+					//These cards are not trump so set the proper worth
 					case 9:  totalValue += 1;
 							 nextCard.setWorth(1);
 							 break;
@@ -385,7 +375,6 @@ public class EasyAI extends AI{
 		
 		//Resets values for the appropriate suit
 		calculateValues(GameInfo.middleSuit);
-		System.out.println("Removing Card.........");
 		
 		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
 		int low = lowestValued.getWorth();
@@ -401,7 +390,6 @@ public class EasyAI extends AI{
 			}
 		}
 		
-		System.out.println("Removing " + lowestValued.getValue() + " " + lowestValued.getSuit());
 		GameInfo.players.get(myValue).getHand().remove(lowestValued);
 		GameInfo.players.get(myValue).getHand().add(middle);
 		

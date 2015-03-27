@@ -52,6 +52,7 @@ public class CardPress implements ActionListener {
 		card.setSuit(switchCard.getSuit());
 		card.setValue(switchCard.getValue());
 		switchCard.getButton().setVisible(false);	
+
 	}
 	public void playCard(Card card, JLabel middleCard)
 	 {
