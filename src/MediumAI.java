@@ -27,6 +27,10 @@ public class MediumAI extends AI{
 		}
 		myValue = value;
 		switch(value){
+			/*
+			 * Human team is index 0 and 2
+			 * AI team is index 1 and 3
+			 */
 			case 1: partnerValue = 3;
 					opponent1Value = 0;
 					opponent2Value = 2;
@@ -52,6 +56,9 @@ public class MediumAI extends AI{
 		int handValue;
 		
 		if(GameInfo.dealer == myValue){
+			/*
+			 * You are the dealer so check see what your hand value would be if you picked it up
+			 */
 			handValue = calculateValuesAsDealer(GameInfo.middleCard);
 		} else if(GameInfo.dealer == partnerValue){
 			/*
@@ -233,6 +240,7 @@ public class MediumAI extends AI{
 			int value = 0;
 			
 			switch(j){
+				//Sets value to the worth that it would be to compare it to my cards
 				case 0: value = 7; break;
 				case 1: value = 8; break;
 				case 2: value = 9; break;
@@ -545,6 +553,9 @@ public class MediumAI extends AI{
 		int hearts = 0;
 		int diamonds = 0;
 		
+		/*
+		 * Caluculate how many of each suit you have in your hand
+		 */
 		Card lowestValued = GameInfo.players.get(myValue).getHand().get(0);
 		int low = lowestValued.getWorth();
 		
@@ -687,11 +698,13 @@ public class MediumAI extends AI{
 			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 			
 			if(nextCard.getSuit() == leftSuit && nextCard.getValue() == 11){
+				//This is the left bauer so it is treated as trump
 				totalValue += 12;
 				nextCard.setWorth(12);
 			} else if(nextCard.getSuit() == suit){
 				
 				switch(nextCard.getValue()){
+					//The card is a trump so set its worth appropriately
 					case 9: totalValue += 7;
 							nextCard.setWorth(7);
 							break;
@@ -713,6 +726,7 @@ public class MediumAI extends AI{
 				}
 			} else {
 				switch(nextCard.getValue()){
+					//The card is not trump so set its worth lower
 					case 9:  totalValue += 1;
 							 nextCard.setWorth(1);
 							 break;

@@ -311,11 +311,13 @@ public class EasyAI extends AI{
 			Card nextCard = GameInfo.players.get(myValue).getHand().get(i);
 			
 			if(nextCard.getSuit() == leftSuit && nextCard.getValue() == 11){
+				//This is the left bauer so it is a trump card
 				totalValue += 12;
 				nextCard.setWorth(12);
 			} else if(nextCard.getSuit() == suit){
 				
 				switch(nextCard.getValue()){
+					//These are trump cards so set the proper worths
 					case 9: totalValue += 7;
 							nextCard.setWorth(7);
 							break;
@@ -337,6 +339,7 @@ public class EasyAI extends AI{
 				}
 			} else {
 				switch(nextCard.getValue()){
+					//These cards are not trump so set the proper worth
 					case 9:  totalValue += 1;
 							 nextCard.setWorth(1);
 							 break;
