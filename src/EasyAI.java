@@ -45,7 +45,7 @@ public class EasyAI extends AI{
 	    if(handValue >= threshold){
 	    	return true;
 	    } else {
-	    	return true;
+	    	return false;
 	    }
 	}
 

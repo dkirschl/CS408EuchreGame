@@ -48,7 +48,7 @@ public class EuchreGame{
     opp2Difficulty = o2d;
     teamName = t;
     teamDifficulty = td;
-    dealer = 0;
+    dealer = 3;
     yourScore = 0;
     compScore = 0;
     yourTricks = 0;

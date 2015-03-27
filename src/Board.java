@@ -18,7 +18,7 @@ public class Board{
 	private TeamPanel teamPanel;
 	
 	JFrame board;
-	JLayeredPane gameBoard;
+	JPanel gameBoard;
 
 	public Board()
 	{
@@ -30,7 +30,7 @@ public class Board{
 
 	public void initBoard()
 	{		
-		gameBoard = new JLayeredPane();
+		gameBoard = new JPanel();
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setMinimumSize(new Dimension(boardWidth,boardHeight));
 		board.setResizable(false);
