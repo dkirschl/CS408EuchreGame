@@ -1,4 +1,5 @@
 import java.awt.Checkbox;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,20 +8,20 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
 public class GameCreateScreen{
-	JPanel gameCreateScreen;
+	JInternalFrame gameCreateScreen;
 	
 	public GameCreateScreen(Board board, int width, int height)
 	{
-		gameCreateScreen = new JPanel();
+		gameCreateScreen = new JInternalFrame("Create A New Game");
 		initScreen(board, width, height);
 	}
 	public void initScreen(final Board board, int width, int height)
@@ -64,8 +65,10 @@ public class GameCreateScreen{
 	  //****** Create the initial frame ******//
 	  //newGamePanel = new JFrame("Creating a new game!");
 	  
-	  gameCreateScreen.setMaximumSize(new Dimension(width, height));
-	  gameCreateScreen.setSize(new Dimension(width, height));
+	  System.out.println("Here at least");
+	  gameCreateScreen.setMaximumSize(new Dimension(windowWidth, windowHeight));
+	  gameCreateScreen.setSize(new Dimension(windowWidth, windowHeight + 10));
+	  gameCreateScreen.setClosable(true);
 	  gameCreateScreen.setLayout(null);
 	  
 	  
