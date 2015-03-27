@@ -45,7 +45,6 @@ public class Card {
 		try {
 			path = "/Images/"+ cardPath;
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/" + cardPath));
-			System.out.println(getClass().getResource("/Images/" + cardPath));
 			Image newImg = test.getScaledInstance(70, 100, java.awt.Image.SCALE_SMOOTH);
 			normalImage = new ImageIcon(newImg);
 	        button = new JButton(normalImage);

@@ -7,7 +7,9 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
-
+/*
+ * This class gets called every time the Human player selects pick
+ */
 public class Pick implements ActionListener  {
 	Card card;
 	Button pick;
@@ -35,8 +37,6 @@ public class Pick implements ActionListener  {
 	}
 	public void disableCards()
 	{
-		//card.getButton().setVisible(false);
-		//card.getButton().setEnabled(false);
 		pick.setVisible(false);
 		pick.setEnabled(false);
 		pass.setVisible(false);
@@ -44,31 +44,17 @@ public class Pick implements ActionListener  {
 	}
 	public void pick(Card b)
 	{
-		//******* The human player is the dealer *******\\
-		if(GameInfo.dealer == 0)
+		if(GameInfo.dealer == 0) // If you are the dealer then you have to pick up the card
 		{
-			System.out.println("YOU ARE THE DEALER");
 			enableCards();
 		}
-		else
+		else // else you disable the middle card
 		{
 			disableMiddleCard();
 		}
-		//******* Need to change out the cards if they are the dealer *******\\
-		/*
-		 Going to need a function or a variable that can get who the current dealer in the game is other than in the while loop
-		
-		 If(player is dealer)
-		 	enable the card buttons
-		 	whichever card button is selected gets switched out with the current card you want to pick up
-		 	game then starts as normal and player plays
-		 else if (player isn't dealer)
-		 	ai has to pick up the cards
-		 */
 	}
 	public void enableCards()
 	{
-	//	System.out.println(board.toString());
 		YourPanel yourPanel = board.getYourPanel();
 		ArrayList<Card> cards = yourPanel.hand;
 		

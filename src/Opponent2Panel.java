@@ -51,9 +51,7 @@ public class Opponent2Panel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//trumpSuit = new Button("trumpSuit");
-		
-		System.out.println("Opponent 2 Coordinates x: " + opp2XCoord + " y: " + opp2YCoord + " Dimensions width: " + opp2Width  + " height: " + opp2Height);
+
 		opp2Panel.setBounds(opp2XCoord, opp2YCoord, opp2Width, opp2Height);
 		JLabel opp2 = new JLabel(name);
 		

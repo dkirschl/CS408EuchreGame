@@ -349,8 +349,8 @@ public class EuchreGame{
 				  default:
 					  break;
 				  }
-				  
-				  JOptionPane.showMessageDialog(GameInfo.board.board, name + " told you to pick up the card!\nPlease replace a card in your hand", "Pick it up", JOptionPane.INFORMATION_MESSAGE);
+				  if(GameInfo.nextPlayer != 0)
+					  JOptionPane.showMessageDialog(GameInfo.board.board, name + " told you to pick up the card!\nPlease replace a card in your hand", "Pick it up", JOptionPane.INFORMATION_MESSAGE);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
 				  GameInfo.players.get(GameInfo.dealer).waitForClick(button_press);
 				  hideMidPanel(GameInfo.board.getMidPanel());
@@ -732,6 +732,7 @@ public class EuchreGame{
 		  if(cards.get(x).getButton().isVisible() == true)
 		  {
 			  //System.out.println("GameInfo.ledSuit: " + GameInfo.ledSuit);
+			  cards.get(x).setGray();
 			  if(cards.get(x).getSuit() == GameInfo.ledSuit)
 				  temp.add(cards.get(x));
 		  }
@@ -773,6 +774,7 @@ public class EuchreGame{
 	  {
 		  if(cards.get(x).getButton().isVisible() == true)
 		  {
+			  cards.get(x).unsetGray();
 			  cards.get(x).getButton().setEnabled(false);
 		  }
 	  }
@@ -853,42 +855,6 @@ public class EuchreGame{
   public void moveDealer()
   {
 	  GameInfo.board.getTeamPanel().setDealer();
-	/*  if(GameInfo.dealer == 0)
-	  {
-		  System.out.println("You are the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().yourDealer.setVisible(true);
-	  }
-	  else if(GameInfo.dealer == 1)
-	  {
-		  System.out.println("Opp1 is the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(true);
-	  }
-	  else if(GameInfo.dealer == 2)
-	  {
-		  System.out.println("Teammate is the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
-	  }
-	  else if(GameInfo.dealer == 3)
-	  {
-		  System.out.println("Opponent 2 is the dealer");
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp1Dealer.setVisible(false);
-		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
-		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
-	  }*/
   }
 
   public void hideAICard()

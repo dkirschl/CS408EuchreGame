@@ -6,6 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+/*  
+ * The Board is set up as follows:
+ * It contains a JFrame called board that serves as the basis for the UI
+ * Inside of that JFrame it has a JPanel called gameBoard that stores all of the Players panels and the mid panel
+ * The players are Opponent 1 - player to the left, Opponent 2 - Player to the right, Team-mate - Player across from you
+ * All of those panels can be accessed through the object board
+ * The object board can be accessed through GameInfo.board
+ */
 
 public class Board{
 	private int boardWidth;
@@ -30,6 +38,9 @@ public class Board{
 
 	public void initBoard()
 	{		
+		// Creates the board
+		// Game board is used for colors and adding other panels
+		// Board board is used to get all the panels
 		gameBoard = new JPanel();
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setMinimumSize(new Dimension(boardWidth,boardHeight));
@@ -41,11 +52,8 @@ public class Board{
 		HowToPlay htp = new HowToPlay(this, boardWidth, boardHeight);
 		htp.howToPlayScreen.setVisible(false);
 		
-		System.out.println("HTP width: " + htp.howToPlayScreen.getWidth() + " height: " +  htp.howToPlayScreen.getHeight());
-		
 		board.setJMenuBar(new Menu(s.gameCreateScreen, htp.howToPlayScreen));
 		
-		//System.out.println("About to add the game Create Screen");
 		board.add(s.gameCreateScreen);
 		board.add(htp.howToPlayScreen);
 		
@@ -53,8 +61,6 @@ public class Board{
 		board.add(gameBoard);
 		
 		board.pack();
-		System.out.println(gameBoard.getWidth());
-		System.out.println(gameBoard.getHeight());
 		
 		GameInfo.board = this;
 		GameInfo.firstGame = true;

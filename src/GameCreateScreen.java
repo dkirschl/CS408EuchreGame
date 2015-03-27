@@ -63,9 +63,6 @@ public class GameCreateScreen{
 	  int windowWidth = 556;
 	  
 	  //****** Create the initial frame ******//
-	  //newGamePanel = new JFrame("Creating a new game!");
-	  
-	  System.out.println("Here at least");
 	  gameCreateScreen.setMaximumSize(new Dimension(windowWidth, windowHeight));
 	  gameCreateScreen.setSize(new Dimension(windowWidth, windowHeight + 10));
 	  gameCreateScreen.setClosable(true);
@@ -171,7 +168,6 @@ public class GameCreateScreen{
 	    public void actionPerformed(ActionEvent e) {
 	      GameInfo.screwDealer = stickDealer.getState();
 	      final EuchreGame currentGame = new EuchreGame(opp1NameText.getText(), getSelectedButton(opp1RadioButtons), opp2NameText.getText(), getSelectedButton(opp2RadioButtons), opp3NameText.getText(), getSelectedButton(opp3RadioButtons));
-	      System.out.println("Here");
 	      Thread t = new Thread(new Runnable(){
 	    	  @Override
 	    	  public void run(){
@@ -180,22 +176,10 @@ public class GameCreateScreen{
 	      });
 	      t.start();
 	      gameCreateScreen.setVisible(false);
-	      
-	      //setupGameBoard();
 	    }
 	  });
 	  
 	  gameCreateScreen.add(createGameButton);
-	 // gameBoard.removeAll();
-	 // gameBoard.revalidate();
-
-	 // gameBoard.repaint();
-	  
-	//  gameBoard.add(gameCreateScreen);
-	 // JMenuBar menuBar = new Menu(gameCreateScreen);
-	 // gameBoard.setJMenuBar(menuBar);
-
-	  //gameCreateScreen.setVisible(true);
 	}
 	int getSelectedButton(ButtonGroup name)
 	{  

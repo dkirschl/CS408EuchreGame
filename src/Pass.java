@@ -2,7 +2,9 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/*
+ * This class gets called whenever the human player elects to pass on the card
+ */
 public class Pass implements ActionListener  {
 	Card card;
 	Button pick;
@@ -27,7 +29,6 @@ public class Pass implements ActionListener  {
 	}
 	public void disableCards()
 	{
-		//card.getButton().setVisible(false);
 		card.getButton().setEnabled(false);
 		pick.setVisible(false);
 		pick.setEnabled(false);

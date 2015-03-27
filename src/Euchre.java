@@ -49,17 +49,13 @@ public class Euchre{
  
  public Euchre()
  {
-  //frame = new JFrame("Euchre Game!");
-  //newGamePanel = new JFrame("Create a Game");
-  //gameScreenHeight = 700;
-  //gameScreenWidth = 900;
+
  }
  public static void createAndShowGUI()
  {
   Board board = new Board();
   board.board.pack();
   board.board.setVisible(true);
- 
  }
 
  public JLabel updateScore(int you, int cpu)
@@ -76,7 +72,6 @@ public class Euchre{
  
  public void playCard(Button card, Button middleCard)
  {
- 	System.out.println(card.getLabel());
  	middleCard.setLabel(card.getLabel());
  	middleCard.setVisible(true);
  }

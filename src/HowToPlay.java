@@ -9,7 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-
+/*
+ * This class creates the JInternalFrame how to play screen that displays whenever the menu "How To Play" gets selected
+ */
 public class HowToPlay {
 	JInternalFrame howToPlayScreen;
 	
@@ -23,7 +25,6 @@ public class HowToPlay {
 	{
 		JTextArea rules = new JTextArea();
 		JLabel title = new JLabel("<html><U>RULES</U></html");
-		//ScrollPane scroll = new JScrollBar();
 		
 		howToPlayScreen.setMaximumSize(new Dimension(width, height));
 		howToPlayScreen.setSize(new Dimension(width, height));
@@ -44,10 +45,7 @@ public class HowToPlay {
 		rules.setWrapStyleWord(true);
 		rules.setOpaque(false);
 		
-		System.out.println(GameInfo.howTo);
-		
 		JScrollPane scroll = new JScrollPane(rules);
-		//scroll.setBounds(0, 0, 150, height);
 		
 		howToPlayScreen.add(title);
 		howToPlayScreen.add(scroll);

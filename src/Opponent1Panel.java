@@ -51,8 +51,7 @@ public class Opponent1Panel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("Opponent 1 Coordinates x: " + opp1XCoord + " y: " + opp1YCoord + " Dimensions width: " + opp1Width  + " height: " + opp1Height);
+
 		opp1Panel.setBounds(opp1XCoord, opp1YCoord, opp1Width, opp1Height);
 		JLabel opp1 = new JLabel(name);
 		
