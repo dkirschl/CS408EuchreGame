@@ -60,8 +60,8 @@ public class EuchreGame{
     
     you = new Human();
     comp1 = new Computer(1, o1d);
-    comp2 = new Computer(2, o2d);
-    comp3 = new Computer(3, td);
+    comp2 = new Computer(2, td);
+    comp3 = new Computer(3, o2d);
     GameInfo.players.add(you); GameInfo.players.add(comp1); GameInfo.players.add(comp2); GameInfo.players.add(comp3);
     human_turn = new Semaphore(1);
     button_press = new Semaphore(0);
