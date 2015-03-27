@@ -312,7 +312,12 @@ public class EuchreGame{
 
 	  GameInfo.isPick = 1;
 	  boolean choice = false;
-
+	  try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	  //******* pick or pass a card *******\\
 	  for (int i = 0; i < 4; i++) {
 		  //startTurn and waitForClick pause the game logic thread and wait for a human response from the UI thread
