@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/* Creates the Teammate Panel that is in the upper quadrant of the game */
 
 public class TeamPanel{
 	int width, height, cardWidth, cardHeight;
@@ -42,27 +43,16 @@ public class TeamPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
+	
         Image test;
         ImageIcon normalImage;
-		try {
-			test = ImageIO.read(getClass().getResourceAsStream("/Images/dealerChip.jpg"));
-			System.out.println(getClass().getResource("/Images/dealerChip.jpg"));
-			Image newImg = test.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-			normalImage = new ImageIcon(newImg);
-	        dealer = new JLabel(normalImage);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		//trumpSuit = new Button("trumpSuit");
-		
-		//System.out.println("Team Coordinates x: " + teamXCoord + " y: " + teamYCoord + " Dimensions width: " + teamWidth  + " height: " + teamHeight);
+
 		teamPanel.setBounds(teamXCoord, teamYCoord, teamWidth, teamHeight);
-		JLabel team = new JLabel(name);
-		
-		team.setForeground(Color.white);
 		teamPanel.setLayout(null);
+		
+		// Adds in the teammates name in the team panel
+		JLabel team = new JLabel(name);	
+		team.setForeground(Color.white);
 		team.setHorizontalAlignment(SwingConstants.CENTER);
 		team.setBounds(teamWidth/2 - 60, -10, 120, 40);
 		
@@ -74,6 +64,7 @@ public class TeamPanel{
 		JButton teamCard4 = new JButton("team Card4");
 		JButton teamCard5 = new JButton("team Card5");
 		
+		// Gets the back of the card image for the teammate's cards
 		try {
 			test = ImageIO.read(getClass().getResourceAsStream("/Images/BackOfCard5.jpg"));
 			Image newImg = test.getScaledInstance(cardWidth, cardHeight, java.awt.Image.SCALE_SMOOTH);
@@ -88,6 +79,7 @@ public class TeamPanel{
 			e.printStackTrace();
 		}
 		 
+		// Places the cards in the panel
 		int initialCardX = width/2-cardWidth/2-cardWidth-cardWidth-10;
 		int initialTeamY = 30;
 		 
@@ -128,16 +120,21 @@ public class TeamPanel{
 		
 		teamPanel.add(dealer);
 	}
+	
+	// Updates the total score for the game
 	public void updateTotalScore()
 	{
 		totalScore.setText("Total: You-" + GameInfo.teamOneScore + " Opponent-" + GameInfo.teamTwoScore);
 	}
+	
+	// Updates the trick score for the game
 	public void updateTrickScore()
 	{
 		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 		teamPanel.repaint();
 	}
 	
+	// Updates the dealer name for the game
 	public void setDealer()
 	{
 		String name = "";

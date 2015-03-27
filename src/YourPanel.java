@@ -14,13 +14,12 @@ import javax.swing.SwingConstants;
 public class YourPanel{
 	int width, height, cardWidth, cardHeight;
 	String name;
-	JLabel middleCard;
-	public ArrayList<Card> hand;
+	JLabel middleCard;				// What the middle card is
+	public ArrayList<Card> hand;	// Your cards in your hand
 	JPanel yourPanel;
 
 	public YourPanel(int width, int height, String name, JLabel middleCard, ArrayList<Card> hand)
 	{
-		//System.out.println("Created a new your panel");
 		this.width = width;
 		this.height = height;
 		this.name = name;
@@ -28,8 +27,6 @@ public class YourPanel{
 		this.hand = hand;
 		yourPanel = new JPanel();
 		yourPanel.setBackground(Color.decode("#006600"));
-
-		//initYourPanel();
 	}
 	
 	public void initYourPanel()
@@ -42,7 +39,6 @@ public class YourPanel{
 		int cardWidth = 70;
 		int cardHeight = 100;
 		
-		//System.out.println("Your Coordinates x: " + yourXCoord + " y: " + yourYCoord + " Dimensions width: " + yourWidth  + " height: " + yourHeight);
 		yourPanel.setBounds(yourXCoord, yourYCoord, yourWidth, yourHeight);
 		JLabel your = new JLabel(name);
 		
@@ -53,7 +49,6 @@ public class YourPanel{
 		your.setVisible(true);
 		
 		yourPanel.add(your);
-		System.out.println(hand.size());
 		 
 		int initialCardX = width/2-cardWidth/2-cardWidth-cardWidth-10;
 		 
@@ -63,9 +58,7 @@ public class YourPanel{
 		hand.get(3).getButton().setBounds(initialCardX + 3*(cardWidth+5), 10, cardWidth, cardHeight);
 		hand.get(4).getButton().setBounds(initialCardX + 4*(cardWidth+5), 10, cardWidth, cardHeight);
 		
-		System.out.println("Printing card in your panel");
-		System.out.println(hand.get(0).getButton().getLabel());
-		
+		// Adds the action listener for the buttons in your hand and goes to the function card press
 		hand.get(0).getButton().addActionListener(new CardPress(hand.get(0), middleCard, hand.get(1), hand.get(2), hand.get(3), hand.get(4), GameInfo.board.getMidPanel().getPickOrPassCard()));
 		hand.get(1).getButton().addActionListener(new CardPress(hand.get(1), middleCard, hand.get(0), hand.get(2), hand.get(3), hand.get(4), GameInfo.board.getMidPanel().getPickOrPassCard()));
 		hand.get(2).getButton().addActionListener(new CardPress(hand.get(2), middleCard, hand.get(1), hand.get(0), hand.get(3), hand.get(4), GameInfo.board.getMidPanel().getPickOrPassCard()));
@@ -83,8 +76,5 @@ public class YourPanel{
 		yourPanel.add(hand.get(3).getButton());
 		yourPanel.add(hand.get(4).getButton());
 		yourPanel.add(hand.get(0).getButton());
-		
-		// Add in the JLabel for dealer
-
 	}
 }
