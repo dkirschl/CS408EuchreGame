@@ -52,21 +52,21 @@ public class GameInfo {
 						  "passing again or of naming the trump suit. The rejected suit may not be named. Declaring the other suit of the same color as the reject is " +
 						  "'making it next'; declaring a suit of opposite color is called 'crossing it.'\n" +
 						  
-						  "          If all four players pass in the second round, the cards are gathered and shuffled, and the next dealer deals. Once the trump is" +
+						  "          If all four players pass in the second round, the cards are gathered and shuffled, and the dealer redeals. If you play with" +
+						  "stick the dealer on and everyone passes ten the dealer is forced to pick a suit. Once the trump is" +
 						  "fixed, either by acceptance of the turn-up or by the naming of another suit, the turn-up is rejected, the bidding ends and play begins.\n" +
 						  
 						  "          The goal is to win at least three tricks. If the side that fixed the trump fails to get three tricks, it is " +
 						  "said to be 'euchred.' Winning all five tricks is called a 'march.'\n" +
 						  
-						  "          The opening lead is made by the player to the dealer's left, or if this player's partner is playing alone, " +
-						  "it is made by the player across from the dealer. If he can, each player must follow suit to a lead. If unable to follow" +
+						  "          The opening lead is made by the player to the dealer's left. If he can, each player must follow suit to a lead. If unable to follow" +
 						  "suit, the player may trump or discard any card. A trick is won by the highest card of the suit led, or, if it contains" +
 						  "trumps, by the highest trump. The winner of a trick leads next." +
 						  "\n\n" +
 						  
 						  "The following shows all scoring situations:\n     Partnership making trump wins 3 or 4 tricks = 1\n" +
-						  "     Partnership making trump wins 5 tricks = 2\n     Lone hand wins 3 or 4 tricks = 1\n" +
-						  "     Lone hand wins 5 tricks = 4\n     Partnership or lone hand is euchred, opponents score = 2\n\n" +
+						  "     Partnership making trump wins 5 tricks = 2\n " +
+						  "     Partnership is euchred, opponents score = 2\n\n" +
 						  
 						  "The first partnership to score 10 points wins the game";
 	
