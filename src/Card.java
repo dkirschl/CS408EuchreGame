@@ -35,7 +35,10 @@ public class Card {
 		value = -1;
 		suit = "";
 	}
-
+//id : unique identification of the card
+//value : 9 = 9, 10 = 10, J = 11, Q = 12... etc
+//suit : the suit of the card
+//cardPath : location of the card image
 	public Card(int id, int value, String suit, String cardPath) {
 		cardId = id;
 		this.value = value;
@@ -81,6 +84,8 @@ public class Card {
 	}
 	
 	public void adjustValue() {
+		//Find the left and right bauer and changes their values
+		
 		  String trump = GameInfo.trump;
 		  if (getValue() == 11) {
 			  //card is a Jack and might need to be changed

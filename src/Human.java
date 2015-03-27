@@ -17,7 +17,6 @@ public class Human extends Player {
 	@Override
 	public void startTurn(Semaphore s) {
 		//this will notify the action listeners of the cards that they can now be clicked
-		//System.out.println("Now accepting card presses");
 		s.release();
 		
 	}

@@ -50,22 +50,14 @@ public class CardPress implements ActionListener {
 		card.setCardId(switchCard.getCardId());
 		card.setSuit(switchCard.getSuit());
 		card.setValue(switchCard.getValue());
-		//GameInfo.players.get(0).getHand().set(chosenCard, card);
 		switchCard.getButton().setVisible(false);
-		//Card tempCard = new Card();
-		//tempCard = card;
 		
 		
 	}
 	public void playCard(Card card, JLabel middleCard)
 	 {
 		GameInfo.playedCard = card;
-	 	System.out.println(card.getButton().getLabel());
-	 	//middleCard.setCardId(card.getCardId());
-	 	//middleCard.setSuit(card.getSuit());
-	 	//middleCard.setValue(card.getValue());
 	 	middleCard.setIcon(card.getNormalImage());
-	 	//middleCard.getButton().setLabel(card.getButton().getLabel());
 	 	middleCard.setVisible(true);
 	 }
 	public void disableCards()

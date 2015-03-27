@@ -17,12 +17,13 @@ public class ChooseSuit implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		try{
+			//acquire human_turn semaphore which allows human to select a suit
+			//returns when suit is selected
 			EuchreGame.getHuman_turn().acquire();
 			
 			GameInfo.selectedSuit = suit;
-			
+			//release Button_press semaphore which allows game logic to continue
 			EuchreGame.getButton_press().release();
 		} catch(InterruptedException e1)
 		{
