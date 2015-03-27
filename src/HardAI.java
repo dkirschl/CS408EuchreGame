@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+//// THERE ARE NO BUGS ASSOCIATED WITH HARD AI. WE MADE THE JUDGEMENT IT WAS TOO UNREASONABLE TO ADD ANY BECAUSE IT'S TOO COMPLICATED.
 
 public class HardAI extends AI {
 	
@@ -282,7 +283,7 @@ public class HardAI extends AI {
 	@Override
 	public Card playCard() {
 		
-		System.out.println("Playing card from hard");
+		//System.out.println("Playing card from hard");
 		
 		
 		if(GameInfo.players.get(myValue).getHand().size() == 5){
@@ -320,7 +321,7 @@ public class HardAI extends AI {
 		
 		if(GameInfo.currentTrick.size() == 0){
 			// leading
-			System.out.println("Player "+ myValue +" is leading");
+			//System.out.println("Player "+ myValue +" is leading");
 			
 			double bestValue = -10;
 			int bestIndex = -1;
@@ -354,7 +355,7 @@ public class HardAI extends AI {
 			
 		} else if(GameInfo.currentTrick.size() == 1){
 			// second
-			System.out.println("Player "+ myValue +" is second");
+			//System.out.println("Player "+ myValue +" is second");
 			
 			if(winningCards.size() == 0){
 				// if you can't beat the current winner, return worst card
@@ -370,7 +371,7 @@ public class HardAI extends AI {
 			
 			oddsTeamWins = generateOddsOfWinningPlayingWorstCard2(elCards.get(worstElCardWorth));
 			
-			System.out.println("oddsTeamWinsPlayingWorstCard = "+ oddsTeamWins[worstElCardWorth]);
+			//System.out.println("oddsTeamWinsPlayingWorstCard = "+ oddsTeamWins[worstElCardWorth]);
 			
 			double bestValue = -10;
 			int bestIndex = -1;
@@ -388,7 +389,7 @@ public class HardAI extends AI {
 				
 			}
 			
-			System.out.println("BestValue = "+bestValue+", on card "+ elCards.get(bestIndex).getSuit()+elCards.get(bestIndex).getValue()+" because odds are "+ oddsTeamWins[bestIndex]+" that we win, and I sacrifice "+cardValues[bestIndex]+" value"); 
+			//System.out.println("BestValue = "+bestValue+", on card "+ elCards.get(bestIndex).getSuit()+elCards.get(bestIndex).getValue()+" because odds are "+ oddsTeamWins[bestIndex]+" that we win, and I sacrifice "+cardValues[bestIndex]+" value"); 
 			
 			debugPrint("bestImprovement");
 			currentExpectedTricksToWin -= cardValues[bestIndex];		//adjust currentExpectedTricksToWin for next turn. Must subtract the card that you just played
@@ -398,7 +399,7 @@ public class HardAI extends AI {
 			
 		} else if(GameInfo.currentTrick.size() == 2){
 			// third
-			System.out.println("Player "+ myValue +" is third");
+			//System.out.println("Player "+ myValue +" is third");
 			
 			if(winningCards.size() == 0){
 				// if you can't beat the current winner, return worst card
@@ -431,7 +432,7 @@ public class HardAI extends AI {
 				
 			}
 			
-			System.out.println("BestValue = "+bestValue+", on card "+ elCards.get(bestIndex).getSuit()+elCards.get(bestIndex).getValue()+" because odds are "+  oddsTeamWins[bestIndex]+" that we win, and I sacrifice "+cardValues[bestIndex]+" value"); 
+			//System.out.println("BestValue = "+bestValue+", on card "+ elCards.get(bestIndex).getSuit()+elCards.get(bestIndex).getValue()+" because odds are "+  oddsTeamWins[bestIndex]+" that we win, and I sacrifice "+cardValues[bestIndex]+" value"); 
 			
 			debugPrint("bestImprovement");
 			currentExpectedTricksToWin -= cardValues[bestIndex];		//adjust currentExpectedTricksToWin for next turn. Must subtract the card that you just played4
@@ -440,12 +441,12 @@ public class HardAI extends AI {
 			
 		} else if(GameInfo.currentTrick.size() == 3){				
 			// last to play
-			System.out.println("Player "+ myValue +" is last");
+			//System.out.println("Player "+ myValue +" is last");
 			
 			if (GameInfo.currentWinner == partnerValue){
 				// partner is winning
 				
-				System.out.println("Partner is winning");
+				//System.out.println("Partner is winning");
 				
 				
 				Card lvCard = leastValuableCard();
@@ -456,12 +457,12 @@ public class HardAI extends AI {
 			} else {
 				// partner is not winning. Play winner if you can.
 				
-				System.out.println("Partner isn't winning...");
+				//System.out.println("Partner isn't winning...");
 				
 				determineWinningCards();
 				if(winningCards.size() == 0){
 					// can't win this hand
-					System.out.println("unfortunately I can't win it either");
+					//System.out.println("unfortunately I can't win it either");
 
 					Card lvCard = leastValuableCard();
 					debugPrint("leastValuable");
@@ -470,7 +471,7 @@ public class HardAI extends AI {
 				
 				} else {
 					// can win, return worst card that will win.
-					System.out.println("so I will win it");
+					//System.out.println("so I will win it");
 
 					Card lvwCard = leastValuableWinningCard();
 					debugPrint("leastValuableWinning");
@@ -481,7 +482,7 @@ public class HardAI extends AI {
 			
 			
 		} else {
-			System.out.println("ERROR: CURRENT TRICK SIZE IS OVER 3");
+			//System.out.println("ERROR: CURRENT TRICK SIZE IS OVER 3");
 			
 			return elCards.remove(0);
 		}
@@ -489,7 +490,7 @@ public class HardAI extends AI {
 	}
 	
 	public void debugPrint(String type){
-		
+		/*
 		System.out.println("Hand is:");
 		
 		System.out.println("ledSuit = "+GameInfo.ledSuit);
@@ -530,7 +531,7 @@ public class HardAI extends AI {
 			System.out.println("Playing sure winner");
 			break;
 		}
-		
+		*/
 	}
 	
 	public double[] generateOddsOfWinningPlayingWorstCard2(Card worstCard){
@@ -758,7 +759,7 @@ public class HardAI extends AI {
 	
 	public void valueCards(){
 		
-		System.out.println("Value Cards");
+		//System.out.println("Value Cards");
 		
 		cardValues = new double[elCards.size()];
 		leadValues = new double[elCards.size()];
@@ -774,7 +775,7 @@ public class HardAI extends AI {
 			
 			Card currentCard = hand.get(i);
 			
-			System.out.println("currentCard = "+currentCard.getSuit()+currentCard.getValue());
+			//System.out.println("currentCard = "+currentCard.getSuit()+currentCard.getValue());
 			
 			//oppOdds.printOutCardIndices();
 			
@@ -819,13 +820,13 @@ public class HardAI extends AI {
 				tricksPerPerson[j] = oppOdds.averageTricks(j);
 				tricksTotal += tricksPerPerson[j];
 				
-				System.out.println("Player "+j);
-				
+				//System.out.println("Player "+j);
+				/*
 				System.out.println("hasLessValueSameSuit = "+percHasLessValueSameSuit[j]);
 				System.out.println("hasHigherValueSameSuit = "+percHasHigherValueSameSuit[j]);
 				System.out.println("percHasTrump ="+percHasTrump[j]);
 				System.out.println("tricksPerPerson ="+tricksPerPerson[j]);
-				
+				*/
 				
 			}
 			
@@ -926,10 +927,10 @@ public class HardAI extends AI {
 			}
 		}
 		
-		System.out.println("currentTrick size = "+GameInfo.currentTrick.size());
+		//System.out.println("currentTrick size = "+GameInfo.currentTrick.size());
 		
 		for(int i = 0; i < GameInfo.currentTrick.size(); i++){
-			System.out.println(i);
+			//System.out.println(i);
 			Card currentCard = new Card(GameInfo.currentTrick.get(i));
 			
 			int[] xy = oppOdds.getIndexFromCard(currentCard);
@@ -1198,8 +1199,8 @@ public class HardAI extends AI {
 			
 		}
 		
-		System.out.println("Removing Player "+ myValue+ "'s " + GameInfo.players.get(myValue).getHand().get(mostIndex).getSuit() + GameInfo.players.get(myValue).getHand().get(mostIndex).getValue());
-		System.out.println("Adding card "+middle.getSuit() + middle.getValue());
+		//System.out.println("Removing Player "+ myValue+ "'s " + GameInfo.players.get(myValue).getHand().get(mostIndex).getSuit() + GameInfo.players.get(myValue).getHand().get(mostIndex).getValue());
+		//System.out.println("Adding card "+middle.getSuit() + middle.getValue());
 		
 		
 		depositedCard = new Card(GameInfo.players.get(myValue).getHand().remove(mostIndex));

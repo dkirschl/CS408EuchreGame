@@ -35,12 +35,12 @@ public class OpponentOdds {						// THIS CLASS ONLY MATTERS TO HARDAI. It's purp
 	public void printOutCardIndices(){
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 7; j++){
-				System.out.println("cardOdds["+j+"]["+i+"].card ="+cardOdds[j][i].card.getSuit()+cardOdds[j][i].card.getValue()+" odds: 0 - "+cardOdds[j][i].odds[0]+", 1 - "+cardOdds[j][i].odds[1]+", 2 - "+cardOdds[j][i].odds[2]+", 3 - "+cardOdds[j][i].odds[3]+", buried - "+cardOdds[j][i].odds[4]+"   TOTAL = "+cardOdds[j][i].total);
+				//System.out.println("cardOdds["+j+"]["+i+"].card ="+cardOdds[j][i].card.getSuit()+cardOdds[j][i].card.getValue()+" odds: 0 - "+cardOdds[j][i].odds[0]+", 1 - "+cardOdds[j][i].odds[1]+", 2 - "+cardOdds[j][i].odds[2]+", 3 - "+cardOdds[j][i].odds[3]+", buried - "+cardOdds[j][i].odds[4]+"   TOTAL = "+cardOdds[j][i].total);
 			}
 		}
-		System.out.print("TOTALS: ");
+		//System.out.print("TOTALS: ");
 		for(int i =0; i < 5; i++){
-			System.out.print(" "+i+": "+oppTotals[i]);
+			//System.out.print(" "+i+": "+oppTotals[i]);
 		}
 	}
 	
@@ -491,9 +491,9 @@ public class OpponentOdds {						// THIS CLASS ONLY MATTERS TO HARDAI. It's purp
 	
 	public int[] getIndexFromCard(Card card){
 		
-		System.out.println("Trump is "+GameInfo.trump);
+		//System.out.println("Trump is "+GameInfo.trump);
 		
-		System.out.println("Card "+card.getSuit()+card.getValue());
+		//System.out.println("Card "+card.getSuit()+card.getValue());
 		
 		int retVal[] = new int[2];
 		retVal[1] = getColNumFromSuit(card.getSuit());
@@ -517,7 +517,7 @@ public class OpponentOdds {						// THIS CLASS ONLY MATTERS TO HARDAI. It's purp
 		}
 		
 		
-		System.out.println("Coordinates are x:"+retVal[0]+" y:"+retVal[1]);
+		//System.out.println("Coordinates are x:"+retVal[0]+" y:"+retVal[1]);
 		
 		return retVal;
 	}
