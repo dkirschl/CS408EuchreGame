@@ -43,12 +43,6 @@ public class Menu extends JMenuBar{
 	   // menuItem.addActionListener();
 	    menu.add(menuItem);
 	    
-	    menuItem = new JMenuItem("Records", KeyEvent.VK_T);
-	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-	    menuItem.getAccessibleContext().setAccessibleDescription("See your records");
-	    //menuItem.addActionListener(startGame);
-	    menu.add(menuItem);
-	    
 	    menuItem = new JMenuItem("How To Play", KeyEvent.VK_T);
 	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
 	    menuItem.getAccessibleContext().setAccessibleDescription("Open How To Play");

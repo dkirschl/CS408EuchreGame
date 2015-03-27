@@ -1,4 +1,3 @@
-import java.awt.Button;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class EuchreGame{
     opp2Difficulty = o2d;
     teamName = t;
     teamDifficulty = td;
-    dealer = 3;
+    dealer = 0;
     yourScore = 0;
     compScore = 0;
     yourTricks = 0;
@@ -340,6 +339,23 @@ public class EuchreGame{
 				  GameInfo.board.getMidPanel().passCard.setVisible(false);
 				  
 				  GameInfo.players.get(GameInfo.dealer).startTurn(human_turn);
+				  String name = "";
+				  switch(GameInfo.nextPlayer)
+				  {
+				  case 1: 
+					  name = GameInfo.board.getOpp1Panel().name;
+					  break;
+				  case 2:
+					  name = GameInfo.board.getTeamPanel().name;
+					  break;
+				  case 3:
+					  name = GameInfo.board.getOpp2Panel().name;
+					  break;
+				  default:
+					  break;
+				  }
+				  
+				  JOptionPane.showMessageDialog(GameInfo.board.board, name + " told you to pick up the card!\nPlease replace a card in your hand", "Pick it up", JOptionPane.INFORMATION_MESSAGE);
 				  enableHumanCards(GameInfo.players.get(0).getHand());
 				  GameInfo.players.get(GameInfo.dealer).waitForClick(button_press);
 				  hideMidPanel(GameInfo.board.getMidPanel());
@@ -830,7 +846,8 @@ public class EuchreGame{
   }
   public void moveDealer()
   {
-	  if(GameInfo.dealer == 0)
+	  GameInfo.board.getTeamPanel().setDealer();
+	/*  if(GameInfo.dealer == 0)
 	  {
 		  System.out.println("You are the dealer");
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(false);
@@ -865,7 +882,7 @@ public class EuchreGame{
 		  GameInfo.board.getMidPanel().yourDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().teamDealer.setVisible(false);
 		  GameInfo.board.getMidPanel().opp2Dealer.setVisible(true);
-	  }
+	  }*/
   }
 
   public void hideAICard()

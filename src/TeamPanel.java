@@ -121,11 +121,10 @@ public class TeamPanel{
 		teamPanel.add(trickScore);
 		
 		// Add in the Buttons for dealer and trump suit
-		dealer.setEnabled(true);
-		dealer.setVisible(false);
-
-		
-		dealer.setBounds(initialCardX-50, initialTeamY, 40, 40);
+        dealer = new JLabel("Dealer is: ");
+        dealer.setBounds(width-140, 50, 140, 20);
+        dealer.setForeground(Color.white);
+        dealer.setVisible(true);
 		
 		teamPanel.add(dealer);
 	}
@@ -138,4 +137,29 @@ public class TeamPanel{
 		trickScore.setText("Trick: You-" + GameInfo.teamOneTricks + " Opponent-" + GameInfo.teamTwoTricks);
 		teamPanel.repaint();
 	}
+	
+	public void setDealer()
+	{
+		String name = "";
+		switch(GameInfo.dealer)
+		{
+		case 0:
+			name = "You";
+			break;
+		case 1: 
+			name = GameInfo.board.getOpp1Panel().name;
+			break;
+		case 2:
+			name = GameInfo.board.getTeamPanel().name;
+			break;
+		case 3:
+			name = GameInfo.board.getOpp2Panel().name;
+			break;
+		default:
+			break;
+		}
+		dealer.setText("Dealer is: " + name);
+		teamPanel.repaint();
+	}
+
 }

@@ -45,12 +45,11 @@ public class Board{
 		
 		board.setJMenuBar(new Menu(s.gameCreateScreen, htp.howToPlayScreen));
 		
-		System.out.println("About to add the game Create Screen");
+		//System.out.println("About to add the game Create Screen");
 		board.add(s.gameCreateScreen);
 		board.add(htp.howToPlayScreen);
 		
 		gameBoard.setBackground(Color.decode("#006600"));
-
 		board.add(gameBoard);
 		
 		board.pack();
